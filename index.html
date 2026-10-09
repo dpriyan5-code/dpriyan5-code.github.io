@@ -148,6 +148,21 @@ section.view{display:grid;gap:var(--s6);padding-block:var(--s6) 0}
 .linkcard em{font-family:var(--mono);font-style:normal;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--lapis)}
 h2.sub{font-size:1.5rem}
 
+/* mind & life */
+.practice{display:grid;gap:var(--s2);padding:var(--s4) var(--s5);border:1px solid var(--line);border-radius:1rem;background:var(--surface)}
+.practice h3{font-size:1.5rem}
+.scene{font-family:var(--display);font-style:italic;font-size:1.15rem;line-height:1.4}
+.item.mind{scroll-margin-top:7rem}
+.mind-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:var(--s3) var(--s5);margin:var(--s2) 0 0}
+.mind-grid dt{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mind-grid dd{margin:var(--s1) 0 0;font-size:.92rem;min-width:0}
+.mind-grid dd.scene{font-size:1.08rem}
+@media (max-width:40rem){
+  nav.tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{flex:0 0 auto}
+}
+
 /* my philosophy */
 .thesis{font-family:var(--display);font-size:1.3rem;line-height:1.45;color:var(--ink)!important}
 .layers{max-width:40rem}
@@ -207,6 +222,7 @@ details.dlg .thread{margin-top:var(--s4)}
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button role="tab" id="tab-today" data-view="today" aria-selected="true">Today</button>
       <button role="tab" id="tab-ideas" data-view="ideas" aria-selected="false">Ideas</button>
+      <button role="tab" id="tab-mind" data-view="mind" aria-selected="false">Mind &amp; Life</button>
       <button role="tab" id="tab-quotes" data-view="quotes" aria-selected="false">Quotes</button>
       <button role="tab" id="tab-links" data-view="links" aria-selected="false">Readings</button>
       <button role="tab" id="tab-dp" data-view="dp" aria-selected="false">My Philosophy</button>
@@ -230,6 +246,14 @@ details.dlg .thread{margin-top:var(--s4)}
         <button class="btn ghost" id="next-affirm">Another affirmation</button>
       </div>
     </div>
+
+    <article class="practice" id="practice">
+      <div class="qmeta"><span class="eyebrow">Today's mind practice</span><span class="chip dawnchip" id="pr-theme"></span></div>
+      <h3 id="pr-title"></h3>
+      <p class="scene" id="pr-scene"></p>
+      <p><strong>Try this today:</strong> <span id="pr-do"></span></p>
+      <div class="row"><button class="linkish" id="pr-talk">Talk this through</button><button class="linkish" id="pr-more">Read more in Mind &amp; Life</button></div>
+    </article>
 
     <div class="question" id="question-block" hidden>
       <div class="qmeta">
@@ -278,6 +302,17 @@ details.dlg .thread{margin-top:var(--s4)}
     </div>
     <div class="filters" id="idea-filters"></div>
     <div class="list" id="idea-list"></div>
+  </section>
+
+  <!-- MIND & LIFE -->
+  <section class="view" id="view-mind" role="tabpanel" aria-labelledby="tab-mind" hidden>
+    <div class="intro">
+      <span class="eyebrow">Psychology meets philosophy</span>
+      <h2>Mind &amp; Life</h2>
+      <p>What psychology has measured about the mind, what philosophy said about it first, and where it shows up in an ordinary day. Each idea ends with one small practice to try today.</p>
+    </div>
+    <div class="filters" id="mind-filters"></div>
+    <div class="list" id="mind-list"></div>
   </section>
 
   <!-- QUOTES -->
@@ -569,6 +604,16 @@ const QUESTIONS = [
   {cat:"My philosophy", q:"Are you shielding your ego, or still letting it be tested?", f:"Your essay on ego maturity describes early shielders, late shielders and non-shielders, and warns that incomplete maturity is more dangerous than none.", r:[]},
   {cat:"My philosophy", q:"Do you live in every moment, or only in the moments you were taught to celebrate?", f:"“Patchy living” is waiting anxiously for recognised moments. The ego-matured enthusiast lives every moment.", r:[]},
   {cat:"My philosophy", q:"What are you anticipating, and what does anticipating it help you avoid?", f:"“Anticipation and time sense” calls anticipation an evolutionary gift, and notes how fear of the real self keeps the mind on autopilot.", r:["time"]},
+  {cat:"Everyday mind", q:"What did you react to yesterday more strongly than it deserved, and what was it really about?", f:"Anna Freud described displacement: feelings aimed at a safer target than their real cause. The first step is noticing the gap between the cause and the size of the reaction.", r:[]},
+  {cat:"Everyday mind", q:"Which version of you shows up at work, and which at home? Which is more real?", f:"Goffman described life as front stage and back stage. Jung called the social mask the persona. Is there a self beneath the roles, or only roles?", r:["identity-personal"]},
+  {cat:"Everyday mind", q:"Whose success irritates you most, and what does that say about you?", f:"Jung thought what irritates us in others can lead to self-understanding. Rousseau warned of amour-propre, self-worth that lives in other people's eyes.", r:[]},
+  {cat:"Everyday mind", q:"Where did your attention go yesterday, and did you choose it?", f:"In a 2010 study, minds wandered almost half the time, and people were less happy when they did. William James: “My experience is what I agree to attend to.”", r:[]},
+  {cat:"Everyday mind", q:"What do you do on autopilot that you would never choose if you thought about it?", f:"Around 40 percent of daily actions are habitual. Aristotle thought we become what we repeatedly do. Which habits are making you?", r:["ethics-virtue"]},
+  {cat:"Everyday mind", q:"What would you still do if no one paid you or praised you for it?", f:"Self-determination theory finds that rewards can crowd out enjoyment. Aristotle placed the good life in activities done for their own sake.", r:["aristotle-ethics"]},
+  {cat:"Everyday mind", q:"How do you speak to yourself after a mistake, and would you speak that way to a friend?", f:"Research on self-compassion links kindness toward oneself with resilience. Seneca: “I have begun to be a friend to myself.”", r:[]},
+  {cat:"Everyday mind", q:"What is your phone doing to your sense of who you are?", f:"Social comparison theory (Festinger, 1954) predicts that constant upward comparison lowers satisfaction. Your essays call the underlying need the alpha drive.", r:[]},
+  {cat:"Everyday mind", q:"When someone you love goes quiet, what is your first impulse?", f:"Attachment research describes anxious, avoidant and secure patterns, formed early. Buber described real meeting as presence without grasping.", r:[]},
+  {cat:"Everyday mind", q:"How would you tell the story of your hardest year, and could it be told differently?", f:"Dan McAdams found that people who tell redemptive life stories tend to fare better. Arendt: storytelling reveals meaning without defining it.", r:[]},
 ];
 
 // Fundamental ideas (library).
@@ -708,6 +753,14 @@ const QUOTES = [
   {q:"A completely matured ego will not flinch from other egos.", a:"DP", s:"“Ego Maturity and Its Traits (1/2)”, Sep 9, 2024"},
   {q:"Ego matured persons dare not touch the butterfly.", a:"DP", s:"“10 Signs of an ego-matured person”, Nov 4, 2024"},
   {q:"Ego matured persons have a constant feeling that their last moment is immature.", a:"DP", s:"“10 Signs of an ego-matured person”, Nov 4, 2024"},
+  {q:"The ego is not master in its own house.", a:"Sigmund Freud", s:"“A Difficulty in the Path of Psycho-Analysis” (1917)"},
+  {q:"Everything that irritates us about others can lead us to an understanding of ourselves.", a:"C. G. Jung", s:"Memories, Dreams, Reflections (1962)"},
+  {q:"My experience is what I agree to attend to.", a:"William James", s:"The Principles of Psychology, ch. XI (1890)"},
+  {q:"The art of being wise is the art of knowing what to overlook.", a:"William James", s:"The Principles of Psychology, ch. XXII (1890)"},
+  {q:"The curious paradox is that when I accept myself just as I am, then I can change.", a:"Carl Rogers", s:"On Becoming a Person (1961)"},
+  {q:"Man's main task in life is to give birth to himself, to become what he potentially is.", a:"Erich Fromm", s:"Man for Himself (1947)"},
+  {q:"The best moments usually occur if a person's body or mind is stretched to its limits in a voluntary effort to accomplish something difficult and worthwhile.", a:"Mihaly Csikszentmihalyi", s:"Flow (1990)"},
+  {q:"Nothing in life is as important as you think it is, while you are thinking about it.", a:"Daniel Kahneman", s:"Thinking, Fast and Slow, ch. 38 (2011)"},
 ];
 
 const LINKS_REF = [
@@ -826,7 +879,7 @@ function show(view){
   document.querySelectorAll("section.view").forEach(s => s.hidden = s.id !== "view-"+view);
 }
 tabs.forEach(b => b.addEventListener("click", () => { show(b.dataset.view); window.scrollTo({top:0}); }));
-{ const h = location.hash.slice(1); if (["today","ideas","quotes","links","dp","notebook"].includes(h)) show(h); }
+{ const h = location.hash.slice(1); if (["today","ideas","mind","quotes","links","dp","notebook"].includes(h)) show(h); }
 
 /* ================= TODAY ================= */
 let affIdx = dayNum % AFFIRMATIONS.length;
@@ -923,6 +976,7 @@ How to converse:
 - Steelman their view first, then test it gently with a counterexample, a distinction, or a rival thinker's view. Connect to their personal philosophy when relevant, including where it may be in tension with what they're saying now.
 - Bring in at most one or two thinkers per reply, naming the specific work (e.g. "Epictetus, Enchiridion 5"). Only quote words you are certain are genuine; otherwise paraphrase and say it is a paraphrase. Draw on traditions beyond the Western canon when they fit.
 - Keep each reply under about 170 words of plain prose. No headings, no bullet lists. *Italics* are fine.
+- Ground abstract ideas in daily life: connect them to a concrete, ordinary scene (work, family, money, phones, traffic, sleep, friendship), and where it helps, draw on psychology as well as philosophy, naming the researcher and year. Mention when a finding is contested or has replicated weakly. You are a thinking partner, not a therapist; if they describe serious distress, respond with care and suggest talking to someone they trust or a professional.
 - End every reply with exactly one open, searching question for them.`;
 }
 
@@ -1239,6 +1293,223 @@ $("#idea-list").addEventListener("click", e => {
   startTopic({cat: it.tag, q: `${it.t}: does this idea hold up in your own life?`, f: it.b, r: []});
 });
 
+/* ================= MIND & LIFE (psychology + philosophy, in daily life) ================= */
+// theme, title, psychology (who/when), the idea, the philosophical root, an everyday scene, a practice, a link to DP's essays.
+const MIND = [
+  {th:"Self & ego", t:"Defence mechanisms", who:"Anna Freud, The Ego and the Mechanisms of Defence (1936)",
+   idea:"The mind protects itself from painful truths automatically: projection (seeing our own trait in others), rationalisation (a good reason for a real reason), displacement (aiming feelings at a safer target), denial.",
+   root:"Nietzsche: “‘I have done that,’ says my memory. ‘I cannot have done that,’ says my pride, and remains inexorable. Eventually, memory yields” (Beyond Good and Evil §68).",
+   life:"Your manager criticises your work. You say nothing, then snap at your family over dinner about the dishes.",
+   practice:"When a reaction feels bigger than its cause, ask: what was this really about?",
+   dp:"Your essays call this shielding: the ego guarding itself from anything that could change it.",
+   links:[["SEP search: defence mechanisms",SEPQ("defense mechanisms psychoanalysis")]]},
+  {th:"Self & ego", t:"Persona and the presented self", who:"C. G. Jung; Erving Goffman, The Presentation of Self in Everyday Life (1956)",
+   idea:"We wear social masks. Goffman described daily life as theatre, with a “front stage” where we perform and a “back stage” where we relax.",
+   root:"Shakespeare's “All the world's a stage” is the poetic version. The philosophical question is whether anything is left when the masks come off.",
+   life:"Your voice changes when you answer a work call in the middle of a family argument.",
+   practice:"Notice three moments today when you switch masks. Which one felt most like you?",
+   dp:"In your model, the persona is the ego-personality, the “I” that must keep performing to stay in place.",
+   links:[["SEP search: Goffman",SEPQ("Goffman self presentation")]]},
+  {th:"Self & ego", t:"The shadow", who:"C. G. Jung",
+   idea:"The parts of ourselves we refuse to see do not vanish. They show up in strong reactions to others.",
+   root:"Jung: “Everything that irritates us about others can lead us to an understanding of ourselves” (Memories, Dreams, Reflections, 1962).",
+   life:"A colleague who constantly self-promotes makes you furious, far more than they bother anyone else.",
+   practice:"Pick the person who irritated you most this week. What would it mean if a little of that trait were also yours?",
+   dp:"Your essays speak of the “darker nature of the self” that we refuse to accept because it unsettles our beliefs about ourselves.",
+   links:[["SEP search: Jung",SEPQ("Jung")]]},
+  {th:"Self & ego", t:"Moral licensing", who:"Benoît Monin & Dale Miller (2001)",
+   idea:"After doing something good, people often feel licensed to do something worse, as if goodness were a bank balance.",
+   root:"La Rochefoucauld: “Our virtues are most frequently but vices disguised.” Kant asked whether an act done for self-image has moral worth at all.",
+   life:"You go to the gym in the morning and order the large dessert at night. You donate online and then are curt with a waiter.",
+   practice:"After a good deed today, watch for the small permission you give yourself next.",
+   dp:"Your “remove the ‘I’ from ‘I'm kind’” is exactly this: virtue in the service of self-image.",
+   links:[["SEP search: moral licensing",SEPQ("moral licensing")]]},
+  {th:"Self & ego", t:"The impostor feeling", who:"Pauline Clance & Suzanne Imes (1978)",
+   idea:"Many capable people privately believe they are frauds about to be found out, and attribute success to luck.",
+   root:"Socrates claimed wisdom only in knowing that he did not know. The difference is that he found freedom in it, not shame.",
+   life:"You get a promotion and spend the first week waiting for someone to realise their mistake.",
+   practice:"Write down one thing you did well this week and the skill it actually took.",
+   dp:"Your essays would ask whether the fear comes from the ego-personality protecting its image of uniqueness.",
+   links:[["SEP search: impostor",SEPQ("impostor phenomenon")]]},
+  {th:"Thinking traps", t:"Cognitive dissonance", who:"Leon Festinger, A Theory of Cognitive Dissonance (1957)",
+   idea:"Holding two conflicting beliefs, or acting against our beliefs, is uncomfortable. We usually resolve it by changing the belief, not the behaviour.",
+   root:"Sartre's “bad faith”: lying to ourselves about our freedom so we need not face a choice.",
+   life:"You overspend on something, then find yourself defending it to friends with unusual passion.",
+   practice:"Find one belief you defend loudly. Ask what it would cost you if it were wrong.",
+   dp:"A settled mind, in your words, is dissonance permanently resolved: the brain used only to defend beliefs.",
+   links:[["SEP search: cognitive dissonance",SEPQ("cognitive dissonance")]]},
+  {th:"Thinking traps", t:"Confirmation bias", who:"Peter Wason (1960)",
+   idea:"We look for, notice and remember evidence that supports what we already believe, and discount the rest.",
+   root:"Francis Bacon described the same tendency in Novum Organum (1620) as one of the “idols of the tribe”.",
+   life:"Your news feed seems to prove you right about everything. It was built from what you clicked.",
+   practice:"Read one thoughtful piece today from the side you usually dismiss, looking for its best argument.",
+   dp:"Your essay on absolute judgement notes how cognitive biases shape every thought, and how advertising and propaganda exploit them.",
+   links:[["SEP search: confirmation bias",SEPQ("confirmation bias")]]},
+  {th:"Thinking traps", t:"Fundamental attribution error", who:"Lee Ross (1977)",
+   idea:"We explain other people's behaviour by their character, and our own by our circumstances.",
+   root:"Spinoza: “I have laboured carefully, not to mock, lament, or execrate, but to understand human actions” (Political Treatise I.4).",
+   life:"Someone cuts you off in traffic: what an idiot. You cut someone off: you were late for something important.",
+   practice:"The next time someone annoys you, invent one plausible circumstance that would explain it.",
+   dp:"Your absolute judgement, judging by non-judging, is the cure for this error.",
+   links:[["SEP search: attribution",SEPQ("fundamental attribution error")]]},
+  {th:"Thinking traps", t:"Negativity bias", who:"Roy Baumeister and colleagues, “Bad Is Stronger Than Good” (2001)",
+   idea:"Bad events, criticism and losses weigh more on us than equal good ones. One insult can outweigh ten compliments.",
+   root:"Epictetus: it is not things that disturb us, but our judgements about things (Enchiridion 5).",
+   life:"Your review has nine kind comments and one critical one. You replay the critical one all evening.",
+   practice:"Tonight, write down three things that went well today and why.",
+   dp:"Your anticipation essay explains why: a survival brain tuned to spot threats before they arrive.",
+   links:[["SEP: Stoicism",SEP("stoicism")]]},
+  {th:"Thinking traps", t:"The spotlight effect", who:"Thomas Gilovich, Victoria Medvec & Kenneth Savitsky (2000)",
+   idea:"We greatly overestimate how much others notice us. In the original study, students wearing an embarrassing T-shirt guessed about half the room noticed; far fewer did.",
+   root:"Marcus Aurelius on reputation: how soon we will all be forgotten, and how little the opinions of others weigh.",
+   life:"You spend a meeting worrying about the stain on your shirt that nobody saw.",
+   practice:"When you feel watched today, remember that everyone else is busy feeling watched too.",
+   dp:"Your alpha drive: the ego-personality's need to feel unique also makes it feel observed.",
+   links:[["SEP: Marcus Aurelius",SEP("marcus-aurelius")]]},
+  {th:"Emotion", t:"Naming feelings", who:"Matthew Lieberman and colleagues, “Putting Feelings Into Words” (2007)",
+   idea:"Putting a feeling into words (affect labelling) reduces its intensity. People who distinguish emotions finely cope better than those who only feel “bad”.",
+   root:"Wittgenstein: the limits of my language mean the limits of my world (Tractatus 5.6).",
+   life:"“I'm stressed” becomes “I'm disappointed that my effort wasn't noticed”, and something loosens.",
+   practice:"Three times today, name what you feel in one precise word instead of good, bad or fine.",
+   dp:"Your lexicographer redefines every word, because ordinary language is too thin for what they feel.",
+   links:[["SEP: Emotion",SEP("emotion")]]},
+  {th:"Emotion", t:"Rumination versus reflection", who:"Susan Nolen-Hoeksema; Paul Trapnell & Jennifer Campbell (1999)",
+   idea:"Reflection is curious self-examination and tends to help. Rumination is repetitive, anxious replaying and tends to deepen low mood.",
+   root:"Socrates' examined life is reflection. The question is how to examine without circling.",
+   life:"At 2 a.m. you replay an argument for the twentieth time, changing nothing but your heart rate.",
+   practice:"If a thought repeats three times, ask: what is one action, or one acceptance, this needs?",
+   dp:"Your anticipation essay: the past is meant only as an object of learning, and dwelling slows life's forward movement.",
+   links:[["SEP: Socrates",SEP("socrates")]]},
+  {th:"Emotion", t:"Self-compassion", who:"Kristin Neff (2003)",
+   idea:"Treating yourself with the kindness you would give a friend, recognising failure as part of being human, is linked to resilience, without the defensiveness that chasing self-esteem can bring.",
+   root:"Seneca, quoting Hecato: “What progress have I made? I have begun to be a friend to myself” (Letters 6).",
+   life:"You make a mistake at work and the voice in your head says things you would never say to anyone else.",
+   practice:"When you criticise yourself today, repeat it as if to a friend. Notice what you change.",
+   dp:"A matured ego, in your terms, would not need to attack itself to stay in shape.",
+   links:[["SEP: Seneca",SEP("seneca")]]},
+  {th:"Emotion", t:"Learned helplessness", who:"Martin Seligman & Steven Maier (1967; revised 2016)",
+   idea:"After repeated uncontrollable setbacks, people and animals stop trying. Maier and Seligman later found passivity is the default response; what is learned is that control is possible.",
+   root:"The Stoic dichotomy of control: suffering grows when we confuse what is up to us with what is not.",
+   life:"After several job rejections you stop applying, telling yourself nothing ever works.",
+   practice:"Pick one stuck area of life. Find the smallest piece of it that is fully in your control, and act on that.",
+   dp:"Your essays describe a depressed survival instinct, where dwelling in the past slows moving forward.",
+   links:[["SEP: Stoicism",SEP("stoicism")]]},
+  {th:"Happiness", t:"The hedonic treadmill", who:"Philip Brickman & Donald Campbell (1971); Brickman, Coates & Janoff-Bulman (1978)",
+   idea:"We adapt to good and bad changes and drift back toward a baseline. Lottery winners in the 1978 study were not much happier than others a year later.",
+   root:"Epicurus taught that wanting less is easier than getting more. The Stoics practised imagining loss to renew gratitude.",
+   life:"The new phone thrills you for a week. Then it is just your phone.",
+   practice:"Imagine for one minute losing something you take for granted. Then go and use it.",
+   dp:"Your happiness essay: fluctuation is inevitable because the ego-personality always moves on to the next moment.",
+   links:[["SEP: Hedonism",SEP("hedonism")],["SEP: Epicurus",SEP("epicurus")]]},
+  {th:"Happiness", t:"Flow", who:"Mihaly Csikszentmihalyi, Flow (1990)",
+   idea:"People are often happiest absorbed in a challenging, meaningful activity matched to their skill, when self-consciousness and the sense of time fall away.",
+   root:"Daoist wu wei, effortless action. Zhuangzi's cook carved an ox by following its natural joints, without strain.",
+   life:"You start cooking, gardening or fixing something, and look up to find two hours have passed.",
+   practice:"Choose one task today and do it with no phone nearby, slightly harder than is comfortable.",
+   dp:"Your resident “works for the work itself. Nothing more, nothing less.”",
+   links:[["SEP: Zhuangzi",SEP("zhuangzi")]]},
+  {th:"Happiness", t:"Intrinsic and extrinsic motivation", who:"Edward Deci & Richard Ryan, self-determination theory (1985); Lepper, Greene & Nisbett (1973)",
+   idea:"We thrive with autonomy, competence and relatedness. Rewarding an activity people already enjoy can reduce their enjoyment (the overjustification effect).",
+   root:"Aristotle distinguished activities done for their own sake from those done for something else, and placed the good life in the first.",
+   life:"Your hobby becomes a side business, and slowly you stop wanting to do it.",
+   practice:"Do one thing today purely because you like doing it, and tell no one.",
+   dp:"Your essay “Ego species”: doing a thing is an activity in itself, and it is self-limiting.",
+   links:[["SEP: Aristotle's Ethics",SEP("aristotle-ethics")]]},
+  {th:"Happiness", t:"Social comparison", who:"Leon Festinger (1954)",
+   idea:"We judge ourselves by comparison with others, and comparing upward tends to lower satisfaction.",
+   root:"Rousseau distinguished healthy self-love (amour de soi) from amour-propre, self-worth that depends on others' eyes.",
+   life:"You were content with your holiday until you scrolled through a friend's photos.",
+   practice:"Catch one comparison today. Ask: by whose measure am I losing?",
+   dp:"Your alpha drive: everyone needs to feel “no one is living like me.”",
+   links:[["SEP: Rousseau",SEP("rousseau")]]},
+  {th:"Time & attention", t:"The wandering mind", who:"Matthew Killingsworth & Daniel Gilbert, “A Wandering Mind Is an Unhappy Mind” (2010)",
+   idea:"In a large smartphone study, people's minds wandered during almost half their waking hours, and they were less happy when it did. Even pleasant daydreams made them no happier than staying with the task.",
+   root:"Augustine described time as the stretching of the mind (distentio animi) between memory and expectation (Confessions XI).",
+   life:"You eat lunch while planning dinner, and taste neither.",
+   practice:"Eat one meal today without a screen, noticing the first three bites fully.",
+   dp:"Your anticipation essay: the present moment hardly exists before it becomes the past.",
+   links:[["SEP: Time",SEP("time")]]},
+  {th:"Time & attention", t:"Habit and autopilot", who:"William James, Principles of Psychology (1890); Wendy Wood and colleagues (2002)",
+   idea:"In diary studies, roughly 40 percent of daily actions were performed almost automatically, in the same place each day, while thinking of something else.",
+   root:"Aristotle: virtue is a habit (hexis) formed by practice. James called habit “the enormous fly-wheel of society.”",
+   life:"You arrive at work with no memory of the drive.",
+   practice:"Change one small routine today, such as the route, the order or the hand, and notice what wakes up.",
+   dp:"Your essays describe the instinctive mind running in autopilot mode because facing the real self is hard.",
+   links:[["SEP: Virtue Ethics",SEP("ethics-virtue")]]},
+  {th:"Time & attention", t:"Decentring", who:"John Teasdale and colleagues, mindfulness-based cognitive therapy (2000s)",
+   idea:"Seeing thoughts as passing events in the mind, not as facts or commands, reduces relapse in recurrent depression.",
+   root:"Buddhist sati (mindfulness); the Stoic pause before assenting to an impression.",
+   life:"In traffic you notice “I'm angry” arising, and for a second you are the one watching it, not only feeling it.",
+   practice:"Three times today, say silently: “I'm having the thought that…” before the thought.",
+   dp:"Your witnesser: “witnessing the happenings as happenings.”",
+   links:[["SEP search: mindfulness",SEPQ("mindfulness Buddhism")]]},
+  {th:"Meaning & death", t:"Terror management", who:"Jeff Greenberg, Sheldon Solomon & Tom Pyszczynski (1986), after Ernest Becker",
+   idea:"Reminders of death make people cling harder to their worldview, group and self-esteem. Hundreds of experiments have tested the idea, though some effects replicate weakly.",
+   root:"Becker's The Denial of Death (1973); Epicurus' claim that death is nothing to us.",
+   life:"After hearing of an acquaintance's death, you find yourself shopping, arguing politics, or polishing your CV.",
+   practice:"Sit for two minutes with the plain fact of your mortality. What do you want less of afterwards?",
+   dp:"Your essays: the need for eternity is hardwired, an extension of the survival instinct, and the “I” negates our mortality.",
+   links:[["SEP: Death",SEP("death")]]},
+  {th:"Meaning & death", t:"The four existential givens", who:"Irvin Yalom, Existential Psychotherapy (1980)",
+   idea:"Much anxiety traces to four givens of existence: death, freedom (and responsibility), existential isolation, and meaninglessness.",
+   root:"Kierkegaard, Heidegger, Sartre and Camus, brought into the therapy room.",
+   life:"The Sunday-evening dread that has nothing to do with Monday's actual tasks.",
+   practice:"Which of the four is loudest in you this week? Name it, and let it be there.",
+   dp:"Your psycho-philosophical mind is where these givens live: the single entity responsible for its own existence.",
+   links:[["SEP: Existentialism",SEP("existentialism")]]},
+  {th:"Meaning & death", t:"Meaning-making", who:"Viktor Frankl, Man's Search for Meaning (1946); logotherapy",
+   idea:"People endure almost anything when they find meaning in it, through work, love, or the attitude they take to unavoidable suffering.",
+   root:"Nietzsche: whoever has a why to live can bear almost any how (Twilight of the Idols).",
+   life:"Caring for an ill parent feels unbearable as a duty, and bearable as an act of love you chose.",
+   practice:"Take one burden in your week and ask: what am I choosing this for?",
+   dp:"Your essays add a caution: each meaning is the furthest reach of one ego, and there is no common meaning for mankind.",
+   links:[["SEP: The Meaning of Life",SEP("life-meaning")]]},
+  {th:"Relationships", t:"Attachment", who:"John Bowlby; Mary Ainsworth's Strange Situation studies (1970s)",
+   idea:"Early bonds shape adult expectations of closeness: secure, anxious, or avoidant patterns in how we reach for and pull away from people.",
+   root:"Buber's I–Thou: real meeting requires presence without grasping.",
+   life:"A delayed reply to a message sends you into a spiral, or a partner's need for closeness makes you want space.",
+   practice:"Notice your first impulse when someone you love goes quiet. Is it to chase, to withdraw, or to wait?",
+   dp:"Your essays say the self is partly formed in the early years of life, below what consciousness can interpret.",
+   links:[["SEP: Martin Buber",SEP("buber")]]},
+  {th:"Relationships", t:"Narrative identity", who:"Dan McAdams (1990s onward)",
+   idea:"We build identity by telling our lives as a story. Stories of redemption (bad turning to good) go with greater wellbeing than stories of contamination.",
+   root:"Paul Ricoeur's narrative identity; Arendt: storytelling reveals meaning without defining it.",
+   life:"How you describe the hardest year of your life depends on who is asking, and it changes how you feel about it.",
+   practice:"Retell one painful chapter in three sentences, ending with what it gave you.",
+   dp:"Your ego-personality builds the story of its uniqueness, then defends it.",
+   links:[["SEP search: narrative identity",SEPQ("narrative identity")]]},
+];
+const MIND_THEMES = ["All", ...new Set(MIND.map(m=>m.th))];
+let mindFilter = "All";
+function mindTopic(m){ return {cat:"Mind & life", q:`${m.t}: where does it show up in your life?`, f:`${m.idea} Everyday: ${m.life}`, r:[]}; }
+function renderMind(){
+  $("#mind-filters").innerHTML = MIND_THEMES.map(t=>`<button type="button" aria-pressed="${t===mindFilter}" data-mtag="${esc(t)}">${esc(t)}</button>`).join("");
+  $("#mind-list").innerHTML = MIND.map((m,i)=>({m,i})).filter(({m})=>mindFilter==="All"||m.th===mindFilter).map(({m,i})=>`
+    <article class="item mind" id="mind-${i}">
+      <div class="qmeta"><span class="chip">${esc(m.th)}</span><span class="thinkers">${esc(m.who)}</span></div>
+      <h3>${esc(m.t)}</h3>
+      <p class="body">${esc(m.idea)}</p>
+      <dl class="mind-grid">
+        <div><dt>Philosophy</dt><dd>${esc(m.root)}</dd></div>
+        <div><dt>In daily life</dt><dd class="scene">${esc(m.life)}</dd></div>
+        <div><dt>Try today</dt><dd>${esc(m.practice)}</dd></div>
+        <div><dt>Your essays</dt><dd>${esc(m.dp)}</dd></div>
+      </dl>
+      <div class="refs">${m.links.map(linkHTML).join("")}<button class="linkish" data-mind="${i}">Talk this through</button></div>
+    </article>`).join("");
+}
+$("#mind-filters").addEventListener("click", e => { const t = e.target.closest("button")?.dataset.mtag; if (t){ mindFilter=t; renderMind(); } });
+$("#mind-list").addEventListener("click", e => { const i = e.target.closest("[data-mind]")?.dataset.mind; if (i!=null) startTopic(mindTopic(MIND[i])); });
+// one practice per day on the Today screen
+const practiceIdx = (dayNum * 5) % MIND.length;
+{
+  const m = MIND[practiceIdx];
+  $("#pr-theme").textContent = m.th; $("#pr-title").textContent = m.t;
+  $("#pr-scene").textContent = m.life; $("#pr-do").textContent = m.practice;
+  $("#pr-talk").onclick = () => startTopic(mindTopic(m));
+  $("#pr-more").onclick = () => { mindFilter = "All"; renderMind(); show("mind"); setTimeout(()=>document.getElementById("mind-"+practiceIdx)?.scrollIntoView({block:"start"}), 50); };
+}
+
 /* ================= QUOTES ================= */
 $("#quote-list").innerHTML = QUOTES.map((x,i)=>`
   <article class="item">
@@ -1318,6 +1589,7 @@ window.addEventListener("appinstalled", () => { $("#install-btn").hidden = true;
 
 renderIdeas();
 renderDP();
+renderMind();
 Store.init();
 </script>
 
