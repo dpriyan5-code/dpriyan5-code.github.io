@@ -1,0 +1,1068 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="A morning philosophy practice: a daily affirmation, a fundamental question to talk through, and a notebook for your own philosophy.">
+<meta name="theme-color" content="#eef0ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12151d" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Reflections">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;-webkit-text-size-adjust:100%}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Reflections</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single reading column, like a morning notebook. Dawn sky behind the day's
+   affirmation, ink-on-stone everywhere else. Tabs move between the practice and the library. */
+:root{
+  --bg:#eef0ec;          /* stone, faintly green-grey */
+  --surface:#f8f9f6;
+  --ink:#1b2130;         /* night ink */
+  --muted:#5b6274;
+  --line:#d3d7d0;
+  --lapis:#2c4a9a;       /* accent: lapis lazuli */
+  --lapis-soft:#dfe5f5;
+  --dawn:#c08a2a;        /* the first light */
+  --dawn-soft:#f4e7cc;
+  --sky-1:#e8ecf6; --sky-2:#f6ead6;
+  --danger:#a03a2c;
+  --display:"Cormorant Garamond","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.5rem;--s6:2.25rem;--s7:3.5rem;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12151d;--surface:#1a1f2a;--ink:#e6e4dc;--muted:#9aa0ae;--line:#2c3240;
+  --lapis:#8fa8ec;--lapis-soft:#232c45;--dawn:#e2b057;--dawn-soft:#332a19;
+  --sky-1:#161b29;--sky-2:#2a2218;--danger:#e2826f;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12151d;--surface:#1a1f2a;--ink:#e6e4dc;--muted:#9aa0ae;--line:#2c3240;
+  --lapis:#8fa8ec;--lapis-soft:#232c45;--dawn:#e2b057;--dawn-soft:#332a19;
+  --sky-1:#161b29;--sky-2:#2a2218;--danger:#e2826f;color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--body);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:0 var(--s7)}
+.wrap{max-width:46rem;margin:0 auto}
+a{color:var(--lapis);text-underline-offset:3px}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--lapis);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0}
+
+/* header + tabs */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);
+  display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:var(--s2) var(--s4);
+  padding-block:var(--s4) var(--s3);border-bottom:1px solid var(--line)}
+.brand{font-family:var(--display);font-size:1.6rem;font-weight:600;letter-spacing:.01em}
+.brand i{color:var(--dawn);font-weight:500}
+nav.tabs{display:flex;flex-wrap:wrap;gap:var(--s1)}
+nav.tabs button{background:none;border:0;padding:.3rem .6rem;border-radius:999px;cursor:pointer;
+  font-size:.875rem;font-weight:500;color:var(--muted)}
+nav.tabs button:hover{color:var(--ink)}
+nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+nav.tabs button.install{color:var(--lapis);border:1px solid var(--lapis)}
+.install-hint{display:flex;gap:var(--s3);align-items:flex-start;justify-content:space-between;padding:var(--s3) var(--s4);border:1px solid var(--line);border-radius:.9rem;background:var(--surface);font-size:.9rem}
+.install-hint p{min-width:0}
+
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+section.view{display:grid;gap:var(--s6);padding-block:var(--s6) 0}
+
+/* morning */
+.dawn{border-radius:1.25rem;padding:var(--s6) var(--s5);
+  background:linear-gradient(170deg,var(--sky-1) 0%,var(--sky-2) 100%);display:grid;gap:var(--s4);position:relative;overflow:hidden}
+.dawn::after{content:"";position:absolute;width:16rem;height:16rem;border-radius:50%;right:-5rem;bottom:-11rem;
+  background:radial-gradient(circle,var(--dawn) 0%,transparent 70%);opacity:.35;pointer-events:none}
+.affirm{font-family:var(--display);font-style:italic;font-weight:500;font-size:clamp(1.65rem,4.6vw,2.4rem);line-height:1.22;text-wrap:balance;max-width:34ch;position:relative}
+.after{font-family:var(--mono);font-size:.8rem;color:var(--muted);position:relative}
+.dawn-actions{display:flex;flex-wrap:wrap;gap:var(--s2);position:relative}
+
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:.45rem 1rem;cursor:pointer;font-size:.875rem;font-weight:500}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--lapis);border-color:var(--lapis);color:var(--surface)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent}
+.btn:disabled{opacity:.5;cursor:default}
+.linkish{background:none;border:0;padding:0;color:var(--lapis);cursor:pointer;font-size:.85rem;text-decoration:underline;text-underline-offset:3px}
+
+/* question + dialogue */
+.question{display:grid;gap:var(--s3)}
+.question h2{font-size:clamp(1.6rem,4vw,2.1rem)}
+.question .frame{color:var(--muted);max-width:62ch}
+.qmeta{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center}
+.chip{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:.15rem .55rem;border-radius:999px;background:var(--lapis-soft);color:var(--lapis)}
+.chip.dawnchip{background:var(--dawn-soft);color:var(--dawn)}
+
+.thread{display:grid;gap:var(--s4)}
+.msg{display:grid;gap:var(--s1);max-width:62ch;min-width:0}
+.msg .who{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.msg .text{display:grid;gap:var(--s3);overflow-wrap:anywhere}
+.msg.me{justify-self:end;background:var(--surface);border:1px solid var(--line);border-radius:1rem 1rem .25rem 1rem;padding:var(--s3) var(--s4)}
+.msg.me .who{text-align:right}
+.msg.them .text{font-family:var(--display);font-size:1.18rem;line-height:1.5}
+.msg.them{border-left:2px solid var(--dawn);padding-left:var(--s4)}
+.thinking{color:var(--muted);font-style:italic}
+
+.composer{display:grid;gap:var(--s2)}
+.composer textarea{width:100%;min-height:6.5rem;resize:vertical;border:1px solid var(--line);border-radius:.9rem;background:var(--surface);padding:var(--s3) var(--s4);line-height:1.5}
+.row{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center}
+.row .spacer{flex:1}
+.note{font-size:.82rem;color:var(--muted)}
+.distill{border:1px dashed var(--dawn);border-radius:1rem;padding:var(--s4);display:grid;gap:var(--s3);background:var(--dawn-soft)}
+.distill blockquote{margin:0;font-family:var(--display);font-size:1.3rem;font-style:italic}
+
+/* library */
+.intro{display:grid;gap:var(--s2);max-width:62ch}
+.intro h2{font-size:2rem}
+.intro p{color:var(--muted)}
+.filters{display:flex;flex-wrap:wrap;gap:var(--s2)}
+.filters button{border:1px solid var(--line);background:none;border-radius:999px;padding:.2rem .7rem;cursor:pointer;font-size:.8rem;color:var(--muted)}
+.filters button[aria-pressed="true"]{border-color:var(--lapis);color:var(--lapis);background:var(--lapis-soft)}
+.list{display:grid;gap:0}
+.item{display:grid;gap:var(--s2);padding-block:var(--s5);border-top:1px solid var(--line)}
+.item:first-child{border-top:0;padding-top:0}
+.item h3{font-size:1.45rem}
+.item .body{max-width:62ch}
+.item .refs{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s4);font-size:.85rem}
+.item .thinkers{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.quote{font-family:var(--display);font-size:1.45rem;line-height:1.35;font-style:italic;max-width:40ch}
+.cite{font-size:.875rem;color:var(--muted)}
+.cite b{color:var(--ink);font-weight:600}
+.gloss{font-size:.85rem;color:var(--muted);max-width:62ch}
+
+.linkgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:var(--s4)}
+.linkcard{display:grid;gap:var(--s1);align-content:start;padding:var(--s4);border:1px solid var(--line);border-radius:.9rem;background:var(--surface);text-decoration:none;color:var(--ink);min-width:0}
+.linkcard:hover{border-color:var(--lapis)}
+.linkcard strong{font-family:var(--display);font-size:1.25rem;font-weight:600}
+.linkcard span{font-size:.85rem;color:var(--muted)}
+.linkcard em{font-family:var(--mono);font-style:normal;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--lapis)}
+h2.sub{font-size:1.5rem}
+
+/* notebook */
+.nb-section{display:grid;gap:var(--s4)}
+.tenets{list-style:none;margin:0;padding:0;display:grid;gap:var(--s3);counter-reset:t}
+.tenets li{display:grid;grid-template-columns:2rem 1fr auto;gap:var(--s3);align-items:baseline;counter-increment:t}
+.tenets li::before{content:counter(t,upper-roman)".";font-family:var(--display);font-weight:600;color:var(--dawn);font-size:1.1rem}
+.tenets li span{font-family:var(--display);font-size:1.3rem;line-height:1.35;min-width:0;overflow-wrap:anywhere}
+.addbox{display:grid;gap:var(--s2)}
+.addbox input,.addbox textarea{width:100%;border:1px solid var(--line);border-radius:.7rem;background:var(--surface);padding:var(--s2) var(--s3)}
+.addbox textarea{min-height:5rem;resize:vertical}
+.empty{color:var(--muted);font-style:italic}
+.x{background:none;border:0;color:var(--muted);cursor:pointer;font-size:.8rem}
+.x:hover{color:var(--danger)}
+details.dlg{border-top:1px solid var(--line);padding-block:var(--s3)}
+details.dlg summary{cursor:pointer;font-family:var(--display);font-size:1.2rem;font-weight:600}
+details.dlg summary small{font-family:var(--mono);font-size:.72rem;font-weight:400;color:var(--muted);margin-left:var(--s2)}
+details.dlg .thread{margin-top:var(--s4)}
+.status{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(var(--s5) + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:.5rem 1rem;border-radius:999px;font-size:.875rem;z-index:20}
+@media (prefers-reduced-motion:no-preference){
+  .dawn .affirm{animation:rise 1.4s ease-out both}
+  @keyframes rise{from{opacity:.25;transform:translateY(6px)}to{opacity:1;transform:none}}
+}
+@media (max-width:30rem){.dawn{padding:var(--s5) var(--s4)}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">Reflections <i>at dawn</i></div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-today" data-view="today" aria-selected="true">Today</button>
+      <button role="tab" id="tab-ideas" data-view="ideas" aria-selected="false">Ideas</button>
+      <button role="tab" id="tab-quotes" data-view="quotes" aria-selected="false">Quotes</button>
+      <button role="tab" id="tab-links" data-view="links" aria-selected="false">Readings</button>
+      <button role="tab" id="tab-notebook" data-view="notebook" aria-selected="false">My Notebook</button>
+      <button type="button" class="install" id="install-btn" hidden>Install app</button>
+    </nav>
+  </header>
+
+  <!-- TODAY -->
+  <section class="view" id="view-today" role="tabpanel" aria-labelledby="tab-today">
+    <div class="install-hint" id="ios-hint" hidden>
+      <p><strong>Keep Reflections on your home screen.</strong> In Safari, tap the Share button, then <em>Add to Home Screen</em>.</p>
+      <button class="x" type="button" id="ios-hint-close">Dismiss</button>
+    </div>
+    <div class="dawn">
+      <div class="eyebrow" id="today-date">Morning</div>
+      <p class="affirm" id="affirm"></p>
+      <p class="after" id="affirm-after"></p>
+      <div class="dawn-actions">
+        <button class="btn primary" id="begin">Turn to today's question</button>
+        <button class="btn ghost" id="next-affirm">Another affirmation</button>
+      </div>
+    </div>
+
+    <div class="question" id="question-block" hidden>
+      <div class="qmeta">
+        <span class="eyebrow">Today's question</span>
+        <span class="chip" id="q-cat"></span>
+      </div>
+      <h2 id="q-text"></h2>
+      <p class="frame" id="q-frame"></p>
+      <div class="row">
+        <button class="linkish" id="another-q">Ask me a different question</button>
+        <span class="note" id="q-refs"></span>
+      </div>
+    </div>
+
+    <div class="thread" id="thread" hidden></div>
+
+    <div class="composer" id="composer" hidden>
+      <label class="eyebrow" for="reply">Your reply</label>
+      <textarea id="reply" placeholder="Think out loud. There are no wrong answers here, only unexamined ones."></textarea>
+      <div class="row">
+        <button class="btn primary" id="send">Send</button>
+        <button class="btn" id="stop" hidden>Stop</button>
+        <span class="spacer"></span>
+        <button class="btn ghost" id="distill-btn">Distill my view</button>
+        <button class="btn ghost" id="save-dlg">Save to notebook</button>
+      </div>
+      <p class="note" id="mode-note">Connecting to your companion…</p>
+    </div>
+
+    <div class="distill" id="distill" hidden>
+      <span class="eyebrow">A tenet drawn from this conversation</span>
+      <blockquote id="distill-text"></blockquote>
+      <div class="row">
+        <button class="btn primary" id="distill-keep">Add to my philosophy</button>
+        <button class="btn ghost" id="distill-drop">Discard</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- IDEAS -->
+  <section class="view" id="view-ideas" role="tabpanel" aria-labelledby="tab-ideas" hidden>
+    <div class="intro">
+      <span class="eyebrow">The fundamentals</span>
+      <h2>Ideas that people keep returning to</h2>
+      <p>Each idea comes with the thinkers who shaped it and a scholarly reference to read further, including a set of famous thought experiments. Use "Reflect on this" to make any of them this morning's conversation.</p>
+    </div>
+    <div class="filters" id="idea-filters"></div>
+    <div class="list" id="idea-list"></div>
+  </section>
+
+  <!-- QUOTES -->
+  <section class="view" id="view-quotes" role="tabpanel" aria-labelledby="tab-quotes" hidden>
+    <div class="intro">
+      <span class="eyebrow">Primary sources</span>
+      <h2>Words, with where they come from</h2>
+      <p>Every quote is cited to the work it appears in. Where a famous line is a paraphrase or reaches us through someone else, the note says so.</p>
+    </div>
+    <div class="list" id="quote-list"></div>
+  </section>
+
+  <!-- LINKS -->
+  <section class="view" id="view-links" role="tabpanel" aria-labelledby="tab-links" hidden>
+    <div class="intro">
+      <span class="eyebrow">Going deeper</span>
+      <h2>Readings, conversations and references</h2>
+      <p>Encyclopedias for precision, long conversations for depth, and the primary texts themselves, many of them free.</p>
+    </div>
+    <h2 class="sub">Reference works</h2>
+    <div class="linkgrid" id="links-ref"></div>
+    <h2 class="sub">Long-form conversations</h2>
+    <div class="linkgrid" id="links-talk"></div>
+    <h2 class="sub">Primary texts to start with</h2>
+    <div class="linkgrid" id="links-books"></div>
+  </section>
+
+  <!-- NOTEBOOK -->
+  <section class="view" id="view-notebook" role="tabpanel" aria-labelledby="tab-notebook" hidden>
+    <div class="intro">
+      <span class="eyebrow">Yours alone</span>
+      <h2>My Notebook</h2>
+      <p id="store-note">Your philosophy, your ideas and your saved dialogues. Only you can see them.</p>
+    </div>
+
+    <div class="nb-section">
+      <h2 class="sub">My personal philosophy</h2>
+      <p class="note">Short tenets you hold, or are testing. The companion reads these and will engage with them, and push back.</p>
+      <ol class="tenets" id="tenets"></ol>
+      <form class="addbox" id="tenet-form">
+        <label class="eyebrow" for="tenet-input">Add a tenet</label>
+        <input id="tenet-input" maxlength="300" placeholder="e.g. A life is measured by the quality of its attention.">
+        <div class="row"><button class="btn primary" type="submit">Add tenet</button></div>
+      </form>
+    </div>
+
+    <div class="nb-section">
+      <h2 class="sub">My ideas</h2>
+      <div class="list" id="ideas-mine"></div>
+      <form class="addbox" id="idea-form">
+        <label class="eyebrow" for="idea-title">New idea</label>
+        <input id="idea-title" maxlength="140" placeholder="A title for the thought">
+        <textarea id="idea-body" maxlength="6000" placeholder="Write it out. Half-formed is fine."></textarea>
+        <div class="row"><button class="btn primary" type="submit">Save idea</button></div>
+      </form>
+    </div>
+
+    <div class="nb-section" id="companion-settings" hidden>
+      <h2 class="sub">Companion</h2>
+      <p class="note">On your phone, outside Claude, the app talks to Claude through your own Anthropic API key. The key stays on this device and is sent only to Anthropic. Conversations are billed to your API account. You can create a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com ↗</a>.</p>
+      <form class="addbox" id="api-key-form" autocomplete="off">
+        <label class="eyebrow" for="api-key">Anthropic API key</label>
+        <input id="api-key" type="password" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
+        <div class="row"><button class="btn primary" type="submit">Save key</button><button class="btn ghost" type="button" id="api-key-remove" hidden>Remove key</button><span class="status" id="api-key-status"></span></div>
+      </form>
+    </div>
+
+    <div class="nb-section">
+      <h2 class="sub">Past dialogues</h2>
+      <div id="dialogues"></div>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ================= CONTENT ================= */
+const SEP = s => `https://plato.stanford.edu/entries/${s}/`;
+const SEPQ = q => `https://plato.stanford.edu/search/searcher.py?query=${encodeURIComponent(q)}`;
+
+// Affirmations: original lines written for this app, each in the spirit of a thinker.
+const AFFIRMATIONS = [
+  ["I cannot choose what happens today. I can choose what I make of it.", "after Epictetus, Enchiridion 1 & 5"],
+  ["I do not have a short life. I have a life I can stop wasting.", "after Seneca, On the Shortness of Life"],
+  ["I will push my stone up the hill today, and the climb itself will be enough to fill my heart.", "after Camus, The Myth of Sisyphus"],
+  ["I am not a finished thing. Today I am, once again, the one who decides who I become.", "after Sartre, Existentialism Is a Humanism"],
+  ["I will look at this morning as if I had never seen a morning before.", "after Plato, Theaetetus 155d: philosophy begins in wonder"],
+  ["I will not argue today about what a good person is. I will try to be one.", "after Marcus Aurelius, Meditations 10.16"],
+  ["My life is understood backwards, but I live it forwards. I step forward anyway.", "after Kierkegaard, Journals (1843)"],
+  ["Everything flows, and so do I. I do not need to hold still to be myself.", "after Heraclitus, fragment B91"],
+  ["Attention is a gift. Today I will give it fully, to whoever is in front of me.", "after Simone Weil, letter to Joë Bousquet (1942)"],
+  ["Other people are real, as real as I am. Love begins in seeing that.", "after Iris Murdoch, The Sublime and the Good"],
+  ["What is excellent is difficult and rare. I will not mistake difficulty for failure.", "after Spinoza, Ethics V, prop. 42"],
+  ["Death is nothing to me while I am here. So I will be here.", "after Epicurus, Letter to Menoeceus"],
+  ["I hold my certainties lightly. What do I really know?", "after Montaigne, Essays II.12"],
+  ["The way that can be fully named is not the whole way. I will leave room for what I cannot say.", "after Laozi, Daodejing ch. 1"],
+  ["Real living is meeting. I will meet people today, not just pass them.", "after Martin Buber, I and Thou"],
+  ["If I have a why, I can bear almost any how. I will remember my why.", "after Nietzsche, Twilight of the Idols, Maxims 12"],
+  ["The limits of my language are the limits of my world. Today I will find one new word for something I feel.", "after Wittgenstein, Tractatus 5.6"],
+  ["My reason serves what I care about. So I will care about the right things.", "after Hume, Treatise 2.3.3"],
+  ["Above me, the stars. Within me, a sense of what I owe. Both are worth my awe.", "after Kant, Critique of Practical Reason, Conclusion"],
+  ["Flourishing is something I do, not something I have. I will practise it today.", "after Aristotle, Nicomachean Ethics I.7"],
+  ["Perhaps I am a butterfly dreaming I am a person. Either way, I will be gently curious.", "after Zhuangzi, ch. 2"],
+  ["I am not born into my role. I become who I am through what I do.", "after Simone de Beauvoir, The Second Sex"],
+  ["That there is something rather than nothing is astonishing. I am part of that something.", "after Leibniz, Principles of Nature and Grace §7"],
+  ["My heart has reasons my reason does not know. I will listen to both.", "after Pascal, Pensées"],
+  ["Wisdom comes late, at dusk. I will be patient with my own understanding.", "after Hegel, Philosophy of Right, Preface"],
+  ["I neither know nor pretend to know. That honesty is where wisdom starts.", "after Socrates, in Plato's Apology 21d"],
+  ["An unexamined day is still a gift. An examined one is a gift I have opened.", "after Socrates, Apology 38a"],
+  ["Form is emptiness and emptiness is form. I need not cling to what I am today.", "after the Heart Sutra"],
+  ["I will tell my life as a story, and let its meaning appear without forcing it.", "after Hannah Arendt, Men in Dark Times"],
+  ["I will not lead my life in quiet desperation. I will live it deliberately.", "after Thoreau, Walden, \"Economy\""],
+  ["I have a right to my actions, not to their fruits. I will do the work well and let the outcome go.", "after the Bhagavad Gita 2.47"],
+  ["I am a thinking reed: fragile, and aware of it. That awareness is my dignity.", "after Pascal, Pensées 347"],
+  ["I will treat everyone I meet today as an end in themselves, never merely as a means.", "after Kant, Groundwork of the Metaphysics of Morals"],
+  ["I am a person through other people. Today I will remember who holds me up.", "after the Ubuntu proverb, umuntu ngumuntu ngabantu"],
+  ["I will cultivate my garden: the small patch of the world that is actually mine to tend.", "after Voltaire, Candide ch. 30"],
+  ["Let me keep a beginner's mind today, where many possibilities are still open.", "after Shunryu Suzuki, Zen Mind, Beginner's Mind"],
+  ["What stands in my way can become my way.", "after Marcus Aurelius, Meditations 5.20"],
+  ["I will live today in a way I could bear to live again, forever.", "after Nietzsche, The Gay Science §341"],
+  ["My anxiety is the dizziness of my freedom. I can feel it and still step forward.", "after Kierkegaard, The Concept of Anxiety"],
+  ["I will look for the mean between too much and too little, and find courage there.", "after Aristotle, Nicomachean Ethics II.6"],
+  ["What I learn today, I will practise. Learning that stays unused is only half learned.", "after Confucius, Analects 1.1"],
+  ["I will be like water: soft, patient, and in the end stronger than stone.", "after Laozi, Daodejing ch. 78"],
+  ["The face of another person asks something of me. Today I will answer.", "after Emmanuel Levinas, Totality and Infinity"],
+  ["My freedom is bound up with the freedom of others. I cannot will one without the other.", "after Simone de Beauvoir, The Ethics of Ambiguity"],
+  ["I will not wait for certainty before I act with care.", "after William James, The Will to Believe"],
+  ["I have only this present moment. It is the only thing anyone can lose, or live.", "after Marcus Aurelius, Meditations 2.14"],
+  ["I will let things be what they are before I decide what they are for.", "after Heidegger, Discourse on Thinking"],
+  ["I am part of nature, not a kingdom within a kingdom.", "after Spinoza, Ethics III, Preface"],
+  ["I will be a friend to myself today, as patient with me as I would be with a friend.", "after Seneca, Letters 6"],
+  ["I will try to love the questions themselves, and live my way into the answers.", "after Rilke, Letters to a Young Poet, letter 4"],
+  ["A good life is shared. Today I will tend a friendship.", "after Aristotle, Nicomachean Ethics VIII"],
+  ["I will measure my wealth by how little I need.", "after Epicurus, Letter to Menoeceus"],
+  ["Whatever happens, I can still choose my attitude toward it. That freedom is mine.", "after Viktor Frankl, Man's Search for Meaning"],
+  ["Before I assent to a first impression, I will pause and test it.", "after the Stoic doctrine of assent, Epictetus, Discourses"],
+  ["My heart is restless. I will notice what it is looking for.", "after Augustine, Confessions I.1"],
+  ["Today I will sit quietly for a while, alone with my own thoughts, and not run from them.", "after Pascal, Pensées 139"],
+  ["I will not mistake the finger pointing at the moon for the moon.", "after the Śūraṅgama Sūtra, a Zen teaching image"],
+  ["I will be just even when no one is watching.", "after Plato, Republic II: the Ring of Gyges"],
+  ["The good life is inspired by love and guided by knowledge. I will need both today.", "after Bertrand Russell, What I Believe"],
+  ["I can feel the suffering of others. That feeling is the seed of my goodness; I will water it.", "after Mencius 2A:6"],
+];
+
+// Fundamental questions, each with a framing to start the dialogue.
+const QUESTIONS = [
+  {cat:"Meaning", q:"If nothing you did today would be remembered in a thousand years, would it still matter?", f:"Camus thought the universe offers no meaning, and that we can live fully anyway. Others find meaning in God, in other people, or in the act of caring itself.", r:["life-meaning","camus"]},
+  {cat:"Self", q:"Are you the same person you were ten years ago? What makes you so?", f:"Locke tied identity to memory. Hume found only a bundle of perceptions. Buddhists call the fixed self an illusion. Parfit asked whether identity even matters.", r:["identity-personal"]},
+  {cat:"Freedom", q:"When you made your last important choice, could you really have chosen otherwise?", f:"If every event has a cause, where does freedom fit? Compatibilists say freedom is acting from your own reasons; libertarians say it requires real alternatives.", r:["free-will"]},
+  {cat:"Ethics", q:"Is something wrong because of its consequences, or because of what it is?", f:"Mill weighed outcomes. Kant asked whether you could will your principle as a universal law. Aristotle asked what a person of good character would do.", r:["consequentialism","kant-moral","ethics-virtue"]},
+  {cat:"Mortality", q:"Should knowing that you will die change how you live this week?", f:"Epicurus said death is nothing to us. Heidegger said facing it is what makes a life our own. Seneca said the problem isn't that life is short, but that we waste it.", r:["death","epicurus"]},
+  {cat:"Knowledge", q:"How do you know you are not dreaming right now?", f:"Descartes doubted everything he could and found one thing he could not doubt. Zhuangzi woke unsure whether he was a man or a butterfly.", r:["skepticism","epistemology"]},
+  {cat:"Mind", q:"What is it like to be you, and could a perfect brain scan ever capture it?", f:"Thomas Nagel asked what it is like to be a bat. Frank Jackson imagined Mary, who knows everything about colour but has never seen red.", r:["consciousness","qualia"]},
+  {cat:"Happiness", q:"Would you plug into a machine that gave you a perfectly happy life, if none of it were real?", f:"Robert Nozick's experience machine asks whether we want only feelings, or also contact with reality and the chance to actually do things.", r:["happiness","well-being"]},
+  {cat:"Love", q:"Do you love people for their qualities, or for who they are? Is there a difference?", f:"Plato's Symposium climbs from a beautiful person to Beauty itself. Iris Murdoch thought love is the hard work of seeing another person truly.", r:["love"]},
+  {cat:"Others", q:"How do you know that other people feel things the way you do?", f:"You see only behaviour, never another inner life directly. Wittgenstein doubted that the problem is even well posed.", r:["other-minds"]},
+  {cat:"Existence", q:"Why is there something rather than nothing?", f:"Leibniz called it the first question we have a right to ask. Some say it has no answer; others that 'nothing' was never really possible.", r:["nothingness"]},
+  {cat:"Authenticity", q:"Which of your beliefs did you actually choose, and which did you simply inherit?", f:"Kierkegaard warned against dissolving into 'the crowd'. Heidegger called it living as 'the They'. Sartre called it bad faith.", r:["authenticity","existentialism"]},
+  {cat:"Time", q:"Does the past still exist in some sense, or only in memory?", f:"Augustine said he knew what time was until someone asked him. Physics and philosophy still disagree about whether only the present is real.", r:["time"]},
+  {cat:"Suffering", q:"Can suffering make a life better, or only harder?", f:"Nietzsche said what does not kill him makes him stronger. The Buddha taught that suffering has a cause and an end. The Stoics said it lives in our judgments.", r:["stoicism","nietzsche"]},
+  {cat:"Virtue", q:"What virtue do you most lack, and what would it cost you to grow it?", f:"For Aristotle, virtues are habits built by practice, as a lyre-player is made by playing the lyre.", r:["ethics-virtue","aristotle-ethics"]},
+  {cat:"Truth", q:"Is it ever better not to know the truth?", f:"Socrates thought the examined life was the only one worth living. Others point to mercy, privacy and the comfort of hope.", r:["socrates"]},
+  {cat:"Meaning", q:"What would you do with your life if no one could ever praise or blame you for it?", f:"The Ring of Gyges in Plato's Republic makes its wearer invisible. Would you still be just?", r:["plato-ethics"]},
+  {cat:"Self", q:"Is there a 'real you' beneath your roles as child, friend, worker and citizen?", f:"Confucian thought sees the self as made of relationships. Existentialists see it as made by choices. Some contemplatives see no self at all.", r:["identity-personal"]},
+  {cat:"Freedom", q:"Is a person free if they always get what they want, but never chose what to want?", f:"Harry Frankfurt distinguished first-order desires from desires about our desires. Spinoza thought freedom is understanding what moves us.", r:["free-will","spinoza"]},
+  {cat:"Ethics", q:"Do you owe more to people close to you than to strangers far away?", f:"Peter Singer's drowning child asks whether distance matters morally. Care ethicists answer that relationships ground our duties.", r:["consequentialism"]},
+  {cat:"Nature", q:"Does nature have value in itself, or only because it matters to us?", f:"Some value only sentient beings. Others extend value to species, rivers and ecosystems. The Daodejing pictures the sage as following nature's way.", r:["laozi"]},
+  {cat:"Language", q:"Are there thoughts you have that words cannot hold?", f:"Wittgenstein ended the Tractatus: whereof one cannot speak, thereof one must be silent. Mystics in many traditions agree, for different reasons.", r:["wittgenstein"]},
+  {cat:"Faith", q:"Is it reasonable to believe something you cannot prove?", f:"Pascal wagered. William James defended the will to believe. W. K. Clifford said it is wrong always to believe on insufficient evidence.", r:["pascal"]},
+  {cat:"Society", q:"What do you owe to the society that made you?", f:"Socrates refused to flee his death sentence, out of loyalty to Athens' laws. Hobbes, Locke and Rousseau each imagined a social contract.", r:["socrates"]},
+  {cat:"Absurd", q:"If life is absurd, is the right response rebellion, faith, or laughter?", f:"Camus rejected both suicide and the leap of faith, and chose to live in revolt. Kierkegaard made the leap. Thomas Nagel suggested irony.", r:["camus","kierkegaard"]},
+  {cat:"Beauty", q:"Is beauty in the world, or only in the eye of the beholder?", f:"Hume looked for a standard of taste. Kant said a judgment of beauty claims everyone's agreement while resting on feeling.", r:["kant"]},
+  {cat:"Work", q:"Is your work a means to a life, or part of the life itself?", f:"Aristotle prized leisure as the space for the highest activities. Marx saw alienated labour as a loss of our humanity.", r:["aristotle-ethics"]},
+  {cat:"Change", q:"What in you is permanent, if anything?", f:"Heraclitus said all things flow. Parmenides said change is an illusion. The Ship of Theseus asks when a replaced thing stops being itself.", r:["heraclitus"]},
+  {cat:"Evil", q:"Are people who do great harm fundamentally different from you?", f:"Hannah Arendt, watching Eichmann's trial, wrote of the banality of evil: harm done by people who simply stopped thinking.", r:["arendt"]},
+  {cat:"Gratitude", q:"To whom or what do you owe your existence, and what follows from that?", f:"Some answer God, some chance, some parents and history. Each answer suggests a different way to live.", r:["life-meaning"]},
+  {cat:"Mind", q:"Could a machine ever truly understand anything?", f:"Turing proposed judging by behaviour. Searle's Chinese Room argued symbol manipulation is not understanding. The question is no longer hypothetical.", r:["consciousness"]},
+  {cat:"Self", q:"Which matters more to who you are: your memories or your values?", f:"Studies of moral change suggest people see a change of values, more than memory loss, as becoming 'someone else'.", r:["identity-personal"]},
+  {cat:"Justice", q:"If you didn't know who you would be born as, what kind of society would you choose?", f:"John Rawls's veil of ignorance asks you to pick the rules before you know your place: rich or poor, healthy or sick, majority or minority.", r:["rawls"]},
+  {cat:"Ethics", q:"Should you be judged for outcomes you could not control?", f:"Two drivers are equally careless; one hits a child, one doesn't. Thomas Nagel and Bernard Williams called this moral luck.", r:["moral-luck"]},
+  {cat:"Ethics", q:"Is morality objective, or does it depend on culture?", f:"Moral realists say some things are wrong whatever anyone thinks. Relativists point to deep disagreement across times and places.", r:["moral-realism"]},
+  {cat:"Animals", q:"Does an animal's life matter as much as a human's? Why or why not?", f:"Bentham said the question is not 'Can they reason?' but 'Can they suffer?'. Peter Singer and Christine Korsgaard pressed the point in different ways.", r:["moral-animal"]},
+  {cat:"Happiness", q:"Is it better to be a dissatisfied Socrates than a satisfied fool?", f:"John Stuart Mill argued that some pleasures are higher than others. Was he right, or is that snobbery dressed as philosophy?", r:["happiness"]},
+  {cat:"Friendship", q:"What makes a friendship real, rather than useful or merely pleasant?", f:"Aristotle described three kinds of friendship: of utility, of pleasure, and of character. Only the last, he thought, lasts.", r:["friendship"]},
+  {cat:"Knowledge", q:"Is there a difference between knowing something and just being right?", f:"Plato defined knowledge as justified true belief. Edmund Gettier's two-page paper in 1963 showed cases where all three hold and still nobody would call it knowledge.", r:["knowledge-analysis"]},
+  {cat:"Mortality", q:"Would you want to live forever?", f:"Bernard Williams argued that an endless life would become unbearably boring. Others think a good enough life could renew itself indefinitely.", r:["death"]},
+  {cat:"Suffering", q:"If a pill could take away all future grief, would you take it?", f:"Grief is the price of love, some say. Others ask why any suffering should be kept if it can be removed.", r:["well-being"]},
+  {cat:"Responsibility", q:"Are you responsible for who you have become?", f:"Aristotle thought we are partly responsible for our characters, built by our choices. Others note how much was given to us by luck, upbringing and biology.", r:["moral-responsibility"]},
+  {cat:"Meaning", q:"Describe a perfect ordinary day. What stops you living it?", f:"Epicurus thought the good life needs little: friends, freedom, thought. Aristotle thought it needs activity and virtue over a whole life.", r:["epicurus"]},
+  {cat:"Solitude", q:"Is solitude necessary for thinking well?", f:"Pascal said all humanity's troubles come from not being able to sit quietly in a room alone. Arendt described thinking as a silent dialogue with oneself.", r:["pascal"]},
+  {cat:"Cosmos", q:"Does the universe care whether you exist? Does it need to?", f:"Spinoza's God-or-Nature does not love us back, yet he found joy in understanding it. Camus found the silence of the world the starting point of revolt.", r:["spinoza","camus"]},
+  {cat:"Reason", q:"Can reason alone tell you how to live?", f:"Hume argued you cannot derive an 'ought' from an 'is'. Kant thought pure practical reason could ground morality on its own.", r:["kant-moral"]},
+  {cat:"Habit", q:"Are you living by your values, or by your habits?", f:"Aristotle said we become just by doing just acts. William James called habit the enormous flywheel of society.", r:["ethics-virtue"]},
+  {cat:"Forgiveness", q:"Can you forgive someone who has never apologised?", f:"Some think forgiveness answers repentance. Others see it as something the wronged person can give freely, for their own freedom.", r:[]},
+  {cat:"Hope", q:"Is hope a virtue, or a way of avoiding the present?", f:"Christian thought counts hope among the theological virtues. Nietzsche read Pandora's myth as hope prolonging torment. Camus wanted to live without appeal.", r:[]},
+  {cat:"Future", q:"What do you owe to people who have not been born yet?", f:"Derek Parfit's non-identity problem shows how strange this question is: our choices decide who will exist at all.", r:[]},
+  {cat:"Duty", q:"Is it enough to do your duty, without asking whether the outcome is good?", f:"In the Bhagavad Gita, Krishna tells Arjuna to act without attachment to the fruits of action. Consequentialists say outcomes are everything.", r:[]},
+  {cat:"Relations", q:"Are you an individual first, or a set of relationships first?", f:"Confucian ethics sees the self as made through roles and rites. The Ubuntu tradition says a person is a person through other persons.", r:["confucius"]},
+  {cat:"Reality", q:"If our world were a perfect simulation, would anything about your life be less real?", f:"Descartes imagined an evil demon; Hilary Putnam a brain in a vat; Nick Bostrom a simulation argument. David Chalmers argues virtual worlds can be genuine.", r:["skepticism"]},
+  {cat:"Attention", q:"What you pay attention to becomes your life. What did you attend to yesterday?", f:"Simone Weil called attention the rarest form of generosity. Iris Murdoch thought moral life is mostly a matter of how we look at things.", r:[]},
+];
+
+// Fundamental ideas (library).
+const IDEAS = [
+  {t:"The examined life", tag:"Ethics", b:"Socrates, on trial for his life, said the unexamined life is not worth living. For him philosophy was not a doctrine but a practice: questioning what you think you know, in conversation, every day.", who:"Socrates, Plato", links:[["SEP: Socrates",SEP("socrates")]]},
+  {t:"The dichotomy of control", tag:"Stoicism", b:"Some things are up to us (our judgments, intentions, responses) and some are not (bodies, reputation, events). Peace comes from investing ourselves in the first and holding the second lightly.", who:"Epictetus, Seneca, Marcus Aurelius", links:[["SEP: Stoicism",SEP("stoicism")],["SEP: Epictetus",SEP("epictetus")]]},
+  {t:"Eudaimonia", tag:"Ethics", b:"Usually translated 'happiness' but closer to 'flourishing': living and acting well over a whole life. For Aristotle it is an activity of the soul in line with virtue, not a feeling.", who:"Aristotle", links:[["SEP: Aristotle's Ethics",SEP("aristotle-ethics")],["SEP: Well-Being",SEP("well-being")]]},
+  {t:"Existence precedes essence", tag:"Existentialism", b:"There is no pre-given human nature that fixes what you are for. You exist first, then define yourself through your choices, and you are responsible for them.", who:"Sartre, de Beauvoir, Kierkegaard", links:[["SEP: Existentialism",SEP("existentialism")],["SEP: Sartre",SEP("sartre")]]},
+  {t:"The absurd", tag:"Existentialism", b:"The clash between our hunger for meaning and a universe that stays silent. Camus's answer is neither despair nor a leap of faith, but lucid revolt: living fully while knowing.", who:"Camus", links:[["SEP: Camus",SEP("camus")]]},
+  {t:"Cogito, ergo sum", tag:"Knowledge", b:"Doubt everything you can. You cannot doubt that you are doubting, so you, the thinker, exist. Descartes hoped to rebuild knowledge from this single certainty.", who:"Descartes", links:[["SEP: Epistemology",SEP("epistemology")],["SEP: Skepticism",SEP("skepticism")]]},
+  {t:"The Allegory of the Cave", tag:"Knowledge", b:"Prisoners mistake shadows on a wall for reality. One is freed, sees the sun, and returns to tell the others, who do not believe him. An image of education as a turning of the whole soul.", who:"Plato, Republic VII", links:[["SEP: Plato's Ethics",SEP("plato-ethics")]]},
+  {t:"The categorical imperative", tag:"Ethics", b:"Act only on a principle you could will to be a universal law, and treat humanity, in yourself and others, never merely as a means but always also as an end.", who:"Kant", links:[["SEP: Kant's Moral Philosophy",SEP("kant-moral")]]},
+  {t:"The greatest happiness", tag:"Ethics", b:"The right act is the one that produces the best overall consequences, with everyone's well-being counted equally. Simple to state, demanding to live by.", who:"Bentham, Mill, Singer", links:[["SEP: Consequentialism",SEP("consequentialism")]]},
+  {t:"Will to power and eternal return", tag:"Existentialism", b:"Nietzsche's test: could you will to live your exact life again, infinitely? A life you could affirm that way is one you have made your own.", who:"Nietzsche", links:[["SEP: Nietzsche",SEP("nietzsche")]]},
+  {t:"The leap of faith", tag:"Existentialism", b:"Some truths cannot be reached by argument and must be lived. Kierkegaard described stages of life (aesthetic, ethical, religious) and the anxiety of choosing between them.", who:"Kierkegaard", links:[["SEP: Kierkegaard",SEP("kierkegaard")]]},
+  {t:"The Dao and wu wei", tag:"Eastern", b:"The Dao is the way things unfold, beyond naming. Wu wei, often translated 'non-action', means effortless action in harmony with that way, like water finding its path.", who:"Laozi, Zhuangzi", links:[["SEP: Laozi",SEP("laozi")]]},
+  {t:"Anatta and impermanence", tag:"Eastern", b:"Buddhist thought holds that all conditioned things are impermanent and that there is no fixed, unchanging self. Clinging to what passes is a root of suffering.", who:"The Buddha, Nāgārjuna", links:[["SEP search: Buddhism",SEPQ("buddhism no-self")]]},
+  {t:"Panta rhei: everything flows", tag:"Metaphysics", b:"You cannot step into the same river twice, for other waters keep flowing on. Heraclitus saw the world as constant change held together by a hidden order, the logos.", who:"Heraclitus", links:[["SEP: Heraclitus",SEP("heraclitus")]]},
+  {t:"Personal identity", tag:"Self", b:"What makes you the same person over time: your body, your memories, or psychological continuity? Parfit argued that what matters may not be identity at all.", who:"Locke, Hume, Parfit", links:[["SEP: Personal Identity",SEP("identity-personal")]]},
+  {t:"The hard problem of consciousness", tag:"Mind", b:"Even a full account of how the brain processes information leaves open why any of it is felt from the inside. Why is there something it is like to be you?", who:"Nagel, Chalmers, Jackson", links:[["SEP: Consciousness",SEP("consciousness")],["SEP: Qualia",SEP("qualia")]]},
+  {t:"Free will and determinism", tag:"Freedom", b:"If every event is caused by earlier events, can choices be free? Compatibilists say yes, if they flow from your own reasons. Incompatibilists say no, or that freedom needs indeterminism.", who:"Hume, Frankfurt, Spinoza", links:[["SEP: Free Will",SEP("free-will")]]},
+  {t:"I and Thou", tag:"Others", b:"We can relate to others as objects to use or know (I–It), or meet them wholly, as a presence (I–Thou). Buber thought all real living is meeting.", who:"Martin Buber", links:[["SEP: Martin Buber",SEP("buber")]]},
+  {t:"Becoming a woman", tag:"Self", b:"De Beauvoir argued that 'woman' is not a fixed nature but a situation and a becoming, shaped by others' expectations. A model for thinking about any identity.", who:"Simone de Beauvoir", links:[["SEP: Simone de Beauvoir",SEP("beauvoir")]]},
+  {t:"The banality of evil", tag:"Ethics", b:"Great harm is often done not by monsters but by ordinary people who fail to think about what they are doing. Thinking itself becomes a moral act.", who:"Hannah Arendt", links:[["SEP: Hannah Arendt",SEP("arendt")]]},
+  {t:"Intellectual love of God (Deus sive Natura)", tag:"Metaphysics", b:"Spinoza identified God with Nature itself. Freedom and joy come from understanding the causes of things, including our own emotions.", who:"Spinoza", links:[["SEP: Spinoza",SEP("spinoza")]]},
+  {t:"Why something rather than nothing?", tag:"Metaphysics", b:"The deepest question of metaphysics. Leibniz answered with a principle of sufficient reason; others think the question rests on a confusion.", who:"Leibniz, Heidegger", links:[["SEP: Nothingness",SEP("nothingness")]]},
+  {t:"Language games", tag:"Language", b:"The later Wittgenstein: the meaning of a word is its use in a form of life. Many philosophical puzzles arise when language 'goes on holiday'.", who:"Wittgenstein", links:[["SEP: Wittgenstein",SEP("wittgenstein")]]},
+  {t:"Authenticity", tag:"Existentialism", b:"Living from your own choices rather than dissolving into conformity. Heidegger contrasted owned existence with life lived as 'the They' (das Man).", who:"Heidegger, Sartre, Kierkegaard", links:[["SEP: Authenticity",SEP("authenticity")]]},
+  {t:"Memento mori", tag:"Stoicism", b:"Remember that you will die. Not morbidity but focus: Seneca and Marcus Aurelius used the thought of death to clarify what matters today.", who:"Seneca, Marcus Aurelius", links:[["SEP: Death",SEP("death")],["SEP: Seneca",SEP("seneca")]]},
+  {t:"Phenomenology", tag:"Mind", b:"Return 'to the things themselves': describe experience exactly as it shows up, before theory. The ground of much 20th-century philosophy.", who:"Husserl, Heidegger, Merleau-Ponty", links:[["SEP: Phenomenology",SEP("phenomenology")]]},
+  {t:"The veil of ignorance", tag:"Thought experiment", b:"Choose the principles of a just society without knowing your own place in it. Rawls argued you would protect basic liberties and arrange inequalities to benefit the worst off.", who:"John Rawls, A Theory of Justice (1971)", links:[["SEP: John Rawls",SEP("rawls")]]},
+  {t:"The trolley problem", tag:"Thought experiment", b:"A runaway trolley will kill five people unless you divert it onto a track where it will kill one. Most say switch. But would you push a man off a bridge to stop it? Why does it feel different?", who:"Philippa Foot, Judith Jarvis Thomson", links:[["SEP search: trolley problem",SEPQ("trolley problem")]]},
+  {t:"The Ship of Theseus", tag:"Thought experiment", b:"If every plank of a ship is replaced one by one, is it the same ship? And if the old planks are reassembled, which ship is Theseus's? A puzzle about you as much as about ships.", who:"Plutarch, Hobbes", links:[["SEP search: Ship of Theseus",SEPQ("ship of Theseus")]]},
+  {t:"The experience machine", tag:"Thought experiment", b:"A machine could give you any experiences you want, indistinguishable from real life. Would you plug in for life? If not, something other than feeling good matters to you.", who:"Robert Nozick, Anarchy, State, and Utopia (1974)", links:[["SEP: Hedonism",SEP("hedonism")]]},
+  {t:"Mary's room", tag:"Thought experiment", b:"Mary knows every physical fact about colour but has lived in a black-and-white room. When she first sees red, does she learn something new? If so, not all facts are physical.", who:"Frank Jackson (1982)", links:[["SEP: Qualia: The Knowledge Argument",SEP("qualia-knowledge")]]},
+  {t:"The Chinese room", tag:"Thought experiment", b:"A man who knows no Chinese follows a rulebook to answer Chinese questions perfectly. Does he understand Chinese? Searle said no, and so neither does a program that only manipulates symbols.", who:"John Searle (1980)", links:[["SEP: The Chinese Room Argument",SEP("chinese-room")]]},
+  {t:"Bad faith", tag:"Existentialism", b:"Lying to yourself about your freedom: pretending you had no choice, or that you are simply your role. Sartre's waiter plays at being a waiter so he need not be free.", who:"Sartre, Being and Nothingness", links:[["SEP: Sartre",SEP("sartre")]]},
+  {t:"Amor fati", tag:"Existentialism", b:"Love of fate: wanting nothing to be different, not forward, not backward, not in all eternity. Not resignation but affirmation of everything that made you.", who:"Nietzsche, Ecce Homo", links:[["SEP: Nietzsche",SEP("nietzsche")]]},
+  {t:"Ataraxia", tag:"Ethics", b:"Freedom from disturbance. Epicurus thought pleasure, rightly understood, is mostly the absence of pain and fear: simple needs, good friends, and clear thinking about death and the gods.", who:"Epicurus, Lucretius", links:[["SEP: Epicurus",SEP("epicurus")]]},
+  {t:"Ren and li", tag:"Eastern", b:"Ren is humaneness, the heart of goodness toward others; li is ritual propriety, the forms through which that goodness is practised. Character grows through roles lived well.", who:"Confucius, Mencius", links:[["SEP: Confucius",SEP("confucius")],["SEP: Mencius",SEP("mencius")]]},
+  {t:"Action without attachment", tag:"Eastern", b:"Krishna's teaching to Arjuna: do your duty fully, but without clinging to its results. Freedom comes not from ceasing to act but from acting without craving.", who:"Bhagavad Gita", links:[["SEP search: Bhagavad Gita",SEPQ("Bhagavad Gita")]]},
+  {t:"Ubuntu", tag:"Others", b:"From southern African thought: umuntu ngumuntu ngabantu, a person is a person through other persons. Personhood is achieved in community, through how we treat one another.", who:"Nguni and Sotho-Tswana traditions; Mogobe Ramose, Thaddeus Metz", links:[["IEP search: Ubuntu","https://iep.utm.edu/?s=ubuntu"]]},
+  {t:"The face of the Other", tag:"Others", b:"Ethics comes before knowledge. The face of another person, vulnerable and irreducible, addresses me with a command: do not kill. Responsibility precedes freedom.", who:"Emmanuel Levinas", links:[["SEP: Levinas",SEP("levinas")]]},
+  {t:"The is–ought gap", tag:"Ethics", b:"No collection of facts about how things are can, by itself, tell you how they ought to be. Every 'ought' needs at least one 'ought' among its premises.", who:"David Hume, Treatise 3.1.1", links:[["SEP search: is–ought",SEPQ("is ought gap Hume")]]},
+  {t:"The problem of evil", tag:"Metaphysics", b:"If God is all-powerful, all-knowing and wholly good, why is there suffering? Responses range from free will to soul-making to the rejection of the premise.", who:"Epicurus (attrib.), Hume, Leibniz, Dostoevsky", links:[["SEP search: problem of evil",SEPQ("problem of evil")]]},
+  {t:"Moral luck", tag:"Ethics", b:"We judge people by outcomes they couldn't fully control, yet we also believe people should be judged only for what is up to them. Both can't be fully right.", who:"Thomas Nagel, Bernard Williams", links:[["SEP: Moral Luck",SEP("moral-luck")]]},
+  {t:"Pragmatism", tag:"Knowledge", b:"The meaning of an idea is found in its practical consequences, and a belief is true insofar as it works out in experience. Philosophy as a tool for living.", who:"Peirce, William James, Dewey", links:[["SEP: Pragmatism",SEP("pragmatism")]]},
+  {t:"The social contract", tag:"Society", b:"Political authority is justified by the agreement, actual or hypothetical, of the governed. Hobbes feared chaos, Locke feared tyranny, Rousseau sought a general will.", who:"Hobbes, Locke, Rousseau", links:[["SEP: Contractarianism",SEP("contractarianism")]]},
+];
+
+// Quotes, cited to their source. Translations vary; wording follows common English editions.
+const QUOTES = [
+  {q:"The unexamined life is not worth living.", a:"Socrates", s:"Plato, Apology 38a"},
+  {q:"I neither know nor think that I know.", a:"Socrates", s:"Plato, Apology 21d", n:"The source of the popular paraphrase \"I know that I know nothing\"."},
+  {q:"Wonder is the feeling of a philosopher, and philosophy begins in wonder.", a:"Plato (Socrates speaking)", s:"Theaetetus 155d, trans. Jowett"},
+  {q:"Men are disturbed not by the things which happen, but by the opinions about the things.", a:"Epictetus", s:"Enchiridion 5, trans. Long"},
+  {q:"Waste no more time arguing about what a good man should be. Be one.", a:"Marcus Aurelius", s:"Meditations 10.16"},
+  {q:"It is not that we have a short time to live, but that we waste a lot of it.", a:"Seneca", s:"On the Shortness of Life, ch. 1"},
+  {q:"Death is nothing to us.", a:"Epicurus", s:"Principal Doctrines 2; Letter to Menoeceus"},
+  {q:"Human good turns out to be activity of soul in accordance with virtue.", a:"Aristotle", s:"Nicomachean Ethics I.7, 1098a16"},
+  {q:"You cannot step twice into the same river.", a:"Heraclitus", s:"Fragment B91, as reported by Plato, Cratylus 402a", n:"Known only through later writers; the exact original wording is debated."},
+  {q:"Man is the measure of all things.", a:"Protagoras", s:"As quoted in Plato, Theaetetus 152a"},
+  {q:"The Tao that can be told is not the eternal Tao.", a:"Laozi", s:"Daodejing, ch. 1", n:"Translations of this line differ widely."},
+  {q:"Once Zhuang Zhou dreamt he was a butterfly… Suddenly he awoke, and there he was, unmistakably Zhuang Zhou. But he didn't know if he was Zhuang Zhou who had dreamt he was a butterfly, or a butterfly dreaming he was Zhuang Zhou.", a:"Zhuangzi", s:"Zhuangzi, ch. 2, trans. Burton Watson"},
+  {q:"Form is emptiness, emptiness is form.", a:"Heart Sutra", s:"Prajñāpāramitā Hṛdaya"},
+  {q:"I think, therefore I am.", a:"René Descartes", s:"Discourse on the Method, Part IV (1637)"},
+  {q:"The heart has its reasons which reason does not know.", a:"Blaise Pascal", s:"Pensées, 277 (Brunschvicg) / 423 (Lafuma)"},
+  {q:"Why is there something rather than nothing?", a:"G. W. Leibniz", s:"Principles of Nature and Grace, §7 (1714)"},
+  {q:"What do I know?", a:"Michel de Montaigne", s:"\"Que sais-je?\", his motto, Essays II.12"},
+  {q:"All things excellent are as difficult as they are rare.", a:"Baruch Spinoza", s:"Ethics, Part V, Prop. 42, Scholium"},
+  {q:"Reason is, and ought only to be the slave of the passions.", a:"David Hume", s:"A Treatise of Human Nature, 2.3.3"},
+  {q:"Two things fill the mind with ever new and increasing admiration and awe… the starry heavens above me and the moral law within me.", a:"Immanuel Kant", s:"Critique of Practical Reason, Conclusion (1788)"},
+  {q:"The owl of Minerva spreads its wings only with the falling of the dusk.", a:"G. W. F. Hegel", s:"Philosophy of Right, Preface (1820)"},
+  {q:"Life can only be understood backwards; but it must be lived forwards.", a:"Søren Kierkegaard", s:"Journals, 1843"},
+  {q:"If we have our own why of life, we shall get along with almost any how.", a:"Friedrich Nietzsche", s:"Twilight of the Idols, \"Maxims and Arrows\" 12"},
+  {q:"The mass of men lead lives of quiet desperation.", a:"Henry David Thoreau", s:"Walden, \"Economy\" (1854)"},
+  {q:"All real living is meeting.", a:"Martin Buber", s:"I and Thou (1923)"},
+  {q:"The limits of my language mean the limits of my world.", a:"Ludwig Wittgenstein", s:"Tractatus Logico-Philosophicus 5.6"},
+  {q:"Whereof one cannot speak, thereof one must be silent.", a:"Ludwig Wittgenstein", s:"Tractatus Logico-Philosophicus 7"},
+  {q:"Man is condemned to be free.", a:"Jean-Paul Sartre", s:"Existentialism Is a Humanism (1946)"},
+  {q:"Hell is other people.", a:"Jean-Paul Sartre", s:"No Exit (1944)", n:"Sartre later said it meant we see ourselves through others' judgments, not that others are hell."},
+  {q:"One is not born, but rather becomes, a woman.", a:"Simone de Beauvoir", s:"The Second Sex (1949)"},
+  {q:"One must imagine Sisyphus happy.", a:"Albert Camus", s:"The Myth of Sisyphus (1942)"},
+  {q:"Attention is the rarest and purest form of generosity.", a:"Simone Weil", s:"Letter to Joë Bousquet, 13 April 1942"},
+  {q:"Love is the extremely difficult realisation that something other than oneself is real.", a:"Iris Murdoch", s:"\"The Sublime and the Good\" (1959)"},
+  {q:"Storytelling reveals meaning without committing the error of defining it.", a:"Hannah Arendt", s:"Men in Dark Times, on Isak Dinesen (1968)"},
+  {q:"You have a right to your actions, but never to your actions' fruits.", a:"Bhagavad Gita", s:"2.47", n:"Translations of this verse vary considerably."},
+  {q:"Is it not pleasant to learn with a constant perseverance and application?", a:"Confucius", s:"Analects 1.1, trans. James Legge"},
+  {q:"All men have a mind which cannot bear to see the sufferings of others.", a:"Mencius", s:"Mencius 2A:6, trans. James Legge"},
+  {q:"The journey of a thousand li starts beneath one's feet.", a:"Laozi", s:"Daodejing, ch. 64", n:"Usually rendered 'a thousand miles'; a li is a Chinese unit of distance."},
+  {q:"Nothing in the world is softer or weaker than water, yet nothing is better at overcoming the hard and strong.", a:"Laozi", s:"Daodejing, ch. 78", n:"A paraphrase blending common translations."},
+  {q:"A person is a person through other persons.", a:"Ubuntu proverb", s:"Umuntu ngumuntu ngabantu (isiZulu / isiXhosa)"},
+  {q:"Without friends no one would choose to live, though he had all other goods.", a:"Aristotle", s:"Nicomachean Ethics VIII.1, trans. W. D. Ross"},
+  {q:"One swallow does not make a summer, nor does one day.", a:"Aristotle", s:"Nicomachean Ethics I.7, 1098a18"},
+  {q:"The impediment to action advances action. What stands in the way becomes the way.", a:"Marcus Aurelius", s:"Meditations 5.20, trans. Gregory Hays"},
+  {q:"What progress have I made? I have begun to be a friend to myself.", a:"Hecato, quoted by Seneca", s:"Letters to Lucilius 6"},
+  {q:"Nothing can be created out of nothing.", a:"Lucretius", s:"On the Nature of Things, Book I"},
+  {q:"What then is time? If no one asks me, I know; if I wish to explain it to one who asks, I know not.", a:"Augustine", s:"Confessions XI.14"},
+  {q:"Our heart is restless until it rests in you.", a:"Augustine", s:"Confessions I.1"},
+  {q:"Man is only a reed, the weakest in nature; but he is a thinking reed.", a:"Blaise Pascal", s:"Pensées 347 (Brunschvicg) / 200 (Lafuma)"},
+  {q:"All of humanity's problems stem from man's inability to sit quietly in a room alone.", a:"Blaise Pascal", s:"Pensées 139 (Brunschvicg)", n:"A common modern rendering; older translations speak of 'the unhappiness of men'."},
+  {q:"Knowledge itself is power.", a:"Francis Bacon", s:"Meditationes Sacrae (1597): ipsa scientia potestas est"},
+  {q:"The life of man is of no greater importance to the universe than that of an oyster.", a:"David Hume", s:"\"Of Suicide\" (1777)"},
+  {q:"To be is to be perceived.", a:"George Berkeley", s:"esse est percipi, A Treatise Concerning the Principles of Human Knowledge §3"},
+  {q:"The life of man, solitary, poor, nasty, brutish, and short.", a:"Thomas Hobbes", s:"Leviathan, ch. 13 (1651)"},
+  {q:"Man is born free, and everywhere he is in chains.", a:"Jean-Jacques Rousseau", s:"The Social Contract, I.1 (1762)"},
+  {q:"We must cultivate our garden.", a:"Voltaire", s:"Candide, ch. 30 (1759)"},
+  {q:"Act only according to that maxim whereby you can at the same time will that it should become a universal law.", a:"Immanuel Kant", s:"Groundwork of the Metaphysics of Morals, 4:421"},
+  {q:"It is better to be a human being dissatisfied than a pig satisfied; better to be Socrates dissatisfied than a fool satisfied.", a:"John Stuart Mill", s:"Utilitarianism, ch. 2 (1863)"},
+  {q:"Anxiety is the dizziness of freedom.", a:"Søren Kierkegaard", s:"The Concept of Anxiety (1844)"},
+  {q:"God is dead. God remains dead. And we have killed him.", a:"Friedrich Nietzsche", s:"The Gay Science §125 (1882)", n:"Spoken by a madman in a parable about the loss of shared meaning, not a cheer."},
+  {q:"What does your conscience say? You shall become the person you are.", a:"Friedrich Nietzsche", s:"The Gay Science §270"},
+  {q:"The philosophers have only interpreted the world, in various ways; the point is to change it.", a:"Karl Marx", s:"Theses on Feuerbach, XI (1845)"},
+  {q:"Be patient toward all that is unsolved in your heart and try to love the questions themselves.", a:"Rainer Maria Rilke", s:"Letters to a Young Poet, letter 4 (1903)"},
+  {q:"The good life is one inspired by love and guided by knowledge.", a:"Bertrand Russell", s:"What I Believe (1925)"},
+  {q:"Philosophy is a battle against the bewitchment of our intelligence by means of language.", a:"Ludwig Wittgenstein", s:"Philosophical Investigations §109 (1953)"},
+  {q:"To will oneself free is also to will others free.", a:"Simone de Beauvoir", s:"The Ethics of Ambiguity (1947)"},
+  {q:"Everything can be taken from a man but one thing: the last of the human freedoms, to choose one's attitude in any given set of circumstances.", a:"Viktor Frankl", s:"Man's Search for Meaning (1946)"},
+  {q:"In the beginner's mind there are many possibilities, but in the expert's there are few.", a:"Shunryu Suzuki", s:"Zen Mind, Beginner's Mind (1970)"},
+];
+
+const LINKS_REF = [
+  ["Stanford Encyclopedia of Philosophy","https://plato.stanford.edu/","Peer-reviewed, free, and the best single reference in the field.","Encyclopedia"],
+  ["Internet Encyclopedia of Philosophy","https://iep.utm.edu/","Clear, rigorous entries; often a gentler entry point than the SEP.","Encyclopedia"],
+  ["PhilPapers","https://philpapers.org/","An index of millions of academic papers, sorted by topic.","Research"],
+  ["1000-Word Philosophy","https://1000wordphilosophy.com/","Short, careful introductions to big questions. A good morning read.","Essays"],
+  ["Aeon: Philosophy","https://aeon.co/philosophy","Long-form essays by working philosophers.","Essays"],
+  ["Philosophy Now","https://philosophynow.org/","A magazine of ideas, written for curious readers.","Magazine"],
+  ["History of Philosophy without any gaps","https://historyofphilosophy.net/","Peter Adamson's podcast and books, covering every tradition, gaps included.","Podcast & books"],
+  ["Early Modern Texts","https://www.earlymoderntexts.com/","Descartes, Hume, Kant and others in careful plain-English versions, free.","Texts"],
+  ["Chinese Text Project","https://ctext.org/","The Analects, Daodejing, Zhuangzi and Mencius in Chinese with English side by side.","Texts"],
+  ["Perseus Digital Library","https://www.perseus.tufts.edu/","Plato, Aristotle and the Greek and Latin classics in the original and in translation.","Texts"],
+  ["Wireless Philosophy","https://www.wi-phi.com/","Short animated videos by philosophers, free and open.","Video"],
+];
+const LINKS_TALK = [
+  ["Philosophy Bites","https://philosophybites.com/","Short interviews with leading philosophers on a single topic.","Podcast"],
+  ["In Our Time: Philosophy","https://www.bbc.co.uk/programmes/p01f0vzr","Hundreds of BBC episodes, each a deep discussion of one thinker or idea.","Podcast"],
+  ["Philosophize This!","https://www.philosophizethis.org/","A chronological journey through the history of ideas.","Podcast"],
+  ["The Partially Examined Life","https://partiallyexaminedlife.com/","Friends reading primary texts closely and arguing about them.","Podcast"],
+  ["Very Bad Wizards","https://verybadwizards.com/","A philosopher and a psychologist on morality, mind and meaning.","Podcast"],
+  ["Closer To Truth","https://closertotruth.com/","Conversations on consciousness, cosmos and meaning.","Video"],
+  ["The Philosopher's Zone","https://www.abc.net.au/listen/programs/philosopherszone","ABC Radio National's long-running weekly philosophy programme.","Podcast"],
+  ["Hi-Phi Nation","https://hiphination.org/","Philosophy told as story-driven audio documentary.","Podcast"],
+  ["Examining Ethics","https://examiningethics.org/","Conversations on ethics in everyday and public life.","Podcast"],
+];
+const GUT = q => `https://www.gutenberg.org/ebooks/search/?query=${encodeURIComponent(q)}`;
+const LINKS_BOOKS = [
+  ["Plato, Apology","",GUT("Plato Apology"),"Socrates defends the examined life at his trial."],
+  ["Marcus Aurelius, Meditations","",GUT("Meditations Marcus Aurelius"),"A Roman emperor's private notes on how to live."],
+  ["Epictetus, Enchiridion","",GUT("Epictetus Enchiridion"),"The Stoic handbook, short enough to read in an hour."],
+  ["Seneca, On the Shortness of Life","",GUT("Seneca"),"On time, attention and living now."],
+  ["Laozi, Daodejing","",GUT("Tao Te Ching"),"Eighty-one short chapters on the Way."],
+  ["Descartes, Meditations","",GUT("Descartes Meditations"),"Radical doubt, and what survives it."],
+  ["Nietzsche, Thus Spoke Zarathustra","",GUT("Thus Spake Zarathustra"),"Philosophy as poetry and provocation."],
+  ["Thoreau, Walden","",GUT("Walden Thoreau"),"An experiment in living deliberately."],
+  ["Plato, Republic","",GUT("Plato Republic"),"Justice, the soul, the Cave, and the Ring of Gyges."],
+  ["Plato, Symposium","",GUT("Plato Symposium"),"A dinner party of speeches about love."],
+  ["Aristotle, Nicomachean Ethics","",GUT("Aristotle Ethics"),"Flourishing, virtue, and friendship."],
+  ["Boethius, The Consolation of Philosophy","",GUT("Consolation of Philosophy"),"Written in prison, awaiting execution: on fortune and the good."],
+  ["Confucius, The Analects","",GUT("Analects Confucius"),"Sayings on learning, ritual and humaneness."],
+  ["Bhagavad Gita","",GUT("Bhagavad Gita"),"A dialogue on duty, action and the self, on the eve of battle."],
+  ["Montaigne, Essays","",GUT("Montaigne Essays"),"The inventor of the essay, examining himself with total honesty."],
+  ["Pascal, Pensées","",GUT("Pascal Pensees"),"Fragments on the human condition, faith and the thinking reed."],
+  ["Spinoza, Ethics","",GUT("Spinoza Ethics"),"God, nature, emotion and freedom, argued like geometry."],
+  ["Hume, An Enquiry Concerning Human Understanding","",GUT("Hume Enquiry"),"What we can know, and why habit does more work than reason."],
+  ["Mill, On Liberty","",GUT("On Liberty Mill"),"The case for freedom of thought and individuality."],
+  ["Emerson, Essays (incl. Self-Reliance)","",GUT("Emerson Essays"),"Trust thyself: every heart vibrates to that iron string."],
+];
+
+/* ================= HELPERS ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+function md(text){ // tiny, safe markdown: paragraphs, **bold**, *italic*
+  return esc(text).split(/\n{2,}/).map(p => "<p>" + p
+    .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")
+    .replace(/(^|[^*])\*(?!\s)(.+?)\*/g,"$1<em>$2</em>")
+    .replace(/\n/g,"<br>") + "</p>").join("");
+}
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,2200); }
+const now = new Date();
+const dayKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
+const dayNum = Math.floor(new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime() / 864e5);
+const linkHTML = ([label, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)} ↗</a>`;
+
+/* ================= STORAGE: private db when available, else this browser ================= */
+const Store = {
+  mode: "local", db: null, uid: null, entries: [], listeners: [],
+  onChange(fn){ this.listeners.push(fn); },
+  emit(){ this.entries.sort((a,b)=>(b.created||0)-(a.created||0)); this.listeners.forEach(f=>f()); },
+  loadLocal(){ this.entries = lsGet("reflections.entries", []); this.emit(); },
+  saveLocal(){ lsSet("reflections.entries", this.entries); },
+  async init(){
+    this.loadLocal();
+    try {
+      const use = window.claude?.use; if (!use) return;
+      const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+      if (!db || !user) return;
+      const uid = await user.id(); if (!uid) return;
+      this.db = db; this.uid = uid; this.mode = "db";
+      const col = db.collection("data/users/" + uid);
+      // move anything written in this browser before the store was reachable
+      const pending = this.entries.slice();
+      col.onSnapshot(snap => {
+        this.entries = snap.docs.map(d => ({id:d.id, ...d.data()}));
+        this.emit();
+      }, () => {});
+      for (const e of pending) { try { await col.doc(e.id).set(strip(e)); } catch {} }
+      if (pending.length) lsSet("reflections.entries", []);
+      this.emit();
+    } catch { /* stay local */ }
+  },
+  async put(entry){
+    entry.updated = Date.now(); entry.created = entry.created || Date.now();
+    const i = this.entries.findIndex(e=>e.id===entry.id);
+    if (i>=0) this.entries[i]=entry; else this.entries.push(entry);
+    this.emit();
+    if (this.mode==="db") { try { await this.db.collection("data/users/"+this.uid).doc(entry.id).set(strip(entry)); } catch { toast("Couldn't save to your notebook. Try again in a moment."); } }
+    else this.saveLocal();
+  },
+  async remove(id){
+    this.entries = this.entries.filter(e=>e.id!==id); this.emit();
+    if (this.mode==="db") { try { await this.db.collection("data/users/"+this.uid).doc(id).delete(); } catch {} }
+    else this.saveLocal();
+  },
+  of(kind){ return this.entries.filter(e=>e.kind===kind); }
+};
+function strip(e){ const {id, ...rest} = e; return JSON.parse(JSON.stringify(rest)); }
+
+/* ================= TABS ================= */
+const tabs = [...document.querySelectorAll("nav.tabs button")];
+function show(view){
+  tabs.forEach(b => b.setAttribute("aria-selected", String(b.dataset.view===view)));
+  document.querySelectorAll("section.view").forEach(s => s.hidden = s.id !== "view-"+view);
+}
+tabs.forEach(b => b.addEventListener("click", () => { show(b.dataset.view); window.scrollTo({top:0}); }));
+{ const h = location.hash.slice(1); if (["today","ideas","quotes","links","notebook"].includes(h)) show(h); }
+
+/* ================= TODAY ================= */
+let affIdx = dayNum % AFFIRMATIONS.length;
+function renderAffirmation(){
+  const [line, after] = AFFIRMATIONS[affIdx];
+  $("#affirm").textContent = line; $("#affirm-after").textContent = "— " + after;
+}
+$("#today-date").textContent = now.toLocaleDateString(undefined,{weekday:"long", day:"numeric", month:"long"}) + " · morning";
+renderAffirmation();
+$("#next-affirm").onclick = () => { affIdx = (affIdx + 1) % AFFIRMATIONS.length; renderAffirmation(); };
+
+// session: today's question + dialogue (kept in this browser so a reload doesn't lose it)
+let session = lsGet("reflections.session", null);
+if (!session || session.day !== dayKey) session = {day: dayKey, q: (dayNum * 7) % QUESTIONS.length, topic: null, turns: [], begun: false, id: null};
+function currentQ(){ return session.topic || QUESTIONS[session.q]; }
+function persist(){ lsSet("reflections.session", session); }
+
+function renderQuestion(){
+  const q = currentQ();
+  $("#q-cat").textContent = q.cat;
+  $("#q-text").textContent = q.q;
+  $("#q-frame").textContent = q.f || "";
+  $("#q-refs").innerHTML = (q.r||[]).length ? "Read: " + q.r.map(s => `<a href="${SEP(s)}" target="_blank" rel="noopener">SEP: ${esc(s.replace(/-/g," "))} ↗</a>`).join(" · ") : "";
+}
+function renderThread(){
+  const th = $("#thread");
+  th.innerHTML = session.turns.map(t => `<div class="msg ${t.role==="user"?"me":"them"}"><span class="who">${t.role==="user"?"You":"Companion"}</span><div class="text">${md(t.content)}</div></div>`).join("");
+  th.hidden = !session.turns.length;
+}
+function begin(){
+  session.begun = true; persist();
+  $("#question-block").hidden = false; $("#composer").hidden = false;
+  renderQuestion(); renderThread();
+}
+$("#begin").onclick = () => { begin(); $("#question-block").scrollIntoView({behavior:"smooth", block:"start"}); setTimeout(()=>$("#reply").focus(),400); };
+$("#another-q").onclick = () => {
+  if (session.turns.length) saveDialogue(true);
+  session.topic = null; session.q = (session.q + 1) % QUESTIONS.length; session.turns = []; session.id = null;
+  persist(); renderQuestion(); renderThread(); $("#distill").hidden = true;
+};
+if (session.begun) begin();
+
+function startTopic(topic){ // from Ideas or Quotes
+  if (session.turns.length) saveDialogue(true);
+  session.topic = topic; session.turns = []; session.id = null; persist();
+  show("today"); begin(); $("#distill").hidden = true;
+  $("#question-block").scrollIntoView({behavior:"smooth", block:"start"});
+  setTimeout(()=>$("#reply").focus(),400);
+}
+
+/* ---- the companion ----
+   Three ways to talk: Claude itself when the app is opened inside Claude, the person's own
+   Anthropic API key when it's installed on a phone, or an offline Socratic guide. */
+let sample = null, ctl = null, busy = false;
+const KEY_STORE = "reflections.apiKey";
+const apiKey = () => lsGet(KEY_STORE, "");
+const companionMode = () => sample ? "claude" : apiKey() ? "api" : "offline";
+function updateMode(){
+  const m = companionMode();
+  $("#mode-note").textContent = {
+    claude: "Your companion is Claude. It reads your personal philosophy and recent ideas so it can engage with them.",
+    api: "Your companion is Claude, using your own API key. It reads your personal philosophy and recent ideas so it can engage with them.",
+    offline: "Offline companion: a Socratic guide keeps the questions coming. To talk with Claude, add your API key in My Notebook, or open this app inside Claude.",
+  }[m];
+  $("#distill-btn").hidden = m === "offline";
+  $("#companion-settings").hidden = m === "claude";
+  $("#api-key-status").textContent = apiKey() ? "A key is saved on this device." : "No key saved. The offline guide is answering.";
+  $("#api-key-remove").hidden = !apiKey();
+}
+(async () => {
+  try { sample = window.claude?.use ? await window.claude.use("sample") : null; } catch { sample = null; }
+  updateMode();
+})();
+
+function rulesText(){
+  const q = currentQ();
+  const tenets = Store.of("tenet").map(t=>"- "+t.text).join("\n") || "(none written yet)";
+  const ideas = Store.of("idea").slice(0,5).map(i=>`- ${i.title}: ${String(i.body||"").slice(0,400)}`).join("\n") || "(none yet)";
+  return `You are the philosophical companion inside "Reflections", a morning practice app. Each morning the person reads an affirmation and then talks with you about one fundamental question.
+
+Today's question (${q.cat}): ${q.q}
+Context they were shown: ${q.f || ""}
+
+Their personal philosophy, in their own words:
+${tenets}
+
+Some of their recent ideas:
+${ideas}
+
+How to converse:
+- Be a thoughtful philosopher friend in the Socratic spirit: warm, unhurried, honest. Engage closely with what they actually said.
+- Steelman their view first, then test it gently with a counterexample, a distinction, or a rival thinker's view. Connect to their personal philosophy when relevant, including where it may be in tension with what they're saying now.
+- Bring in at most one or two thinkers per reply, naming the specific work (e.g. "Epictetus, Enchiridion 5"). Only quote words you are certain are genuine; otherwise paraphrase and say it is a paraphrase. Draw on traditions beyond the Western canon when they fit.
+- Keep each reply under about 170 words of plain prose. No headings, no bullet lists. *Italics* are fine.
+- End every reply with exactly one open, searching question for them.`;
+}
+
+// Merge consecutive same-role turns so the history always alternates, starting with the person.
+function alternate(turns){
+  const out = [];
+  for (const t of turns) {
+    const last = out[out.length-1];
+    if (last && last.role === t.role) last.content += "\n\n" + t.content;
+    else out.push({role:t.role, content:t.content});
+  }
+  while (out.length && out[0].role !== "user") out.shift();
+  return out;
+}
+
+// Direct call to the Claude API with the person's own key, streamed so replies appear as they're written.
+async function callApi({system, messages, onText, signal}){
+  let res;
+  try {
+    res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST", signal,
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": apiKey(),
+        "anthropic-version": "2023-06-01",
+        "anthropic-beta": "server-side-fallback-2026-07-01",
+        "anthropic-dangerous-direct-browser-access": "true",
+      },
+      body: JSON.stringify({
+        model: "claude-opus-5-5", max_tokens: 16000, stream: true,
+        output_config: {effort: "medium"}, fallbacks: "default",
+        system, messages,
+      }),
+    });
+  } catch (e) {
+    throw {code: e?.name === "AbortError" ? "cancelled" : "offline"};
+  }
+  if (!res.ok) {
+    let detail = ""; try { detail = (await res.json())?.error?.message || ""; } catch {}
+    const code = res.status === 401 || res.status === 403 ? "bad_key" : res.status === 429 ? "rate_limited" : res.status === 400 ? "invalid_request" : "upstream_error";
+    throw {code, message: detail};
+  }
+  const reader = res.body.getReader(), dec = new TextDecoder();
+  let buf = "", text = "", stop = null;
+  try {
+    for (;;) {
+      const {value, done} = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, {stream:true});
+      let i;
+      while ((i = buf.indexOf("\n\n")) >= 0) {
+        const chunk = buf.slice(0, i); buf = buf.slice(i + 2);
+        const data = chunk.split("\n").filter(l => l.startsWith("data:")).map(l => l.slice(5).trim()).join("");
+        if (!data) continue;
+        let ev; try { ev = JSON.parse(data); } catch { continue; }
+        if (ev.type === "content_block_delta" && ev.delta?.type === "text_delta") { text += ev.delta.text; onText?.({text}); }
+        else if (ev.type === "message_delta") stop = ev.delta?.stop_reason ?? stop;
+        else if (ev.type === "error") throw {code: ev.error?.type === "overloaded_error" ? "upstream_error" : "upstream_error", message: ev.error?.message, text};
+      }
+    }
+  } catch (e) {
+    if (e?.name === "AbortError") throw {code:"cancelled", text};
+    throw e?.code ? e : {code:"offline", text};
+  }
+  if (stop === "refusal" && !text) throw {code:"refused"};
+  return {text, truncated: stop === "max_tokens"};
+}
+
+// One entry point for every way of asking Claude.
+function askClaude({system, turns, onText, signal}){
+  if (sample) {
+    return sample([{role:"user", content:system}, ...turns], {cache:false, signal, onText});
+  }
+  return callApi({system, messages: alternate(turns), onText, signal});
+}
+
+const SOCRATIC = [
+  "What do you mean, exactly, by the most important word in what you just wrote? Try defining it in one sentence.",
+  "Suppose someone you respect held the opposite view. What is the strongest thing they could say?",
+  "Can you think of a single case where your answer would lead somewhere you wouldn't accept?",
+  "Where did this belief come from? Did you reason your way to it, or did you inherit it?",
+  "If your view is true, what should change about how you live this week?",
+  "Socrates would ask: is this something you know, or something you believe? How would you tell the difference?",
+  "Imagine yourself at eighty, looking back. Would that person agree with what you just said?",
+  "What would the Stoics say here: which part of this is up to you, and which part isn't?",
+];
+
+const ERROR_COPY = {
+  not_granted: "Claude wasn't allowed for this page. Your reply is kept; the Socratic guide will answer instead.",
+  rate_limited: "Too many messages at once. Wait a minute, then send again.",
+  bad_key: "Your API key was rejected. Check it in My Notebook, under Companion.",
+  offline: "No connection. Your reply is kept; send it again when you're back online.",
+  refused: "Claude declined to answer that. Try putting the thought another way.",
+  cancelled: "",
+};
+
+async function send(){
+  const text = $("#reply").value.trim();
+  if (!text || busy) return;
+  session.turns.push({role:"user", content:text});
+  $("#reply").value = ""; persist(); renderThread();
+
+  const th = $("#thread");
+  const bubble = document.createElement("div");
+  bubble.className = "msg them";
+  bubble.innerHTML = `<span class="who">Companion</span><div class="text"><p class="thinking">Thinking…</p></div>`;
+  th.appendChild(bubble);
+  const out = bubble.querySelector(".text");
+
+  if (companionMode() === "offline") {
+    const n = session.turns.filter(t=>t.role==="user").length;
+    const reply = SOCRATIC[(dayNum + n) % SOCRATIC.length];
+    session.turns.push({role:"assistant", content:reply}); persist(); renderThread(); saveDialogue(true);
+    return;
+  }
+  busy = true; $("#send").disabled = true; $("#stop").hidden = false;
+  ctl = new AbortController();
+  const turns = [{role:"assistant", content:`Today's question: ${currentQ().q}`}, ...session.turns].slice(-40);
+  try {
+    const { text: answer } = await askClaude({system: rulesText(), turns, signal: ctl.signal, onText: ({text}) => { out.innerHTML = md(text); }});
+    session.turns.push({role:"assistant", content: answer});
+    persist(); renderThread(); saveDialogue(true);
+  } catch (e) {
+    if (e?.text) { session.turns.push({role:"assistant", content:e.text}); persist(); }
+    renderThread();
+    const m = ERROR_COPY[e?.code] ?? "The companion couldn't answer just now. Your reply is kept; send it again in a moment.";
+    if (e?.code === "not_granted") { sample = null; updateMode(); }
+    if (m) toast(m);
+  } finally {
+    busy = false; $("#send").disabled = false; $("#stop").hidden = true;
+  }
+}
+$("#send").onclick = send;
+$("#stop").onclick = () => ctl?.abort();
+$("#reply").addEventListener("keydown", e => { if (e.key==="Enter" && (e.metaKey||e.ctrlKey)) send(); });
+
+function saveDialogue(quiet){
+  if (!session.turns.some(t=>t.role==="user")) { if(!quiet) toast("Write a reply first, then save."); return; }
+  if (!session.id) { session.id = "dialogue-" + Date.now(); persist(); }
+  const q = currentQ();
+  Store.put({id: session.id, kind:"dialogue", title:q.q, cat:q.cat, day: session.day, turns: session.turns.slice(), created: Number(session.id.split("-")[1])});
+  if (!quiet) toast("Saved to your notebook");
+}
+$("#save-dlg").onclick = () => saveDialogue(false);
+
+let distilled = "";
+$("#distill-btn").onclick = async () => {
+  if (companionMode() === "offline" || busy) return;
+  if (!session.turns.some(t=>t.role==="user")) { toast("Talk it through first, then distill."); return; }
+  const btn = $("#distill-btn"); btn.disabled = true; btn.textContent = "Distilling…";
+  try {
+    const convo = session.turns.map(t => (t.role==="user"?"Person: ":"Companion: ") + t.content).join("\n\n").slice(-12000);
+    const prompt = `From this philosophical conversation about "${currentQ().q}", distill the PERSON's own emerging view (not the companion's) into one tenet for their personal philosophy: a single first-person sentence of at most 30 words, in plain language, faithful to what they said.\n\nReply with only JSON: {"tenet": "..."}\n\nConversation:\n${convo}`;
+    let res;
+    if (sample) res = await sample.json(prompt, {modelTier:"quick"});
+    else {
+      const {text} = await callApi({system:"You extract structured data. Reply with JSON only.", messages:[{role:"user", content:prompt}]});
+      res = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1));
+    }
+    distilled = String(res?.tenet || "").trim();
+    if (!distilled) throw new Error();
+    $("#distill-text").textContent = distilled; $("#distill").hidden = false;
+  } catch (e) {
+    if (e?.code !== "cancelled") toast(ERROR_COPY[e?.code] || "Couldn't distill a tenet this time. Try again after another exchange.");
+  } finally { btn.disabled = false; btn.textContent = "Distill my view"; }
+};
+
+/* ---- companion settings (installed app) ---- */
+$("#api-key-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const v = $("#api-key").value.trim();
+  if (!v.startsWith("sk-ant-")) { toast("That doesn't look like an Anthropic API key. It starts with sk-ant-."); return; }
+  lsSet(KEY_STORE, v); $("#api-key").value = ""; updateMode(); toast("Key saved on this device");
+});
+$("#api-key-remove").onclick = () => { try { localStorage.removeItem(KEY_STORE); } catch {} updateMode(); toast("Key removed"); };
+$("#distill-keep").onclick = () => { if (distilled) addTenet(distilled); $("#distill").hidden = true; toast("Added to your personal philosophy"); };
+$("#distill-drop").onclick = () => { $("#distill").hidden = true; };
+
+/* ================= IDEAS ================= */
+let ideaFilter = "All";
+function renderIdeas(){
+  const tags = ["All", ...new Set(IDEAS.map(i=>i.tag))];
+  $("#idea-filters").innerHTML = tags.map(t=>`<button type="button" aria-pressed="${t===ideaFilter}" data-tag="${esc(t)}">${esc(t)}</button>`).join("");
+  $("#idea-list").innerHTML = IDEAS.map((it,i)=>({it,i})).filter(({it})=>ideaFilter==="All"||it.tag===ideaFilter).map(({it,i}) => `
+    <article class="item">
+      <div class="qmeta"><span class="chip">${esc(it.tag)}</span><span class="thinkers">${esc(it.who)}</span></div>
+      <h3>${esc(it.t)}</h3>
+      <p class="body">${esc(it.b)}</p>
+      <div class="refs">${it.links.map(linkHTML).join("")}<button class="linkish" data-idea="${i}">Reflect on this</button></div>
+    </article>`).join("");
+}
+$("#idea-filters").addEventListener("click", e => { const t = e.target.closest("button")?.dataset.tag; if (t){ ideaFilter=t; renderIdeas(); } });
+$("#idea-list").addEventListener("click", e => {
+  const i = e.target.closest("[data-idea]")?.dataset.idea; if (i==null) return;
+  const it = IDEAS[i];
+  startTopic({cat: it.tag, q: `${it.t}: does this idea hold up in your own life?`, f: it.b, r: []});
+});
+
+/* ================= QUOTES ================= */
+$("#quote-list").innerHTML = QUOTES.map((x,i)=>`
+  <article class="item">
+    <p class="quote">“${esc(x.q)}”</p>
+    <p class="cite"><b>${esc(x.a)}</b> · ${esc(x.s)}</p>
+    ${x.n?`<p class="gloss">${esc(x.n)}</p>`:""}
+    <div class="refs"><a href="${SEPQ(x.a)}" target="_blank" rel="noopener">Look up ${esc(x.a)} ↗</a><button class="linkish" data-quote="${i}">Reflect on this</button></div>
+  </article>`).join("");
+$("#quote-list").addEventListener("click", e => {
+  const i = e.target.closest("[data-quote]")?.dataset.quote; if (i==null) return;
+  const x = QUOTES[i];
+  startTopic({cat:"Quote", q:`“${x.q}” Do you agree?`, f:`${x.a}, ${x.s}.`, r:[]});
+});
+
+/* ================= LINKS ================= */
+const card = (title, url, desc, kind) => `<a class="linkcard" href="${esc(url)}" target="_blank" rel="noopener"><em>${esc(kind)}</em><strong>${esc(title)}</strong><span>${esc(desc)}</span></a>`;
+$("#links-ref").innerHTML = LINKS_REF.map(([t,u,d,k])=>card(t,u,d,k)).join("");
+$("#links-talk").innerHTML = LINKS_TALK.map(([t,u,d,k])=>card(t,u,d,k)).join("");
+$("#links-books").innerHTML = LINKS_BOOKS.map(([t,_,u,d])=>card(t,u,d,"Free at Project Gutenberg")).join("");
+
+/* ================= NOTEBOOK ================= */
+function addTenet(text){ Store.put({id:"tenet-"+Date.now(), kind:"tenet", text}); }
+$("#tenet-form").addEventListener("submit", e => {
+  e.preventDefault(); const v = $("#tenet-input").value.trim(); if (!v) return;
+  addTenet(v); $("#tenet-input").value = ""; toast("Tenet added");
+});
+$("#idea-form").addEventListener("submit", e => {
+  e.preventDefault(); const t = $("#idea-title").value.trim(), b = $("#idea-body").value.trim();
+  if (!t && !b) return;
+  Store.put({id:"idea-"+Date.now(), kind:"idea", title: t || b.slice(0,60), body: b});
+  $("#idea-title").value = ""; $("#idea-body").value = ""; toast("Idea saved");
+});
+function renderNotebook(){
+  const tenets = Store.of("tenet").slice().reverse(); // oldest first, so numbering is stable
+  $("#tenets").innerHTML = tenets.length ? tenets.map(t=>`<li><span>${esc(t.text)}</span><button class="x" data-del="${esc(t.id)}" aria-label="Remove tenet">Remove</button></li>`).join("")
+    : `<p class="empty">No tenets yet. Write one below, or use "Distill my view" after a conversation.</p>`;
+  const ideas = Store.of("idea");
+  $("#ideas-mine").innerHTML = ideas.length ? ideas.map(i=>`<article class="item"><span class="status">${new Date(i.created).toLocaleDateString()}</span><h3>${esc(i.title)}</h3>${i.body?`<div class="body">${md(i.body)}</div>`:""}<div class="refs"><button class="linkish" data-reflect="${esc(i.id)}">Discuss this idea</button><button class="x" data-del="${esc(i.id)}">Delete</button></div></article>`).join("")
+    : `<p class="empty">Your ideas will collect here. What has been on your mind?</p>`;
+  const dl = Store.of("dialogue");
+  $("#dialogues").innerHTML = dl.length ? dl.map(d=>`<details class="dlg"><summary>${esc(d.title)}<small>${esc(d.day||"")} · ${(d.turns||[]).filter(t=>t.role==="user").length} replies</small></summary><div class="thread">${(d.turns||[]).map(t=>`<div class="msg ${t.role==="user"?"me":"them"}"><span class="who">${t.role==="user"?"You":"Companion"}</span><div class="text">${md(t.content)}</div></div>`).join("")}</div><div class="row" style="margin-top:var(--s3)"><button class="x" data-del="${esc(d.id)}">Delete dialogue</button></div></details>`).join("")
+    : `<p class="empty">Conversations you have each morning are saved here automatically.</p>`;
+  $("#store-note").textContent = Store.mode==="db"
+    ? "Your philosophy, your ideas and your saved dialogues. They're stored privately with your account; only you can see them."
+    : "Your philosophy, your ideas and your saved dialogues, kept in this browser.";
+}
+document.getElementById("view-notebook").addEventListener("click", e => {
+  const del = e.target.closest("[data-del]")?.dataset.del;
+  if (del) {
+    const b = e.target.closest("[data-del]");
+    if (b.dataset.armed) { Store.remove(del); toast("Removed"); }
+    else { const label = b.textContent; b.dataset.armed = "1"; b.textContent = "Click again to confirm"; setTimeout(()=>{ if(b.isConnected){ delete b.dataset.armed; b.textContent = label; } }, 3000); }
+    return;
+  }
+  const r = e.target.closest("[data-reflect]")?.dataset.reflect;
+  if (r) { const i = Store.entries.find(x=>x.id===r); if (i) startTopic({cat:"My idea", q:`${i.title}: let's examine it.`, f:String(i.body||"").slice(0,400), r:[]}); }
+});
+Store.onChange(renderNotebook);
+
+/* ================= INSTALL (home-screen app) ================= */
+let installPrompt = null;
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); installPrompt = e; $("#install-btn").hidden = false; });
+$("#install-btn").onclick = async () => {
+  if (!installPrompt) return;
+  installPrompt.prompt();
+  try { await installPrompt.userChoice; } catch {}
+  installPrompt = null; $("#install-btn").hidden = true;
+};
+window.addEventListener("appinstalled", () => { $("#install-btn").hidden = true; toast("Reflections is on your home screen"); });
+{
+  const standalone = window.matchMedia?.("(display-mode: standalone)").matches || navigator.standalone === true;
+  const iOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (!window.claude && iOS && !standalone && !lsGet("reflections.iosHintDismissed", false)) $("#ios-hint").hidden = false;
+  $("#ios-hint-close").onclick = () => { $("#ios-hint").hidden = true; lsSet("reflections.iosHintDismissed", true); };
+}
+
+renderIdeas();
+Store.init();
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
+</script>
+</body>
+</html>
