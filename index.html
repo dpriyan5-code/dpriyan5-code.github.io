@@ -163,6 +163,26 @@ h2.sub{font-size:1.5rem}
   nav.tabs button{flex:0 0 auto}
 }
 
+/* critical evaluation */
+details.debate{border-top:1px solid var(--line);padding-block:var(--s4)}
+details.debate:first-child{border-top:0;padding-top:0}
+details.debate summary{cursor:pointer;list-style:none;display:grid;gap:var(--s1)}
+details.debate summary::-webkit-details-marker{display:none}
+details.debate .dq{font-family:var(--display);font-weight:600;font-size:1.5rem;line-height:1.2;text-wrap:balance}
+details.debate summary::after{content:"Show the debate";font-size:.8rem;color:var(--lapis);text-decoration:underline;text-underline-offset:3px}
+details.debate[open] summary::after{content:"Hide"}
+details.debate > *:not(summary){margin-top:var(--s4)}
+.positions{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:var(--s3)}
+.pos{display:grid;gap:var(--s1);align-content:start;padding:var(--s4);border:1px solid var(--line);border-radius:.9rem;background:var(--surface);min-width:0}
+.pos h4{margin:0;font-family:var(--display);font-size:1.2rem;font-weight:600}
+.pos p{font-size:.9rem}
+.pm{color:var(--muted)}
+.pm span{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:.05rem .4rem;border-radius:999px;margin-right:.25rem}
+.pm .plus{background:var(--lapis-soft);color:var(--lapis)}
+.pm .minus{background:var(--dawn-soft);color:var(--dawn)}
+.assess{display:grid;gap:var(--s2);padding:var(--s4) var(--s5);border-left:2px solid var(--dawn);background:var(--surface);border-radius:0 .9rem .9rem 0}
+.assess p{font-family:var(--display);font-size:1.15rem;line-height:1.45;max-width:62ch}
+
 /* my philosophy */
 .thesis{font-family:var(--display);font-size:1.3rem;line-height:1.45;color:var(--ink)!important}
 .layers{max-width:40rem}
@@ -224,6 +244,7 @@ details.dlg .thread{margin-top:var(--s4)}
       <button role="tab" id="tab-ideas" data-view="ideas" aria-selected="false">Ideas</button>
       <button role="tab" id="tab-mind" data-view="mind" aria-selected="false">Mind &amp; Life</button>
       <button role="tab" id="tab-thinkers" data-view="thinkers" aria-selected="false">Thinkers</button>
+      <button role="tab" id="tab-critique" data-view="critique" aria-selected="false">Critical Evaluation</button>
       <button role="tab" id="tab-quotes" data-view="quotes" aria-selected="false">Quotes</button>
       <button role="tab" id="tab-links" data-view="links" aria-selected="false">Readings</button>
       <button role="tab" id="tab-dp" data-view="dp" aria-selected="false">My Philosophy</button>
@@ -325,6 +346,16 @@ details.dlg .thread{margin-top:var(--s4)}
     </div>
     <div class="filters" id="th-filters"></div>
     <div class="list" id="th-list"></div>
+  </section>
+
+  <!-- CRITICAL EVALUATION -->
+  <section class="view" id="view-critique" role="tabpanel" aria-labelledby="tab-critique" hidden>
+    <div class="intro">
+      <span class="eyebrow">The great thinkers, weighed against each other</span>
+      <h2>Critical Evaluation</h2>
+      <p>Twelve questions on which great minds disagree. Each topic sets out the main positions, names each one's strength and its limit, checks it against the evidence where evidence exists, and ends with an assessment and a test you can run in your own day. The assessments are arguments, not verdicts: argue back.</p>
+    </div>
+    <div class="list" id="ce-list"></div>
   </section>
 
   <!-- QUOTES -->
@@ -930,7 +961,7 @@ function show(view){
   document.querySelectorAll("section.view").forEach(s => s.hidden = s.id !== "view-"+view);
 }
 tabs.forEach(b => b.addEventListener("click", () => { show(b.dataset.view); window.scrollTo({top:0}); }));
-{ const h = location.hash.slice(1); if (["today","ideas","mind","thinkers","quotes","links","dp","notebook"].includes(h)) show(h); }
+{ const h = location.hash.slice(1); if (["today","ideas","mind","thinkers","critique","quotes","links","dp","notebook"].includes(h)) show(h); }
 
 /* ================= TODAY ================= */
 let affIdx = dayNum % AFFIRMATIONS.length;
@@ -1028,6 +1059,7 @@ How to converse:
 - Bring in at most one or two thinkers per reply, naming the specific work (e.g. "Epictetus, Enchiridion 5"). Only quote words you are certain are genuine; otherwise paraphrase and say it is a paraphrase. Draw on traditions beyond the Western canon when they fit.
 - Keep each reply under about 170 words of plain prose. No headings, no bullet lists. *Italics* are fine.
 - Ground abstract ideas in daily life: connect them to a concrete, ordinary scene (work, family, money, phones, traffic, sleep, friendship), and where it helps, draw on psychology as well as philosophy, naming the researcher and year. Mention when a finding is contested or has replicated weakly. You are a thinking partner, not a therapist; if they describe serious distress, respond with care and suggest talking to someone they trust or a professional.
+- When the topic is a critical evaluation between thinkers, argue even-handedly: give each position its strongest form, name where evidence supports or undercuts it, and ask the person to take and defend a position of their own.
 - End every reply with exactly one open, searching question for them.`;
 }
 
@@ -1719,6 +1751,137 @@ const THINKERS = [
    life:"Following a custom only because your family always has, without asking whom it serves.",
    dp:"Your critique of readymade answers, gurus and religion sold as a shortcut.",
    links:[["Search: Periyar",SEPQ("Periyar Self-Respect Movement")]]},
+  // Existential philosophy and therapy
+  {n:"Søren Kierkegaard", d:"1813–1855", c:"Existential philosophy and therapy", w:"Either/Or (1843); The Concept of Anxiety (1844); The Sickness unto Death (1849)",
+   idea:"The single individual, not the crowd or the system, is where truth must be lived. Anxiety is the dizziness of freedom; despair is the refusal to be the self one is. Becker called him the first great psychologist of the human condition.",
+   life:"Hiding in what “everyone” thinks so you never have to decide for yourself.",
+   dp:"Your call to go inward and face the self, instead of borrowing the majority's philosophy.",
+   q:"Anxiety is the dizziness of freedom.", qs:"The Concept of Anxiety (1844)", links:[["SEP: Kierkegaard",SEP("kierkegaard")]]},
+  {n:"Martin Heidegger", d:"1889–1976", c:"Existential philosophy and therapy", w:"Being and Time (1927)",
+   idea:"Mostly we live as “the They” (das Man), doing what one does. Facing our own death, being-toward-death, can call us back to an owned, authentic existence. His support for Nazism in 1933 remains a serious stain on his legacy.",
+   life:"Living a calendar of obligations and only asking what you want when someone you know dies.",
+   dp:"Your settled mind is close to life lived as “the They”.",
+   q:"As soon as man comes to life, he is at once old enough to die.", qs:"Being and Time §48, quoting a medieval saying", links:[["SEP: Heidegger",SEP("heidegger")]]},
+  {n:"Karl Jaspers", d:"1883–1969", c:"Existential philosophy and therapy", w:"General Psychopathology (1913); Philosophy (1932)",
+   idea:"Psychiatrist turned philosopher. In “limit situations” (death, suffering, guilt, struggle) our usual frameworks fail, and we either flee or truly become ourselves.",
+   life:"A diagnosis, a breakup or a loss that makes all your daily worries look small.",
+   dp:"Your awakenings: the moments the door of the self opens.",
+   links:[["SEP: Jaspers",SEP("jaspers")]]},
+  {n:"Paul Tillich", d:"1886–1965", c:"Existential philosophy and therapy", w:"The Courage to Be (1952); Dynamics of Faith (1957)",
+   idea:"Anxiety about death, meaninglessness and guilt belongs to being human. Courage is affirming oneself in spite of it. Faith, for Tillich, is “ultimate concern”, whatever a person treats as unconditionally important.",
+   life:"Admitting your faults to someone and finding you are still accepted.",
+   dp:"Your essays ask what each person's “ultimate concern” really serves: the self, or the ego.",
+   q:"The courage to be is the courage to accept oneself as accepted in spite of being unacceptable.", qs:"The Courage to Be (1952)", links:[["SEP search: Tillich",SEPQ("Paul Tillich")]]},
+  {n:"Viktor Frankl", d:"1905–1997", c:"Existential philosophy and therapy", w:"Man's Search for Meaning (1946); The Will to Meaning (1969)",
+   idea:"A psychiatrist who survived Auschwitz. Logotherapy holds that the primary human drive is the will to meaning, found through work, love, and the stance taken toward unavoidable suffering.",
+   life:"A hard week becomes bearable once you know who it is for.",
+   dp:"You would add that every meaning is one ego's furthest reach, not mankind's.",
+   q:"Happiness cannot be pursued; it must ensue.", qs:"Man's Search for Meaning, preface (1962 ed.)", links:[["SEP: The Meaning of Life",SEP("life-meaning")]]},
+  {n:"Rollo May", d:"1909–1994", c:"Existential philosophy and therapy", w:"The Meaning of Anxiety (1950); Love and Will (1969); The Courage to Create (1975)",
+   idea:"Brought existential thought into American psychology. Normal anxiety is the price of freedom and growth; neurotic anxiety comes from avoiding it.",
+   life:"Staying in a safe job because the alternative makes your stomach turn.",
+   dp:"Your non-shielder accepts anxiety rather than building defences against it.",
+   q:"The opposite of courage in our society is not cowardice, it is conformity.", qs:"The Courage to Create (1975)", links:[["Search: Rollo May",SEPQ("Rollo May existential psychology")]]},
+  {n:"Irvin Yalom", d:"born 1931", c:"Existential philosophy and therapy", w:"Existential Psychotherapy (1980); Love's Executioner (1989); Staring at the Sun (2008)",
+   idea:"Organised existential therapy around four givens: death, freedom, isolation and meaninglessness. Facing death, he wrote, can awaken a fuller life.",
+   life:"After a health scare, finally calling the friend you had drifted from.",
+   dp:"Your psycho-philosophical mind holds exactly these givens.",
+   links:[["Search: Yalom",SEPQ("Irvin Yalom existential psychotherapy")]]},
+  {n:"Ludwig Binswanger", d:"1881–1966", c:"Existential philosophy and therapy", w:"Grundformen und Erkenntnis menschlichen Daseins (1942); “The Case of Ellen West” (1944)",
+   idea:"Founder of existential analysis. He tried to understand each patient's whole “world-design”, how their way of being shapes what they can see and feel.",
+   life:"Two people in the same office, one living in a world of threat and one in a world of opportunity.",
+   dp:"Your view that no two people understand the same thing in the same way.",
+   links:[["Search: Binswanger",SEPQ("Ludwig Binswanger existential analysis")]]},
+  {n:"R. D. Laing", d:"1927–1989", c:"Existential philosophy and therapy", w:"The Divided Self (1960); The Politics of Experience (1967)",
+   idea:"Laing described “ontological insecurity”, a person unsure they are real, who builds a false self to survive, and argued that madness can be an intelligible response to an unliveable situation.",
+   life:"Performing so constantly for others that you are no longer sure who is doing the performing.",
+   dp:"Your ego-personality built over a self that cannot bear to be seen.",
+   links:[["Search: R. D. Laing",SEPQ("R. D. Laing Divided Self")]]},
+  // Self and growth
+  {n:"Sigmund Freud", d:"1856–1939", c:"Self and growth", w:"The Interpretation of Dreams (1899); Beyond the Pleasure Principle (1920); Civilization and Its Discontents (1930)",
+   idea:"Most of mental life is unconscious. The ego mediates between instinct (id), conscience (superego) and reality, and civilisation is built on the repression of instinct. Many of his specific theories are now rejected; the idea of a dynamic unconscious endures.",
+   life:"A slip of the tongue that says what you didn't mean to say.",
+   dp:"Your three layers are a cousin of Freud's map, with a philosophical self at the bottom.",
+   q:"The ego is not master in its own house.", qs:"“A Difficulty in the Path of Psycho-Analysis” (1917)", links:[["SEP search: Freud",SEPQ("Freud")]]},
+  {n:"Karen Horney", d:"1885–1952", c:"Self and growth", w:"The Neurotic Personality of Our Time (1937); Neurosis and Human Growth (1950)",
+   idea:"Neurosis grows from basic anxiety in childhood. We build an idealised self-image and then live under “the tyranny of the should”. Horney also challenged Freud's views on women.",
+   life:"“I should be further along by now” running quietly under every day.",
+   dp:"The idealised self is your ego-personality guarding its uniqueness.",
+   links:[["Search: Karen Horney",SEPQ("Karen Horney")]]},
+  {n:"Donald Winnicott", d:"1896–1971", c:"Self and growth", w:"“Ego Distortion in Terms of True and False Self” (1960); Playing and Reality (1971)",
+   idea:"A child given “good-enough” care develops a true self, spontaneous and alive. Without it, a compliant false self grows to protect the true one. Play is where the self is found.",
+   life:"Feeling most yourself while doodling, cooking or playing, not while achieving.",
+   dp:"Your shielding is a false self in Winnicott's sense: protection that hardens into identity.",
+   q:"It is a joy to be hidden, and disaster not to be found.", qs:"“Communicating and Not Communicating” (1963)", links:[["Search: Winnicott",SEPQ("Winnicott true self false self")]]},
+  {n:"Abraham Maslow", d:"1908–1970", c:"Self and growth", w:"Motivation and Personality (1954); Toward a Psychology of Being (1962)",
+   idea:"Human needs rise from survival and safety to belonging, esteem and self-actualisation; late in life he added self-transcendence. He studied “peak experiences” of wholeness and awe.",
+   life:"Once the rent is paid, a new hunger appears: to matter, and then to grow.",
+   dp:"Your ego-maturity essay notes the same move: after physical needs, mental needs.",
+   q:"What a man can be, he must be.", qs:"Motivation and Personality (1954)", links:[["Search: Maslow",SEPQ("Maslow self-actualization")]]},
+  {n:"William James", d:"1842–1910", c:"Self and growth", w:"The Principles of Psychology (1890); The Varieties of Religious Experience (1902)",
+   idea:"Father of American psychology. He described the stream of consciousness, the “healthy-minded” and the “sick soul”, and judged beliefs by their fruits in life.",
+   life:"A belief you hold not because it is proven but because it lets you get up in the morning.",
+   dp:"James would weigh your consolations by their effects; you weigh them by what they hide.",
+   q:"My experience is what I agree to attend to.", qs:"The Principles of Psychology, ch. XI (1890)", links:[["SEP: William James",SEP("james")]]},
+  // Beyond the self
+  {n:"Jiddu Krishnamurti", d:"1895–1986", c:"Beyond the self", w:"“Truth Is a Pathless Land” (1929); The First and Last Freedom (1954); dialogues with David Bohm",
+   idea:"Raised to be a world teacher, he dissolved the organisation built around him and spent his life urging people to free themselves of all authority, including his.",
+   life:"Following a teacher, an app or an influencer so closely that you stop looking for yourself.",
+   dp:"The thinker nearest your “Gautama Buddha is the only Buddhist.”",
+   q:"Truth is a pathless land.", qs:"Speech dissolving the Order of the Star, 1929", links:[["Search: Krishnamurti",SEPQ("Krishnamurti")]]},
+  {n:"Alan Watts", d:"1915–1973", c:"Beyond the self", w:"The Wisdom of Insecurity (1951); The Book: On the Taboo Against Knowing Who You Are (1966)",
+   idea:"A popular interpreter of Zen and Daoism for the West. The separate ego is a social fiction; chasing security creates the insecurity it fears.",
+   life:"Planning every detail of a holiday and spending it anxious about the plan.",
+   dp:"Your freedom of being: releasing the “I” releases the complexity of thought.",
+   q:"The desire for security and the feeling of insecurity are the same thing.", qs:"The Wisdom of Insecurity (1951)", links:[["Search: Alan Watts",SEPQ("Alan Watts")]]},
+  {n:"Emil Cioran", d:"1911–1995", c:"Will and diversion", w:"On the Heights of Despair (1934); A Short History of Decay (1949); The Trouble with Being Born (1973)",
+   idea:"A Romanian-French writer of lucid despair. In sharp aphorisms he mocked every system that promises salvation, and found a strange vitality in insomnia, doubt and refusal.",
+   life:"A sleepless night when every consolation looks thin.",
+   dp:"Your critique of consolations, taken as far as it can go.",
+   links:[["Search: Cioran",SEPQ("Emil Cioran")]]},
+  // Writers
+  {n:"Fyodor Dostoevsky", d:"1821–1881", c:"Writers of the inner life", w:"Notes from Underground (1864); Crime and Punishment (1866); The Brothers Karamazov (1880)",
+   idea:"The Underground Man insists people will act against their own advantage simply to prove they are free. Dostoevsky explored guilt, faith and freedom from the inside.",
+   life:"Doing the opposite of good advice simply because it was advice.",
+   dp:"The ego's need to feel unique, even through self-harm.",
+   q:"Man is sometimes extraordinarily, passionately, in love with suffering.", qs:"Notes from Underground, Part I ch. 9 (1864)", links:[["SEP search: Dostoevsky",SEPQ("Dostoevsky")]]},
+  {n:"Franz Kafka", d:"1883–1924", c:"Writers of the inner life", w:"The Metamorphosis (1915); The Trial (1925); The Castle (1926)",
+   idea:"Kafka wrote the anxiety of the modern self before vast, unexplained systems of judgement and guilt.",
+   life:"Navigating a call centre or an office procedure that seems designed so no one is responsible.",
+   dp:"Guilt carried for the nature of the self, without knowing the charge.",
+   q:"A book must be the axe for the frozen sea within us.", qs:"Letter to Oskar Pollak, 27 January 1904", links:[["Search: Kafka",SEPQ("Kafka")]]},
+  {n:"Virginia Woolf", d:"1882–1941", c:"Writers of the inner life", w:"Mrs Dalloway (1925); To the Lighthouse (1927); “Modern Fiction” (1925)",
+   idea:"Woolf showed consciousness as it is lived: moments of being, memory and perception flowing into one another, not a tidy sequence.",
+   life:"A smell on a street corner suddenly returning you to a childhood afternoon.",
+   dp:"Your enthusiast lives every moment, not only the recognised ones.",
+   q:"Life is not a series of gig lamps symmetrically arranged; life is a luminous halo.", qs:"“Modern Fiction” (1925)", links:[["Search: Woolf",SEPQ("Virginia Woolf")]]},
+  // Time and reality
+  {n:"Alfred North Whitehead", d:"1861–1947", c:"Time and reality", w:"Science and the Modern World (1925); Process and Reality (1929)",
+   idea:"Reality is made of events and processes, not static things. Every moment of experience gathers up the past and creates something new.",
+   life:"You are not the same person who woke up this morning, yet you carry that person forward.",
+   dp:"Your view of existence as energy transforming and moving forward.",
+   q:"The safest general characterization of the European philosophical tradition is that it consists of a series of footnotes to Plato.", qs:"Process and Reality (1929)", links:[["SEP: Whitehead",SEP("whitehead")]]},
+  {n:"David Bohm", d:"1917–1992", c:"Time and reality", w:"Wholeness and the Implicate Order (1980); On Dialogue (1996)",
+   idea:"A physicist who proposed that the visible world unfolds from a deeper “implicate order” of undivided wholeness. He also designed a practice of dialogue in which people suspend their assumptions together.",
+   life:"A conversation where nobody is trying to win, and something new appears.",
+   dp:"Bohm's suspended assumptions resemble your absolute judgement.",
+   links:[["SEP: Bohmian mechanics",SEP("qm-bohm")]]},
+  {n:"Carlo Rovelli", d:"born 1956", c:"Time and reality", w:"Seven Brief Lessons on Physics (2014); The Order of Time (2017)",
+   idea:"A founder of loop quantum gravity. He argues that time as we feel it is not fundamental: it emerges from the blurred, statistical way we see the world. He disagrees with Smolin.",
+   life:"Time flies at a party and crawls in a dentist's chair; physics, too, suggests time is less simple than the clock.",
+   dp:"A challenge to your forward-flowing time: is the flow in the world, or in the anticipating mind?",
+   links:[["Search: Rovelli time",SEPQ("Rovelli order of time")]]},
+  {n:"Julian Barbour", d:"born 1937", c:"Time and reality", w:"The End of Time (1999); The Janus Point (2020)",
+   idea:"A physicist who argues that time does not exist at a fundamental level: there are only “Nows”, configurations of the universe, and the feeling of flow comes from records of the past inside each one.",
+   life:"Your memory of yesterday is something present in you now.",
+   dp:"Echoes your essay: the past survives only as memory remnant.",
+   links:[["Search: Barbour",SEPQ("Julian Barbour End of Time")]]},
+  // Reason and revolt
+  {n:"B. R. Ambedkar", d:"1891–1956", c:"Reason and revolt", w:"Annihilation of Caste (1936); The Buddha and His Dhamma (1957); chief architect of India's Constitution",
+   idea:"Jurist, economist and social reformer who fought untouchability and caste through law and reason. In 1956 he converted to Buddhism with hundreds of thousands of followers, reading it as a rational, ethical path.",
+   life:"Noticing who is quietly excluded from a gathering, and why.",
+   dp:"Like Periyar, a critique of inherited hierarchy dressed as sacred order.",
+   links:[["Search: Ambedkar",SEPQ("B. R. Ambedkar Annihilation of Caste")]]},
 ];
 THINKERS.forEach(t => { if (!t.links) t.links = []; });
 const TH_CLUSTERS = ["All", ...new Set(THINKERS.map(t=>t.c))];
@@ -1744,6 +1907,157 @@ $("#th-list").addEventListener("click", e => {
   const i = e.target.closest("[data-th]")?.dataset.th; if (i==null) return;
   const t = THINKERS[i];
   startTopic({cat:t.n, q:`${t.n}: does this see something true about your life?`, f:`${t.idea} Everyday: ${t.life}`, r:[]});
+});
+
+/* ================= CRITICAL EVALUATION ================= */
+const DEBATES = [
+  {t:"Is the fear of death the root of human behaviour?",
+   pos:[
+    {who:"Ernest Becker", work:"The Denial of Death (1973)", claim:"Yes. Character, culture and heroism are defences against the terror of death.", plus:"Explains a vast range of behaviour, from ambition to fanaticism, with one idea.", minus:"Explains almost everything, which makes it hard to test or refute."},
+    {who:"Greenberg, Solomon & Pyszczynski", work:"Terror management theory (1986)", claim:"Reminders of death make people defend their worldview and self-esteem.", plus:"Turned Becker into experiments; hundreds of studies followed.", minus:"A large replication effort (Many Labs 4, 2022) did not reliably reproduce the core mortality-salience effect."},
+    {who:"Epicurus & Lucretius", work:"Letter to Menoeceus; On the Nature of Things III", claim:"Death is nothing to us; we do not fear the time before our birth, so why fear the time after death?", plus:"Logically elegant, and genuinely calming for many readers.", minus:"Addresses being dead, not dying, loss, or the fear of leaving those we love."},
+    {who:"Martin Heidegger", work:"Being and Time (1927)", claim:"Facing one's own death is what makes an authentic life possible.", plus:"Turns death from a horror into a teacher.", minus:"Can romanticise anxiety; says little about how death is lived socially."},
+    {who:"Baruch Spinoza", work:"Ethics IV, Prop. 67", claim:"“A free man thinks of nothing less than of death, and his wisdom is a meditation not on death but on life.”", plus:"Directs energy to living well rather than fearing.", minus:"May sound like denial to those for whom death is very present."}],
+   synth:"Death awareness clearly shapes a great deal of behaviour, but the strongest version, that it is the single root, outruns the evidence. A more defensible claim is that fear of insignificance, of which death is the sharpest form, is one of several deep motives, alongside attachment, curiosity and play. Becker remains valuable as a lens, less so as a complete theory.",
+   dp:"Your essays agree with Becker that the need for eternity is hardwired. But you locate the root earlier, in the survival instinct itself, with fear of death as one expression of it.",
+   life:"Next time you feel a sudden urge to prove yourself, ask whether the stakes are really practical, or whether something larger is being defended."},
+  {t:"Is there a self, or only the feeling of one?",
+   pos:[
+    {who:"René Descartes", work:"Meditations (1641)", claim:"I think, therefore I am: the self is a thinking thing, certain of itself.", plus:"Gives the one certainty that survives radical doubt.", minus:"Proves at most that thinking occurs, not that a lasting “I” does it."},
+    {who:"David Hume", work:"Treatise 1.4.6 (1739)", claim:"Looking inward, I find only a bundle of perceptions, never a self.", plus:"Honest introspection; much of neuroscience is compatible with it.", minus:"Struggles to explain the unity of experience and why the bundle feels like someone."},
+    {who:"The Buddha", work:"Anattā teachings, e.g. the Anattalakkhaṇa Sutta", claim:"No permanent self can be found in body, feeling, perception, formations or consciousness.", plus:"Joined to a practical path that many find reduces suffering.", minus:"Sits in tension with rebirth and moral responsibility, which later schools worked hard to reconcile."},
+    {who:"Jung & Winnicott", work:"Individuation; true and false self (1960)", claim:"There is a real self, but it must be grown or protected, not assumed.", plus:"Clinically useful: people do recover a sense of being real.", minus:"“True self” is hard to define without circularity."},
+    {who:"Fernando Pessoa", work:"Heteronyms", claim:"The self is plural, a crowd of possible persons.", plus:"Matches how differently we act across contexts.", minus:"Leaves open who holds the many selves together."}],
+   synth:"The strongest current view sits between Hume and Jung: there is no fixed inner object called the self, but there is a real, ongoing process of integration that can be stronger or weaker. That process is what therapy, practice and maturity work on. Arguments over whether the self “exists” are often arguments over which of these meanings is in play.",
+   dp:"Your essays take a middle path too: the ego-personality is a construction, but the psycho-philosophical self is real, and difficult to face.",
+   life:"Notice today how many selves you are across your roles. What, if anything, stays the same through all of them?"},
+  {t:"Is time real?",
+   pos:[
+    {who:"Henri Bergson", work:"Time and Free Will (1889)", claim:"Lived time, duration, is real and creative; clock time is a spatial abstraction.", plus:"Faithful to experience.", minus:"Lost his famous 1922 debate with Einstein in the eyes of most physicists."},
+    {who:"Albert Einstein", work:"Relativity (1905, 1915)", claim:"There is no universal now; past, present and future are equally real in spacetime.", plus:"Supported by every precise test of relativity.", minus:"Leaves the felt flow of time unexplained."},
+    {who:"Julian Barbour", work:"The End of Time (1999)", claim:"Time does not exist fundamentally; there are only timeless “Nows”.", plus:"A bold, mathematically developed proposal.", minus:"Hard to square with the lived reality of change; still a minority view."},
+    {who:"Lee Smolin & Roberto Unger", work:"The Singular Universe and the Reality of Time (2014)", claim:"Time is fundamental; even the laws of nature evolve.", plus:"Takes both experience and cosmology seriously.", minus:"Speculative; no decisive test yet."},
+    {who:"Carlo Rovelli", work:"The Order of Time (2017)", claim:"Time's flow emerges from our blurred, thermodynamic view of the world.", plus:"Connects time's arrow to entropy, which is well established.", minus:"Explains time's direction more clearly than its passage."}],
+   synth:"Physics has not settled this. What is established is that there is no single universal now, and that the direction of time is linked to entropy. Whether passage itself is real remains open. For a human life, the practical point survives every theory: experience is irreversible, and choices cannot be unmade.",
+   dp:"Your anticipation essay treats time as unidirectional and the moment as hardly existing. That sits closest to Smolin, and to Bergson's sense of time as forward movement.",
+   life:"Compare how long ten minutes felt today in two different activities. Which one was the real ten minutes?"},
+  {t:"Should happiness be the goal of life?",
+   pos:[
+    {who:"Aristotle", work:"Nicomachean Ethics (4th c. BCE)", claim:"Yes, if happiness means eudaimonia: flourishing through virtuous activity over a whole life.", plus:"Joins happiness to character and community.", minus:"Assumes a shared human function that many now doubt."},
+    {who:"Epicurus", work:"Letter to Menoeceus", claim:"Yes: pleasure, understood as freedom from pain and fear, through simple living and friendship.", plus:"Practical and humane.", minus:"Can shrink life to avoiding trouble."},
+    {who:"Arthur Schopenhauer", work:"The World as Will and Representation (1818)", claim:"No: desire guarantees we swing between pain and boredom.", plus:"Matches research on hedonic adaptation.", minus:"Underweights joy, love and absorption that do not fit the pendulum."},
+    {who:"Viktor Frankl", work:"Man's Search for Meaning (1946)", claim:"Happiness cannot be pursued; it must ensue from meaning.", plus:"Consistent with findings that chasing happiness directly can backfire.", minus:"Meaning can also justify great harm."},
+    {who:"Mihaly Csikszentmihalyi", work:"Flow (1990)", claim:"The best moments come in absorbed, challenging activity.", plus:"Grounded in large experience-sampling studies.", minus:"Flow is morally neutral: a gambler can be in flow."}],
+   synth:"The evidence favours Frankl and Aristotle over a direct pursuit of pleasure: wellbeing tends to follow from engagement, relationships and meaning, while monitoring one's happiness tends to reduce it. Schopenhauer is right about adaptation, but wrong that nothing escapes it, since absorption and connection resist the treadmill better than possessions do.",
+   dp:"Your definition, comfortable existence through harmony of the three layers, is closest to Aristotle's integrated life, and like Schopenhauer you expect fluctuation.",
+   life:"At the end of today, ask which moment you would want again. Was it pleasure, absorption, or connection?"},
+  {t:"Are we free?",
+   pos:[
+    {who:"Baruch Spinoza", work:"Ethics (1677)", claim:"No free will; freedom is understanding the causes that move us.", plus:"Freedom you can actually increase, through understanding.", minus:"Redefines freedom so that many feel the question was dodged."},
+    {who:"Arthur Schopenhauer", work:"On the Freedom of the Will (1839)", claim:"We can do what we want, but cannot want what we want.", plus:"Captures the sense that desires arrive unbidden.", minus:"Ignores how reflection can slowly reshape desires."},
+    {who:"Jean-Paul Sartre", work:"Being and Nothingness (1943)", claim:"We are condemned to be free; every excuse is bad faith.", plus:"A powerful call to responsibility.", minus:"Underestimates biology, upbringing and circumstance."},
+    {who:"Benjamin Libet", work:"Readiness-potential experiments (1983)", claim:"Brain activity precedes the conscious decision to move.", plus:"Made the question empirical.", minus:"Schurger and colleagues (2012) showed the signal may reflect random neural build-up, not a hidden decision."},
+    {who:"Viktor Frankl", work:"Man's Search for Meaning (1946)", claim:"Even in a camp, the last freedom remains: to choose one's attitude.", plus:"Tested in the hardest conditions imaginable.", minus:"Attitude is itself shaped by temperament and history."}],
+   synth:"Libet-style findings do not show that freedom is an illusion; the science is more modest than the headlines. The most defensible position is a compatibilist one close to Spinoza and Frankl: we are caused, but the kind of causation that runs through reflection, understanding and values is what freedom means in practice, and it comes in degrees.",
+   dp:"Your freedom of being sits with Spinoza: freedom grows as the “I” and its compulsions are understood and released, not by choosing harder.",
+   life:"Pick one reaction you had today. Trace one cause behind it. Did understanding it change anything?"},
+  {t:"Is religion a consolation or a truth?",
+   pos:[
+    {who:"Sigmund Freud", work:"The Future of an Illusion (1927)", claim:"Religion is wish-fulfilment, a comforting illusion.", plus:"Explains the emotional pull of belief.", minus:"Showing why a belief is wanted does not show it is false; that is the genetic fallacy."},
+    {who:"C. G. Jung", work:"Psychology and Religion (1938)", claim:"Religious symbols express real dynamics of the psyche.", plus:"Takes religious experience seriously without literalism.", minus:"Can leave the question of truth deliberately unanswered."},
+    {who:"William James", work:"The Varieties of Religious Experience (1902)", claim:"Judge religious experience by its fruits in life.", plus:"Empirical and generous.", minus:"Good fruits do not settle whether the beliefs are true."},
+    {who:"Blaise Pascal", work:"Pensées", claim:"The heart has reasons; and the wager favours belief.", plus:"Honest about the limits of reason.", minus:"The wager works equally well for many rival gods."},
+    {who:"Periyar & Ambedkar", work:"Self-Respect Movement; Annihilation of Caste (1936)", claim:"Religion can sanctify hierarchy; reason and dignity must judge it. Ambedkar chose a reformed, rational Buddhism.", plus:"Measures religion by its effect on the least powerful.", minus:"Social critique alone does not decide metaphysical questions."},
+    {who:"Paul Tillich", work:"Dynamics of Faith (1957)", claim:"Faith is ultimate concern, not belief in an object.", plus:"Shows everyone has some form of faith.", minus:"So broad that it can include almost anything."}],
+   synth:"No position here settles whether any religion is true; they answer different questions. Freud and the essays explain the consoling function well; James and Jung explain why experience matters; Periyar and Ambedkar supply the most important practical test: whom does a belief protect, and whom does it exclude?",
+   dp:"Your essays sit closest to Freud and Periyar, adding that philosophy, too, can be a consolation. That self-critical turn is the strongest part of your view.",
+   life:"Pick one belief that comforts you. Ask two questions separately: does it comfort me, and is it true?"},
+  {t:"What actually heals the mind?",
+   pos:[
+    {who:"Sigmund Freud", work:"Psychoanalysis", claim:"Insight: making the unconscious conscious.", plus:"Insight does help many people understand repeating patterns.", minus:"Insight alone often fails to change behaviour."},
+    {who:"Wilhelm Reich", work:"Character Analysis (1933)", claim:"The body: loosening muscular “armour”.", plus:"Anticipated body-based therapies and trauma research.", minus:"His later orgone theories were pseudoscience."},
+    {who:"Viktor Frankl", work:"Logotherapy", claim:"Meaning.", plus:"Strong evidence that purpose supports resilience.", minus:"Not every suffering can or should be given meaning."},
+    {who:"Carl Rogers", work:"On Becoming a Person (1961)", claim:"Acceptance, empathy and genuineness in a relationship.", plus:"The therapeutic relationship is among the best predictors of outcome.", minus:"May be insufficient alone for severe conditions."},
+    {who:"Aaron Beck", work:"Cognitive Therapy and the Emotional Disorders (1976)", claim:"Changing distorted thoughts changes feelings.", plus:"The most heavily tested psychotherapy, effective for depression and anxiety.", minus:"Can treat thoughts as the cause when they are partly symptoms."},
+    {who:"Irvin Yalom", work:"Existential Psychotherapy (1980)", claim:"Facing the givens of existence within a real relationship.", plus:"Addresses what other methods leave out.", minus:"Hard to test in controlled trials."}],
+   synth:"Research on psychotherapy (summarised by Bruce Wampold and others) suggests that major therapies often perform similarly, and that common factors, especially the relationship, hope and a convincing rationale, carry much of the effect. Different people may need different doors: thought, body, meaning or relationship.",
+   dp:"Your essays suggest a further point: much of what passes for growth is learning better defences. Healing, on your view, is fewer defences, not better ones.",
+   life:"Think of a time you genuinely changed. Was it insight, a relationship, a crisis, or a practice?"},
+  {t:"Is the ego an enemy or a tool?",
+   pos:[
+    {who:"The Buddha & Krishnamurti", work:"Anattā; “Truth is a pathless land” (1929)", claim:"The ego is the root of suffering and must be seen through.", plus:"Points to real relief from compulsive self-concern.", minus:"Risk of “spiritual bypassing”: using ideals of no-self to avoid real needs."},
+    {who:"Sigmund Freud", work:"The Ego and the Id (1923); New Introductory Lectures (1933)", claim:"The ego is the mediator that must be strengthened: “Where id was, there ego shall be.”", plus:"A strong ego is linked to resilience and self-control.", minus:"Says little about what lies beyond the ego."},
+    {who:"Otto Rank", work:"Will Therapy (1929–31)", claim:"The will is creative; the task is to accept and use it.", plus:"Honours individuality and creativity.", minus:"Can feed the very self-assertion other traditions warn against."},
+    {who:"Abraham Maslow", work:"Motivation and Personality (1954)", claim:"Healthy development goes through ego needs toward self-actualisation and self-transcendence.", plus:"Sequences ego and transcendence instead of opposing them.", minus:"His hierarchy is less rigid in reality than in diagrams."},
+    {who:"Alan Watts", work:"The Book (1966)", claim:"The separate ego is a social hoax.", plus:"Liberating and vivid.", minus:"Can sound like transcendence without the work."}],
+   synth:"The most convincing picture is developmental, close to Maslow: a person needs a reasonably strong ego before they can safely loosen it. Attempts to skip ego development tend to produce either fragility or a subtler, “spiritual” ego.",
+   dp:"This is the heart of your philosophy, and it is well placed: “a fully developed ‘I’ can only understand the ‘I’”, and incomplete maturity is more dangerous than none.",
+   life:"Where today did your ego help you, by setting a boundary or speaking up, and where did it get in the way?"},
+  {t:"Is work or play the deeper human activity?",
+   pos:[
+    {who:"Aristotle", work:"Nicomachean Ethics X; Politics", claim:"We work in order to have leisure; contemplation is the highest activity.", plus:"Refuses to make work the meaning of life.", minus:"Built on a society where slaves did the work."},
+    {who:"Karl Marx", work:"Economic and Philosophic Manuscripts (1844)", claim:"Free, creative labour is human essence; alienated labour destroys it.", plus:"Explains why meaningless work damages people.", minus:"Societies built on his ideas often made work more coercive."},
+    {who:"Max Weber", work:"The Protestant Ethic and the Spirit of Capitalism (1905)", claim:"Modern devotion to work grew from religious anxiety and became an “iron cage”.", plus:"Explains why rest can feel like guilt.", minus:"The historical causal story is debated."},
+    {who:"Johan Huizinga", work:"Homo Ludens (1938)", claim:"Play is older than culture and shapes law, art and ritual.", plus:"Restores play's dignity.", minus:"Stretches “play” very wide."},
+    {who:"Josef Pieper", work:"Leisure: The Basis of Culture (1948)", claim:"Leisure is receptive contemplation, the root of culture; a world of total work loses it.", plus:"A sharp diagnosis of burnout culture.", minus:"Rooted in a religious frame some will not share."}],
+   synth:"The tension dissolves at its best point: work done for its own sake becomes play-like, as flow research suggests, and play taken seriously becomes a kind of work. The danger Weber and Pieper name is real: when all time is measured by output, both disappear.",
+   dp:"Your resident, who works for the work itself, already lives the resolution.",
+   life:"How much of yesterday was done only for its result? How much for itself?"},
+  {t:"Does suffering have meaning?",
+   pos:[
+    {who:"The Buddha", work:"The Four Noble Truths", claim:"Suffering has a cause, craving, and an end.", plus:"Practical and testable in one's own experience.", minus:"Not all suffering is caused by craving: illness, injustice, grief."},
+    {who:"Arthur Schopenhauer", work:"The World as Will and Representation", claim:"Suffering is the positive reality of life; joy is merely its absence.", plus:"Refuses comforting illusions.", minus:"Runs against how people actually report joy."},
+    {who:"Friedrich Nietzsche", work:"Twilight of the Idols; Ecce Homo", claim:"Suffering can be affirmed; amor fati, love of fate.", plus:"A source of great strength for many readers.", minus:"Can be cruel when said to someone in acute pain."},
+    {who:"Viktor Frankl", work:"Man's Search for Meaning", claim:"Unavoidable suffering can be given meaning by our stance toward it.", plus:"Grounded in lived extremity.", minus:"Avoidable suffering should be removed, not interpreted."},
+    {who:"Theodor Reik", work:"Masochism in Modern Man (1941)", claim:"People sometimes choose suffering as a strategy for later triumph.", plus:"Exposes the hidden payoff in martyrdom.", minus:"Easy to over-apply to genuine victims."},
+    {who:"Emil Cioran", work:"The Trouble with Being Born (1973)", claim:"Suffering has no redemptive meaning; lucidity is all.", plus:"Honest company in the dark.", minus:"Offers little to act on."}],
+   synth:"The positions are most useful when distinguished: remove suffering that can be removed (Buddha, medicine, justice); give meaning to what cannot (Frankl); and watch for suffering kept because it pays (Reik). Romanticising suffering, as some readings of Nietzsche do, is the main danger.",
+   dp:"Your ego-matured resident “expresses pain instead of concealing it”, which is close to Frankl's honesty without Nietzsche's glorification.",
+   life:"Take one current difficulty. Is it removable, bearable with meaning, or quietly useful to you?"},
+  {t:"What is love?",
+   pos:[
+    {who:"Plato", work:"Symposium", claim:"Love climbs from one beautiful person toward Beauty itself.", plus:"Explains love's longing for something beyond the beloved.", minus:"Risks loving people as stepping stones."},
+    {who:"Arthur Schopenhauer", work:"“The Metaphysics of Sexual Love” (1844)", claim:"Romantic love is the species' will to reproduce, disguised as personal destiny.", plus:"Anticipated evolutionary psychology.", minus:"Cannot explain love that has nothing to do with reproduction."},
+    {who:"Ernest Becker", work:"The Denial of Death (1973)", claim:"Modern romantic love is a “cosmic” hero project: we ask a partner to be our god.", plus:"Explains why romance collapses under impossible expectations.", minus:"Reduces love to defence."},
+    {who:"Erich Fromm", work:"The Art of Loving (1956)", claim:"Love is an activity and a skill: care, responsibility, respect, knowledge.", plus:"Makes love something one can practise.", minus:"Says less about love's involuntary, ecstatic side."},
+    {who:"Iris Murdoch", work:"“The Sublime and the Good” (1959)", claim:"Love is the realisation that something other than oneself is real.", plus:"Joins love to moral vision.", minus:"Demanding, and abstract in places."}],
+   synth:"Becker and Schopenhauer diagnose why love goes wrong; Fromm and Murdoch describe what it is when it goes right. Love asked to rescue us from mortality breaks; love practised as attention to another real person lasts.",
+   dp:"Your egalitarian, who makes everyone feel special while no one is exclusively special, is close to Murdoch, and puts real pressure on romantic exclusivity.",
+   life:"Think of someone you love. Today, what would it look like to see them as they are, not as you need them to be?"},
+  {t:"Reason or feeling: which should lead?",
+   pos:[
+    {who:"David Hume", work:"Treatise 2.3.3 (1739)", claim:"Reason is, and ought only to be, the slave of the passions.", plus:"Matches how motivation actually works.", minus:"Leaves feelings without a judge."},
+    {who:"Immanuel Kant", work:"Groundwork (1785)", claim:"Morality must rest on reason alone.", plus:"Grounds universal dignity and duty.", minus:"Can seem cold to the particulars of a life."},
+    {who:"Blaise Pascal", work:"Pensées", claim:"The heart has reasons which reason does not know.", plus:"Names a kind of knowing that argument misses.", minus:"Can license wishful thinking."},
+    {who:"G. K. Chesterton", work:"Orthodoxy (1908)", claim:"The madman has lost everything except his reason.", plus:"Warns against logic cut off from common sense.", minus:"A paradox more than an argument."},
+    {who:"Antonio Damasio", work:"Descartes' Error (1994)", claim:"Patients with damage to emotion-related brain areas reason poorly about life decisions.", plus:"Neurological evidence that feeling guides practical reason.", minus:"His somatic-marker hypothesis is debated in its details."}],
+   synth:"The old opposition has largely collapsed. Emotions are fast evaluations that reason needs, and reason is the slow capacity to examine them. The goal is neither master: it is a conversation between the two in which each can correct the other.",
+   dp:"Your absolute judgement asks for a third thing beyond both: seeing without the ego's tints. Reason and feeling can each be ego-coloured.",
+   life:"Take a decision you face. Write what your reason says and what your feeling says. Where do they agree?"},
+];
+function renderDebates(){
+  $("#ce-list").innerHTML = DEBATES.map((d,i)=>`
+    <details class="debate"${i===0?" open":""}>
+      <summary><span class="eyebrow">Topic ${i+1}</span><span class="dq">${esc(d.t)}</span></summary>
+      <div class="positions">${d.pos.map(p=>`
+        <div class="pos">
+          <h4>${esc(p.who)}</h4><p class="thinkers">${esc(p.work)}</p>
+          <p>${esc(p.claim)}</p>
+          <p class="pm"><span class="plus">Strength</span> ${esc(p.plus)}</p>
+          <p class="pm"><span class="minus">Limit</span> ${esc(p.minus)}</p>
+        </div>`).join("")}</div>
+      <div class="assess"><span class="eyebrow">Assessment</span><p>${esc(d.synth)}</p></div>
+      <dl class="mind-grid">
+        <div><dt>Your essays</dt><dd>${esc(d.dp)}</dd></div>
+        <div><dt>Test it today</dt><dd class="scene">${esc(d.life)}</dd></div>
+      </dl>
+      <div class="refs"><button class="linkish" data-ce="${i}">Debate this with the companion</button></div>
+    </details>`).join("");
+}
+document.getElementById("view-critique").addEventListener("click", e => {
+  const i = e.target.closest("[data-ce]")?.dataset.ce; if (i==null) return;
+  const d = DEBATES[i];
+  startTopic({cat:"Critical evaluation", q:d.t, f:"Positions: " + d.pos.map(p=>`${p.who} (${p.work}): ${p.claim}`).join(" · ") + " Assessment: " + d.synth, r:[]});
 });
 
 /* ================= QUOTES ================= */
@@ -1827,6 +2141,7 @@ renderIdeas();
 renderDP();
 renderMind();
 renderThinkers();
+renderDebates();
 Store.init();
 </script>
 
