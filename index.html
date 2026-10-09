@@ -148,6 +148,34 @@ section.view{display:grid;gap:var(--s6);padding-block:var(--s6) 0}
 .linkcard em{font-family:var(--mono);font-style:normal;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--lapis)}
 h2.sub{font-size:1.5rem}
 
+/* my philosophy */
+.thesis{font-family:var(--display);font-size:1.3rem;line-height:1.45;color:var(--ink)!important}
+.layers{max-width:40rem}
+.layer{display:grid;gap:var(--s1);border-radius:1.1rem;padding:var(--s4)}
+.layer .layer{margin-top:var(--s3)}
+.l1{background:var(--surface);border:1px solid var(--line)}
+.l2{background:var(--lapis-soft)}
+.l3{background:var(--dawn-soft);border:1px solid var(--dawn)}
+.layer-name{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.l3 > .layer-name{color:var(--dawn)}
+.layer-desc{font-size:.92rem;max-width:58ch}
+.dpquote{font-family:var(--display);font-style:italic;font-size:1.15rem;line-height:1.4;max-width:58ch}
+.path{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:st}
+.path li{display:grid;grid-template-columns:2.25rem 1fr;gap:0 var(--s3);counter-increment:st;padding-block:var(--s3);border-top:1px solid var(--line)}
+.path li:first-child{border-top:0}
+.path li::before{content:counter(st);grid-row:span 2;font-family:var(--display);font-weight:600;font-size:1.5rem;line-height:1;color:var(--dawn)}
+.path strong{font-family:var(--display);font-size:1.2rem}
+.path span{font-size:.92rem;color:var(--muted);max-width:60ch}
+.signs{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:var(--s3)}
+.sign{display:grid;gap:var(--s2);align-content:start;padding:var(--s4);border:1px solid var(--line);border-radius:.9rem;background:var(--surface);min-width:0}
+.sign h3{font-size:1.3rem}
+.sign p{font-size:.92rem}
+.sign .dpquote{font-size:1.05rem}
+.sign .linkish{justify-self:start}
+.glossary{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:var(--s3) var(--s5);margin:0}
+.glossary dt{font-family:var(--display);font-weight:600;font-size:1.15rem}
+.glossary dd{margin:0;font-size:.9rem;color:var(--muted)}
+
 /* notebook */
 .nb-section{display:grid;gap:var(--s4)}
 .tenets{list-style:none;margin:0;padding:0;display:grid;gap:var(--s3);counter-reset:t}
@@ -181,6 +209,7 @@ details.dlg .thread{margin-top:var(--s4)}
       <button role="tab" id="tab-ideas" data-view="ideas" aria-selected="false">Ideas</button>
       <button role="tab" id="tab-quotes" data-view="quotes" aria-selected="false">Quotes</button>
       <button role="tab" id="tab-links" data-view="links" aria-selected="false">Readings</button>
+      <button role="tab" id="tab-dp" data-view="dp" aria-selected="false">My Philosophy</button>
       <button role="tab" id="tab-notebook" data-view="notebook" aria-selected="false">My Notebook</button>
       <button type="button" class="install" id="install-btn" hidden>Install app</button>
     </nav>
@@ -276,6 +305,73 @@ details.dlg .thread{margin-top:var(--s4)}
     <div class="linkgrid" id="links-books"></div>
   </section>
 
+  <!-- MY PHILOSOPHY (formulated from DP's essays) -->
+  <section class="view" id="view-dp" role="tabpanel" aria-labelledby="tab-dp" hidden>
+    <div class="intro">
+      <span class="eyebrow">Formulated from DP's essays · 2023–2024</span>
+      <h2>The Philosophy of Ego Maturity</h2>
+      <p class="thesis">The human being is a survival-driven creature. Once it realises it is a separate entity, that instinct builds an “I”, and most of what we call meaning, virtue, happiness, philosophy and religion is the “I” defending and extending itself. Freedom does not come from suppressing the ego or from borrowing someone else's wisdom. It comes when the ego is allowed to mature until it has nothing left to defend. Then, in DP's words, <em>“when the ego matures enough, it neutralizes itself.”</em></p>
+    </div>
+
+    <div class="nb-section">
+      <h2 class="sub">The three layers of the mind</h2>
+      <p class="note">The model behind every essay. A single thought has to cross all three layers, and each layer changes it on the way.</p>
+      <div class="layers" role="img" aria-label="Three nested layers: the outer conscious mind contains the ego-personality, which contains the psycho-philosophical mind, the self.">
+        <div class="layer l1">
+          <span class="layer-name">Outer conscious mind</span>
+          <span class="layer-desc">Ego defences, the senses, and fitting in with society. Pleasure lives here, effortlessly in the present moment, and briefly.</span>
+          <div class="layer l2">
+            <span class="layer-name">Ego-personality</span>
+            <span class="layer-desc">The “I”: uniqueness, opinions, self-esteem and the alpha drive. It always moves on to the next moment.</span>
+            <div class="layer l3">
+              <span class="layer-name">Psycho-philosophical mind · the self</span>
+              <span class="layer-desc">Partly instinct, partly formed in early childhood. It knows it is a single entity responsible for its own existence. Real wisdom is realised here, and this is where existential anxiety comes from.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nb-section">
+      <h2 class="sub">Ten principles</h2>
+      <div class="list" id="dp-principles"></div>
+    </div>
+
+    <div class="nb-section">
+      <h2 class="sub">The path of the ego</h2>
+      <p class="note">Read across the essays, the ego's development follows these stages. Most lives stop at shielding or settlement; the essays insist there is no final stage, only further digging.</p>
+      <ol class="path" id="dp-path"></ol>
+    </div>
+
+    <div class="nb-section">
+      <h2 class="sub">Ten signs of an ego-matured person</h2>
+      <p class="note">From “10 Signs of an ego-matured person” (Nov 4, 2024). DP calls the list incomplete, “which is understandable.”</p>
+      <div class="signs" id="dp-signs"></div>
+    </div>
+
+    <div class="nb-section">
+      <h2 class="sub">Vocabulary</h2>
+      <dl class="glossary" id="dp-glossary"></dl>
+    </div>
+
+    <div class="nb-section">
+      <h2 class="sub">In conversation with the tradition</h2>
+      <p class="note">Where these ideas meet earlier thinkers, and where they part ways.</p>
+      <div class="list" id="dp-kin"></div>
+    </div>
+
+    <div class="nb-section">
+      <h2 class="sub">Questions this philosophy must answer</h2>
+      <p class="note">A philosophy grows by being tested. These are the strongest objections; take any of them into a morning dialogue.</p>
+      <div class="list" id="dp-tests"></div>
+    </div>
+
+    <div class="nb-section">
+      <h2 class="sub">The essays</h2>
+      <div class="list" id="dp-essays"></div>
+    </div>
+  </section>
+
   <!-- NOTEBOOK -->
   <section class="view" id="view-notebook" role="tabpanel" aria-labelledby="tab-notebook" hidden>
     <div class="intro">
@@ -285,7 +381,7 @@ details.dlg .thread{margin-top:var(--s4)}
     </div>
 
     <div class="nb-section">
-      <h2 class="sub">My personal philosophy</h2>
+      <h2 class="sub">My tenets</h2>
       <p class="note">Short tenets you hold, or are testing. The companion reads these and will engage with them, and push back.</p>
       <ol class="tenets" id="tenets"></ol>
       <form class="addbox" id="tenet-form">
@@ -391,6 +487,19 @@ const AFFIRMATIONS = [
   ["I will be just even when no one is watching.", "after Plato, Republic II: the Ring of Gyges"],
   ["The good life is inspired by love and guided by knowledge. I will need both today.", "after Bertrand Russell, What I Believe"],
   ["I can feel the suffering of others. That feeling is the seed of my goodness; I will water it.", "after Mencius 2A:6"],
+  ["I will not borrow wisdom today. I will let something be realised in me.", "after DP, Philosophical consolations"],
+  ["Today I will let one thing exist exactly as it is, without judging it.", "after DP, Absolute judgement"],
+  ["I will notice when my “I” wants credit, and let the deed be enough.", "after DP, Freedom of being"],
+  ["There is no eureka moment. I will keep digging, and keep living.", "after DP, A settled mind"],
+  ["My meaning is my own truth, not mankind's. I will hold it without forcing it on anyone.", "after DP, Man's Need for Meaning"],
+  ["Happiness is harmony among the layers of my mind. Today I will listen to all three.", "after DP, Happiness – what is it and how to achieve it?"],
+  ["I will look forward, and use the past only as a teacher.", "after DP, Anticipation and time sense"],
+  ["I am a creature among creatures. That is not a loss; it is a homecoming.", "after DP, Ego species"],
+  ["I will not flinch from another person's ego today.", "after DP, Ego Maturity and Its Traits"],
+  ["I will live every moment, not only the ones I was taught to celebrate.", "after DP, 10 Signs of an ego-matured person"],
+  ["I will work for the work itself. Nothing more, nothing less.", "after DP, 10 Signs of an ego-matured person"],
+  ["Whatever I understood yesterday may be immature today. I will stay open.", "after DP, 10 Signs of an ego-matured person"],
+  ["I will watch my thoughts without obeying every one of them.", "after DP, Freedom of being"],
 ];
 
 // Fundamental questions, each with a framing to start the dialogue.
@@ -449,6 +558,17 @@ const QUESTIONS = [
   {cat:"Relations", q:"Are you an individual first, or a set of relationships first?", f:"Confucian ethics sees the self as made through roles and rites. The Ubuntu tradition says a person is a person through other persons.", r:["confucius"]},
   {cat:"Reality", q:"If our world were a perfect simulation, would anything about your life be less real?", f:"Descartes imagined an evil demon; Hilary Putnam a brain in a vat; Nick Bostrom a simulation argument. David Chalmers argues virtual worlds can be genuine.", r:["skepticism"]},
   {cat:"Attention", q:"What you pay attention to becomes your life. What did you attend to yesterday?", f:"Simone Weil called attention the rarest form of generosity. Iris Murdoch thought moral life is mostly a matter of how we look at things.", r:[]},
+  {cat:"My philosophy", q:"Can wisdom ever pass from one person to another, or can it only be realised?", f:"In your essay “Philosophical consolations” (2023), you argue that knowledge can be acquired and reproduced, but wisdom can only be realised, because it loses its form crossing the layers of the mind.", r:[]},
+  {cat:"My philosophy", q:"Is the philosophy you live by a consolation or a confrontation?", f:"You wrote that philosophy can give us harmony with our inner selves “without actually touching it”, and that religions often sell a shortcut to God without realisation.", r:[]},
+  {cat:"My philosophy", q:"Which layer of your mind is today's happiness coming from?", f:"In your happiness essay, pleasure satisfies the outer mind, achievement the ego-personality, and only a few reach the deepest self. Happiness is the harmony of all three.", r:["happiness"]},
+  {cat:"My philosophy", q:"If there is no common meaning for mankind, how should you hold your own?", f:"“Man's Need for Meaning” traces personal meaning to the alpha drive: the need to feel that no one lives like me.", r:["life-meaning"]},
+  {cat:"My philosophy", q:"Which of your beliefs has become a settled mind?", f:"In “A settled mind”, any philosophy or counter-philosophy held as final stops the mind from working beyond defending it. “Gautama Buddha is the only Buddhist.”", r:[]},
+  {cat:"My philosophy", q:"Is it possible to judge without judging?", f:"“Absolute judgement is simply judging by non-judging”: accepting an entity's existence and allowing it. Yet you also wrote that without judgement life becomes bland.", r:["skepticism"]},
+  {cat:"My philosophy", q:"Remove the “I” from “I am kind”. What is left?", f:"In “Freedom of being”, every deed of personality, harmful or harmless, serves the “I”'s wish for eternity. Releasing it frees the mind, but there is no shortcut.", r:["identity-personal"]},
+  {cat:"My philosophy", q:"Is the “common good” a collective ego?", f:"“Ego species” argues that humanity's sense of a higher purpose is the species' ego seeking dominance. Is that always true, or only sometimes?", r:[]},
+  {cat:"My philosophy", q:"Are you shielding your ego, or still letting it be tested?", f:"Your essay on ego maturity describes early shielders, late shielders and non-shielders, and warns that incomplete maturity is more dangerous than none.", r:[]},
+  {cat:"My philosophy", q:"Do you live in every moment, or only in the moments you were taught to celebrate?", f:"“Patchy living” is waiting anxiously for recognised moments. The ego-matured enthusiast lives every moment.", r:[]},
+  {cat:"My philosophy", q:"What are you anticipating, and what does anticipating it help you avoid?", f:"“Anticipation and time sense” calls anticipation an evolutionary gift, and notes how fear of the real self keeps the mind on autopilot.", r:["time"]},
 ];
 
 // Fundamental ideas (library).
@@ -568,6 +688,26 @@ const QUOTES = [
   {q:"To will oneself free is also to will others free.", a:"Simone de Beauvoir", s:"The Ethics of Ambiguity (1947)"},
   {q:"Everything can be taken from a man but one thing: the last of the human freedoms, to choose one's attitude in any given set of circumstances.", a:"Viktor Frankl", s:"Man's Search for Meaning (1946)"},
   {q:"In the beginner's mind there are many possibilities, but in the expert's there are few.", a:"Shunryu Suzuki", s:"Zen Mind, Beginner's Mind (1970)"},
+  {q:"Anticipation is a mental phenomenon that makes time work for us.", a:"DP", s:"“Anticipation and time sense”, Feb 27, 2023"},
+  {q:"Knowledge can be acquired and reproduced, but wisdom can only be realized, and it is not transferable.", a:"DP", s:"“Philosophical consolations”, Mar 1, 2023"},
+  {q:"Being human is a wisdom in itself.", a:"DP", s:"“Philosophical consolations”, Mar 1, 2023"},
+  {q:"No two people can understand the same thing in the same way.", a:"DP", s:"“Happiness – what is it and how to achieve it?”, Mar 8, 2023"},
+  {q:"Each one comes out with a different truth, and each truth has a meaning.", a:"DP", s:"“Man's Need for Meaning”, Mar 13, 2023"},
+  {q:"Ultimately, there is no common meaning for mankind. Everything has a meaning in itself, and it is better to look at it with absolute judgement.", a:"DP", s:"“Man's Need for Meaning”, Mar 13, 2023"},
+  {q:"Gautama Buddha is the only Buddhist.", a:"DP", s:"“A settled mind”, Mar 20, 2023"},
+  {q:"We, the common men, have the freedom to be irresponsible, the same freedom we refuse to the enlightened.", a:"DP", s:"“A settled mind”, Mar 20, 2023"},
+  {q:"There is no eureka moment… It could be a lifelong process, so we can never stop living.", a:"DP", s:"“A settled mind”, Mar 20, 2023"},
+  {q:"Any thought, given a thought, will become a thought.", a:"DP", s:"“Absolute judgement”, Aug 7, 2023"},
+  {q:"Absolute judgment is simply judging by non-judging.", a:"DP", s:"“Absolute judgement”, Aug 7, 2023"},
+  {q:"Freedom of being comes from the comfort of existence.", a:"DP", s:"“Freedom of being”, Dec 29, 2023"},
+  {q:"A cultured man is the one who possesses the subtlest ways of expressing his animal instinct.", a:"DP", s:"“Freedom of being”, Dec 29, 2023"},
+  {q:"The importance we give to our complex thoughts makes us prisoners of our own minds.", a:"DP", s:"“Freedom of being”, Dec 29, 2023"},
+  {q:"Doing a thing is an activity in itself, and it is self-limiting.", a:"DP", s:"“Ego species”, Jul 12, 2024"},
+  {q:"The moment a child realizes that he or she is a separate entity is the budding point of ego.", a:"DP", s:"“Ego Maturity and Its Traits (1/2)”, Sep 9, 2024"},
+  {q:"Incomplete maturity is more dangerous and misleading than non-maturity.", a:"DP", s:"“Ego Maturity and Its Traits (1/2)”, Sep 9, 2024"},
+  {q:"A completely matured ego will not flinch from other egos.", a:"DP", s:"“Ego Maturity and Its Traits (1/2)”, Sep 9, 2024"},
+  {q:"Ego matured persons dare not touch the butterfly.", a:"DP", s:"“10 Signs of an ego-matured person”, Nov 4, 2024"},
+  {q:"Ego matured persons have a constant feeling that their last moment is immature.", a:"DP", s:"“10 Signs of an ego-matured person”, Nov 4, 2024"},
 ];
 
 const LINKS_REF = [
@@ -686,7 +826,7 @@ function show(view){
   document.querySelectorAll("section.view").forEach(s => s.hidden = s.id !== "view-"+view);
 }
 tabs.forEach(b => b.addEventListener("click", () => { show(b.dataset.view); window.scrollTo({top:0}); }));
-{ const h = location.hash.slice(1); if (["today","ideas","quotes","links","notebook"].includes(h)) show(h); }
+{ const h = location.hash.slice(1); if (["today","ideas","quotes","links","dp","notebook"].includes(h)) show(h); }
 
 /* ================= TODAY ================= */
 let affIdx = dayNum % AFFIRMATIONS.length;
@@ -770,7 +910,9 @@ function rulesText(){
 Today's question (${q.cat}): ${q.q}
 Context they were shown: ${q.f || ""}
 
-Their personal philosophy, in their own words:
+The person is DP. In essays written 2023–2024, DP developed a philosophy of ego maturity: the mind has three layers (an outer conscious mind of ego defences and social conformity; the ego-personality, the "I" driven by an "alpha drive" to feel unique; and the deepest "psycho-philosophical mind", the self, which knows it is a single entity responsible for its existence and is a source of existential anxiety). DP holds that wisdom can only be realised, not transferred; that most philosophy and religion console rather than reveal; that happiness is harmony among the three layers; that there is no common meaning for mankind; that any philosophy held as final is a "settled mind" ("Gautama Buddha is the only Buddhist"); that absolute judgement is "judging by non-judging"; that freedom of being comes from the comfort of existence and from releasing the "I"; that the "common good" is often a collective ego; and that "when the ego matures enough, it neutralizes itself", with people shielding their egos early, late, or not at all. Engage with these ideas as DP's own: connect them to the day's question when it fits, test them honestly, and never flatter.
+
+Their tenets, in their own words:
 ${tenets}
 
 Some of their recent ideas:
@@ -959,6 +1101,124 @@ $("#api-key-remove").onclick = () => { try { localStorage.removeItem(KEY_STORE);
 $("#distill-keep").onclick = () => { if (distilled) addTenet(distilled); $("#distill").hidden = true; toast("Added to your personal philosophy"); };
 $("#distill-drop").onclick = () => { $("#distill").hidden = true; };
 
+/* ================= MY PHILOSOPHY (from DP's essays) ================= */
+const DP_PRINCIPLES = [
+  {t:"Wisdom is realised, never transferred", b:"Knowledge comes from the environment and intelligence is innate capacity, but wisdom is the innermost layer of cognition. A realisation loses its form as it crosses the layers of the mind, so it cannot be handed to anyone else.", q:"Knowledge can be acquired and reproduced, but wisdom can only be realized, and it is not transferable.", src:"Philosophical consolations"},
+  {t:"Most philosophy consoles instead of revealing", b:"Ideas like “oneness” or a “universal mind” soothe the anxiety of being a single, responsible entity. They harmonise us with the inner self without ever touching it. Religions often sell the same shortcut.", q:"Consolations as required to satisfy our harmony with our inner selves without actually touching it.", src:"Philosophical consolations"},
+  {t:"Life moves forward; the past is only a teacher", b:"The present moment has no material existence; existence is energy moving forward. Anticipation is an evolutionary gift. Dwelling in the past slows the movement of life, and fear of the real self keeps the mind on autopilot.", q:"Anticipation is a mental phenomenon that makes time work for us.", src:"Anticipation and time sense"},
+  {t:"Happiness is harmony among the three layers", b:"Pleasure satisfies the outer mind, achievement satisfies the ego-personality, and few reach the self at all. Because the layers rarely agree, fluctuation is inevitable.", q:"Define happiness as the comfortable existence achieved by the harmony of these three layers of the mind.", src:"Happiness – what is it and how to achieve it?"},
+  {t:"There is no common meaning for mankind", b:"Each person's meaning is the furthest point their ego-personality can reach, driven by an “alpha drive” to feel unique. A homemaker and a national leader are moved by the same drive. A meaning handed to us by others is manipulation on one side and ego-surrender on the other.", q:"Each one comes out with a different truth, and each truth has a meaning.", src:"Man's Need for Meaning"},
+  {t:"Every final answer is a settled mind", b:"Philosophy and counter-philosophy alike become a settlement once held as final, and the mind stops working beyond defending them. Enlightenment, too, is a settlement that lets one live believing one's own truth.", q:"Gautama Buddha is the only Buddhist.", src:"A settled mind"},
+  {t:"Absolute judgement is judging by non-judging", b:"Judgement is necessary; without it life is bland, and passion comes from it. But to see a thing as it is means accepting its existence and allowing it. Any judgement disturbs the entity in reality.", q:"Absolute judgment is simply judging by non-judging.", src:"Absolute judgement"},
+  {t:"Freedom of being comes from the comfort of existence", b:"The “I” denies our mortality and turns even virtue into self-image: remove the “I” from “I'm kind” and the reason for kindness disappears. When the “I” is released, thoughts need no action and the layers of the mind stop fighting. There is no shortcut.", q:"Freedom of being seems elusive but not impossible.", src:"Freedom of being"},
+  {t:"The “common good” is a collective ego", b:"Humans are creatures like any other, driven by survival and an ego that seeks dominance. Claims of serving the common good are often the species' ego expressing itself, which is why purpose alone cannot justify an action.", q:"Doing a thing is an activity in itself, and it is self-limiting.", src:"Ego species"},
+  {t:"A matured ego neutralises itself", b:"Ego buds when a child realises it is separate. Most people stop growing and start “shielding” it between 18 and 25. Real maturity is reached when there is nothing left to defend, so shielding ends. Incomplete maturity, often produced by withdrawal from other people, is more dangerous than none.", q:"When the ego matures enough, it neutralizes itself.", src:"Ego Maturity and Its Traits"},
+];
+
+const DP_PATH = [
+  ["Instinct", "Survival drives every being. Anticipation prepares the organism for what is coming."],
+  ["The budding of ego", "A child realises they are a separate entity. The “I” is born and, with it, the wish to be eternal."],
+  ["Personality and the alpha drive", "The “I” becomes a socially acceptable personality and seeks to feel unique, the proxy for being an “alpha”."],
+  ["Shielding", "When the ego feels good enough, learning stops and defending starts. Early shielders defend too soon; late shielders let the ego be tested longer."],
+  ["Consolation and settlement", "Borrowed wisdom, religion, or a philosophy held as final keeps the self at a safe distance. Most lives stay here."],
+  ["Awakening", "Opening the door to the self. Facing its darker, creaturely nature brings existential anxiety, and the courage to bring the self into consciousness."],
+  ["Ego maturity", "Defences become harmless, then unnecessary. The non-shielder has nothing left to protect and remains open to learning."],
+  ["Freedom of being", "The “I” loosens; thoughts need no action; the layers of the mind fall into one line. Never a final arrival, since every last moment is still immature."],
+];
+
+const DP_SIGNS = [
+  {n:"The artist", d:"Moves playfully between seriousness and detachment, and sees everything raw, as it is.", q:"If life is considered an art, ego-matured persons are undoubtedly great artists."},
+  {n:"The egalitarian", d:"Their compassion reaches every being, not only what society currently demands.", q:"Ego-matured persons make everyone feel special, but none is exclusively special to them."},
+  {n:"The bestower", d:"They ease other people's existence so smoothly that it goes unnoticed.", q:"With them, other entities' egos feel right and confident enough to persist."},
+  {n:"The individualist", d:"Free of addiction and ideals; self-reliant; hard for society to define.", q:"Ego-matured persons are not bound to the virtues defined by society."},
+  {n:"The resident", d:"Being is being in itself: no goals, spontaneous, pain expressed rather than hidden, death not denied.", q:"They work for the work itself. Nothing more, nothing less."},
+  {n:"The judge", d:"Free of preformed notions, they accept others as they are. A single fixed point of view seems impossible to them.", q:"They don't follow any kind of discrimination, as they naturally can't."},
+  {n:"The witnesser", d:"They witness happenings as happenings, taking neither guilt nor credit.", q:"Ego matured persons dare not touch the butterfly."},
+  {n:"The lexicographer", d:"Ordinary language feels too thin for them; they keep a private dictionary and leave some realisations unsaid.", q:"Language serves as a medium only in their ego transience."},
+  {n:"The enthusiast", d:"Bliss without intoxicants. They live every moment, not only the moments they were taught to celebrate.", q:"Conscious, subconscious, and unconscious all lie in a coherent line."},
+  {n:"The non-shielder", d:"Their ego has no defences or boundaries; they use it lightly and surrender it willingly.", q:"Ego matured persons have a constant feeling that their last moment is immature."},
+];
+
+const DP_GLOSSARY = [
+  ["Psycho-philosophical mind", "The deepest layer, the self. Instinctive and early-formed, it knows it is a single entity responsible for its own existence."],
+  ["Ego-personality", "The “I” as a personality: uniqueness, opinions, esteem. It needs constant maintenance."],
+  ["Ego defences", "The outer layer's protections that let a person conform and live comfortably in society."],
+  ["Alpha drive", "The urge to feel unique (“no one is living like me”), at the root of most personal meanings."],
+  ["Shielding", "Protecting a finished-feeling ego from anything that might change it. There are early shielders, late shielders and non-shielders."],
+  ["Consolation", "An idea that soothes existential anxiety without reaching the self, such as “oneness”."],
+  ["Settled mind", "Any philosophy, counter-philosophy or enlightenment held as final, after which thinking only defends it."],
+  ["Absolute judgement", "Seeing an entity as it is by allowing it to exist; judging by non-judging."],
+  ["Collective ego", "The species-level ego that presents itself as the “common good”."],
+  ["Ego maturity", "The point where the ego has nothing left to defend, and so neutralises itself."],
+  ["Patchy living", "Living only in socially recognised moments, waiting anxiously for them, instead of in every moment."],
+  ["“n” probabilities", "The countless possibilities opened when the self comes into awareness, and the anxiety they bring."],
+];
+
+const DP_KIN = [
+  {who:"Sigmund & Anna Freud", t:"Layers and defences", b:"The layered mind and the vocabulary of ego defence mechanisms echo psychoanalysis. The difference is that DP's deepest layer is philosophical, not only a reservoir of drives: it knows its own responsibility for existing.", links:[["SEP search: Freud",SEPQ("Freud")]]},
+  {who:"Ernest Becker", t:"The denial of death", b:"In The Denial of Death (1973), Becker argued that human culture is a set of “immortality projects”. DP's claim that the need for eternity is hardwired, and that the “I” negates our mortality, runs very close.", links:[["Search: Becker",SEPQ("Ernest Becker denial of death")]]},
+  {who:"The Buddha", t:"No fixed self", b:"Releasing the “I” resembles anattā. But DP turns the insight against Buddhism as a doctrine: realisation cannot be followed, which is why “Gautama Buddha is the only Buddhist.”", links:[["SEP search: no-self",SEPQ("Buddhism no-self")]]},
+  {who:"Jiddu Krishnamurti", t:"Truth as a pathless land", b:"In 1929 Krishnamurti dissolved the order built around him, saying truth is a pathless land that no organisation can lead you to. DP's critique of gurus, readymade shields and settled minds is the same refusal.", links:[["Search: Krishnamurti",SEPQ("Krishnamurti")]]},
+  {who:"La Rochefoucauld", t:"Virtue as disguised self-love", b:"His Maxims (1665) open: “Our virtues are most frequently but vices disguised.” DP's “remove the ‘I’ from ‘I'm kind’” is a modern descendant, though DP points to release rather than cynicism.", links:[["Search: La Rochefoucauld",SEPQ("La Rochefoucauld")]]},
+  {who:"Kierkegaard", t:"Anxiety before possibility", b:"For Kierkegaard, anxiety is the dizziness of freedom. DP's account of the “n” probabilities that flood in when the self is let into consciousness is the same vertigo.", links:[["SEP: Kierkegaard",SEP("kierkegaard")]]},
+  {who:"Pyrrho & Zhuangzi", t:"Suspending judgement", b:"The ancient sceptics practised epochē, suspending judgement to reach tranquillity; Zhuangzi let things be what they are. DP's absolute judgement shares the aim but keeps judgement as necessary for passion.", links:[["SEP: Zhuangzi",SEP("zhuangzi")],["SEP: Skepticism",SEP("skepticism")]]},
+  {who:"Spinoza", t:"The witness", b:"“I have laboured carefully, not to mock, lament, or execrate, but to understand human actions” (Political Treatise I.4, trans. Elwes). The witnesser who takes neither guilt nor credit stands in this line.", links:[["SEP: Spinoza",SEP("spinoza")]]},
+  {who:"Camus", t:"Where the paths divide", b:"Camus also held there is no meaning given to mankind, and answered with revolt. DP answers with acceptance: not rebellion against the silence, but the ego maturing until it no longer needs an answer.", links:[["SEP: Camus",SEP("camus")]]},
+];
+
+const DP_TESTS = [
+  {t:"Does the philosophy apply to itself?", b:"If every meaning is the furthest reach of an ego-personality, is the philosophy of ego maturity also one? DP partly anticipates this (“their last moment is immature”), but it deserves a direct answer."},
+  {t:"Is non-judging a judgement?", b:"Choosing to allow rather than to judge is itself a stance. Can absolute judgement guide action, for instance when someone is being harmed?"},
+  {t:"Do motives decide everything?", b:"“If violence and nonviolence both have a purpose for the common good, then there is absolutely no difference.” A victim of violence would say the difference is real. Does harm count, apart from the ego behind it?"},
+  {t:"Who lets go of the “I”?", b:"Only a fully developed “I” can release the “I”, the essays say. But then the releasing is done by the ego. Is self-neutralisation coherent, or a final, subtler shield?"},
+  {t:"Why is the self dark?", b:"The deepest layer is described as dark and terrifying. Is that discovery, or an assumption? Could the self be neutral, or even benevolent, as many contemplative traditions claim?"},
+  {t:"Can ego maturity be recognised?", b:"The ten signs could also describe detachment, avoidance, or simple temperament. What separates a matured ego from a skilfully shielded one?"},
+];
+
+const DP_ESSAYS = [
+  ["Anticipation and time sense", "Feb 27, 2023", "Time, anticipation and the evolutionary pull toward the future."],
+  ["Philosophical consolations", "Mar 1, 2023", "Is philosophy meant for consolations?"],
+  ["Happiness – what is it and how to achieve it?", "Mar 8, 2023", "Happiness as harmony among three layers of the mind."],
+  ["Man's Need for Meaning", "Mar 13, 2023", "Why do humans feel a need to hold on to some meaning?"],
+  ["A settled mind", "Mar 20, 2023", "Losing the enlightenment streak."],
+  ["Absolute judgement", "Aug 7, 2023", "Is it humanly possible?"],
+  ["Freedom of being", "Dec 29, 2023", "When can a man be free?"],
+  ["Ego species", "Jul 12, 2024", "The nature of collective ego."],
+  ["Ego Maturity and Its Traits (1/2)", "Sep 9, 2024", "When the ego matures enough, it neutralizes itself."],
+  ["10 Signs of an ego-matured person (2/2)", "Nov 4, 2024", "The phenotype of an ego-matured person."],
+];
+
+function renderDP(){
+  $("#dp-principles").innerHTML = DP_PRINCIPLES.map((p,i)=>`
+    <article class="item">
+      <h3>${esc(p.t)}</h3>
+      <p class="body">${esc(p.b)}</p>
+      <p class="dpquote">“${esc(p.q)}” <span class="cite">— ${esc(p.src)}</span></p>
+      <div class="refs"><button class="linkish" data-dp="p${i}">Reflect on this</button></div>
+    </article>`).join("");
+  $("#dp-path").innerHTML = DP_PATH.map(([n,d])=>`<li><strong>${esc(n)}</strong><span>${esc(d)}</span></li>`).join("");
+  $("#dp-signs").innerHTML = DP_SIGNS.map((s,i)=>`
+    <div class="sign"><h3>${esc(s.n)}</h3><p>${esc(s.d)}</p><p class="dpquote">“${esc(s.q)}”</p><button class="linkish" data-dp="s${i}">Reflect on this</button></div>`).join("");
+  $("#dp-glossary").innerHTML = DP_GLOSSARY.map(([t,d])=>`<div><dt>${esc(t)}</dt><dd>${esc(d)}</dd></div>`).join("");
+  $("#dp-kin").innerHTML = DP_KIN.map(k=>`
+    <article class="item">
+      <div class="qmeta"><span class="chip">${esc(k.who)}</span></div>
+      <h3>${esc(k.t)}</h3><p class="body">${esc(k.b)}</p>
+      <div class="refs">${k.links.map(linkHTML).join("")}</div>
+    </article>`).join("");
+  $("#dp-tests").innerHTML = DP_TESTS.map((x,i)=>`
+    <article class="item"><h3>${esc(x.t)}</h3><p class="body">${esc(x.b)}</p><div class="refs"><button class="linkish" data-dp="t${i}">Take this into a dialogue</button></div></article>`).join("");
+  $("#dp-essays").innerHTML = DP_ESSAYS.map(([t,d,s])=>`
+    <article class="item"><span class="status">${esc(d)}</span><h3>${esc(t)}</h3><p class="gloss">${esc(s)}</p></article>`).join("");
+}
+document.getElementById("view-dp").addEventListener("click", e => {
+  const k = e.target.closest("[data-dp]")?.dataset.dp; if (!k) return;
+  const i = Number(k.slice(1));
+  if (k[0]==="p") { const p = DP_PRINCIPLES[i]; startTopic({cat:"My philosophy", q:`${p.t}. Is this true in your life?`, f:`From your essay “${p.src}”: “${p.q}”`, r:[]}); }
+  if (k[0]==="s") { const s = DP_SIGNS[i]; startTopic({cat:"Ego maturity", q:`${s.n}: how near or far are you from this sign?`, f:`${s.d} “${s.q}”`, r:[]}); }
+  if (k[0]==="t") { const x = DP_TESTS[i]; startTopic({cat:"Testing my philosophy", q:x.t, f:x.b, r:[]}); }
+});
+
 /* ================= IDEAS ================= */
 let ideaFilter = "All";
 function renderIdeas(){
@@ -985,9 +1245,10 @@ $("#quote-list").innerHTML = QUOTES.map((x,i)=>`
     <p class="quote">“${esc(x.q)}”</p>
     <p class="cite"><b>${esc(x.a)}</b> · ${esc(x.s)}</p>
     ${x.n?`<p class="gloss">${esc(x.n)}</p>`:""}
-    <div class="refs"><a href="${SEPQ(x.a)}" target="_blank" rel="noopener">Look up ${esc(x.a)} ↗</a><button class="linkish" data-quote="${i}">Reflect on this</button></div>
+    <div class="refs">${x.a==="DP" ? `<button class="linkish" data-goto="dp">Read the philosophy</button>` : `<a href="${SEPQ(x.a)}" target="_blank" rel="noopener">Look up ${esc(x.a)} ↗</a>`}<button class="linkish" data-quote="${i}">Reflect on this</button></div>
   </article>`).join("");
 $("#quote-list").addEventListener("click", e => {
+  if (e.target.closest("[data-goto]")) { show("dp"); window.scrollTo({top:0}); return; }
   const i = e.target.closest("[data-quote]")?.dataset.quote; if (i==null) return;
   const x = QUOTES[i];
   startTopic({cat:"Quote", q:`“${x.q}” Do you agree?`, f:`${x.a}, ${x.s}.`, r:[]});
@@ -1056,6 +1317,7 @@ window.addEventListener("appinstalled", () => { $("#install-btn").hidden = true;
 }
 
 renderIdeas();
+renderDP();
 Store.init();
 </script>
 

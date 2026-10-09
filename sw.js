@@ -1,5 +1,5 @@
 // Offline support: the app shell is cached on install; fonts are cached as they load.
-const CACHE = "reflections-b8eb9baa6b";
+const CACHE = "reflections-d86b302497";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", e => {
