@@ -223,6 +223,7 @@ details.dlg .thread{margin-top:var(--s4)}
       <button role="tab" id="tab-today" data-view="today" aria-selected="true">Today</button>
       <button role="tab" id="tab-ideas" data-view="ideas" aria-selected="false">Ideas</button>
       <button role="tab" id="tab-mind" data-view="mind" aria-selected="false">Mind &amp; Life</button>
+      <button role="tab" id="tab-thinkers" data-view="thinkers" aria-selected="false">Thinkers</button>
       <button role="tab" id="tab-quotes" data-view="quotes" aria-selected="false">Quotes</button>
       <button role="tab" id="tab-links" data-view="links" aria-selected="false">Readings</button>
       <button role="tab" id="tab-dp" data-view="dp" aria-selected="false">My Philosophy</button>
@@ -313,6 +314,17 @@ details.dlg .thread{margin-top:var(--s4)}
     </div>
     <div class="filters" id="mind-filters"></div>
     <div class="list" id="mind-list"></div>
+  </section>
+
+  <!-- THINKERS -->
+  <section class="view" id="view-thinkers" role="tabpanel" aria-labelledby="tab-thinkers" hidden>
+    <div class="intro">
+      <span class="eyebrow">Your circle of thinkers</span>
+      <h2>Thinkers</h2>
+      <p>Many of these voices meet in one book, Ernest Becker's <em>The Denial of Death</em> (1973), which drew on Rank, Brown, Fromm, Reich, Adler, Jung and the psychoanalysts around them. Others ask what time and reality are, or write the inner life from the inside. Each card says what the thinker saw, where you meet it in an ordinary day, and how it touches your own essays.</p>
+    </div>
+    <div class="filters" id="th-filters"></div>
+    <div class="list" id="th-list"></div>
   </section>
 
   <!-- QUOTES -->
@@ -535,6 +547,21 @@ const AFFIRMATIONS = [
   ["I will work for the work itself. Nothing more, nothing less.", "after DP, 10 Signs of an ego-matured person"],
   ["Whatever I understood yesterday may be immature today. I will stay open.", "after DP, 10 Signs of an ego-matured person"],
   ["I will watch my thoughts without obeying every one of them.", "after DP, Freedom of being"],
+  ["I do not need a hero project today. Living fully is enough.", "after Ernest Becker, The Denial of Death"],
+  ["I will let myself stand out a little, and belong a little, without fearing either.", "after Otto Rank, Will Therapy"],
+  ["Today I will be, not only have.", "after Erich Fromm, To Have or to Be?"],
+  ["When desire quiets, I will rest in the quiet instead of filling it.", "after Schopenhauer, The World as Will and Representation"],
+  ["I will sit for a moment without diversion, and see what is there.", "after Pascal, Pensées"],
+  ["I will play today, because play is older than culture.", "after Johan Huizinga, Homo Ludens"],
+  ["Leisure is not a break from life. I will take an hour simply to look.", "after Josef Pieper, Leisure: The Basis of Culture"],
+  ["I will take myself lightly today.", "after G. K. Chesterton, Orthodoxy"],
+  ["My time is not a clock. I will feel the duration of this morning.", "after Henri Bergson, Time and Free Will"],
+  ["The future is open, and so am I.", "after Lee Smolin and Roberto Unger, The Singular Universe and the Reality of Time"],
+  ["I am greater than every role I play.", "after Roberto Mangabeira Unger, The Self Awakened"],
+  ["I am, I am, I am.", "after Sylvia Plath, The Bell Jar"],
+  ["I contain more selves than one. I will be kind to all of them.", "after Fernando Pessoa"],
+  ["I will question one inherited custom today, and keep my self-respect.", "after Periyar, the Self-Respect Movement"],
+  ["I will notice where my body is armoured, and let one muscle go.", "after Wilhelm Reich, Character Analysis"],
 ];
 
 // Fundamental questions, each with a framing to start the dialogue.
@@ -614,6 +641,16 @@ const QUESTIONS = [
   {cat:"Everyday mind", q:"What is your phone doing to your sense of who you are?", f:"Social comparison theory (Festinger, 1954) predicts that constant upward comparison lowers satisfaction. Your essays call the underlying need the alpha drive.", r:[]},
   {cat:"Everyday mind", q:"When someone you love goes quiet, what is your first impulse?", f:"Attachment research describes anxious, avoidant and secure patterns, formed early. Buber described real meeting as presence without grasping.", r:[]},
   {cat:"Everyday mind", q:"How would you tell the story of your hardest year, and could it be told differently?", f:"Dan McAdams found that people who tell redemptive life stories tend to fare better. Arendt: storytelling reveals meaning without defining it.", r:[]},
+  {cat:"Thinkers", q:"What is your hero project, the thing you do to feel you count for more than a mortal animal?", f:"Ernest Becker argued that culture is a system for heroism, built to deny death. Your essays call the drive behind it the alpha drive.", r:["death"]},
+  {cat:"Thinkers", q:"Are you more afraid of standing out, or of disappearing into the crowd?", f:"Otto Rank saw every life torn between fear of life (separation) and fear of death (dissolving). The artist, he thought, turns the tension into creation.", r:[]},
+  {cat:"Thinkers", q:"What do you have that is quietly having you?", f:"Erich Fromm contrasted the having mode (possessing, consuming, controlling) with the being mode (loving, creating, sharing).", r:[]},
+  {cat:"Thinkers", q:"When did you last get what you wanted, and how long did the satisfaction last?", f:"Schopenhauer: life swings like a pendulum between pain and boredom. Your happiness essay finds the same fluctuation in the layers of the mind.", r:["schopenhauer"]},
+  {cat:"Thinkers", q:"What would happen if you sat alone in a quiet room for twenty minutes with nothing to do?", f:"Pascal thought our troubles come from being unable to do this, so we flee into diversion. A 2014 study found many people preferred mild electric shocks to sitting alone with their thoughts.", r:["pascal"]},
+  {cat:"Thinkers", q:"When did you last truly play, with no purpose at all?", f:"Huizinga argued that culture is born in play. Pieper argued that leisure, receptive contemplation, is the basis of culture. Is your free time either?", r:[]},
+  {cat:"Thinkers", q:"Is time real, or is the flow of time something your mind adds?", f:"Bergson distinguished clock time from lived duration. Smolin and Unger argue that time is fundamental and the future genuinely open.", r:["time","bergson"]},
+  {cat:"Thinkers", q:"How many selves do you contain, and which one is answering this question?", f:"Fernando Pessoa wrote as dozens of heteronyms, each a full poet. Anaïs Nin: we see things not as they are, but as we are.", r:["identity-personal"]},
+  {cat:"Thinkers", q:"Which of your customs would you keep if you had to justify it from scratch?", f:"Periyar urged people to question inherited authority, caste and superstition, and to live by reason and self-respect.", r:[]},
+  {cat:"Thinkers", q:"Is the feeling of oneness an insight into reality or a consolation?", f:"Schrödinger held that consciousness is one. Your essay “Philosophical consolations” suggests “oneness” may soothe the loneliness of being a single entity.", r:[]},
 ];
 
 // Fundamental ideas (library).
@@ -761,6 +798,20 @@ const QUOTES = [
   {q:"Man's main task in life is to give birth to himself, to become what he potentially is.", a:"Erich Fromm", s:"Man for Himself (1947)"},
   {q:"The best moments usually occur if a person's body or mind is stretched to its limits in a voluntary effort to accomplish something difficult and worthwhile.", a:"Mihaly Csikszentmihalyi", s:"Flow (1990)"},
   {q:"Nothing in life is as important as you think it is, while you are thinking about it.", a:"Daniel Kahneman", s:"Thinking, Fast and Slow, ch. 38 (2011)"},
+  {q:"The irony of man's condition is that the deepest need is to be free of the anxiety of death and annihilation; but it is life itself which awakens it, and so we must shrink from being fully alive.", a:"Ernest Becker", s:"The Denial of Death, ch. 4 (1973)"},
+  {q:"Man can indeed do what he wants, but he cannot want what he wants.", a:"Arthur Schopenhauer", s:"On the Freedom of the Will (1839)", n:"Translations vary."},
+  {q:"Life swings like a pendulum backward and forward between pain and boredom.", a:"Arthur Schopenhauer", s:"The World as Will and Representation, Vol. I §57 (1818)"},
+  {q:"Play is older than culture.", a:"Johan Huizinga", s:"Homo Ludens, ch. 1 (1938)"},
+  {q:"Angels can fly because they can take themselves lightly.", a:"G. K. Chesterton", s:"Orthodoxy, ch. 7 (1908)"},
+  {q:"The madman is not the man who has lost his reason. The madman is the man who has lost everything except his reason.", a:"G. K. Chesterton", s:"Orthodoxy, ch. 2 (1908)"},
+  {q:"To exist is to change, to change is to mature, to mature is to go on creating oneself endlessly.", a:"Henri Bergson", s:"Creative Evolution (1907)"},
+  {q:"Consciousness is a singular of which the plural is unknown.", a:"Erwin Schrödinger", s:"Mind and Matter (1958)"},
+  {q:"Love is an activity, not a passive affect; it is a “standing in,” not a “falling for.”", a:"Erich Fromm", s:"The Art of Loving (1956)"},
+  {q:"The mark of the immature man is that he wants to die nobly for a cause, while the mark of the mature man is that he wants to live humbly for one.", a:"Wilhelm Stekel", s:"attributed; quoted in Salinger, The Catcher in the Rye (1951)", n:"Known through Salinger's novel; no original Stekel source has been confirmed."},
+  {q:"We don't see things as they are, we see them as we are.", a:"Anaïs Nin", s:"Seduction of the Minotaur (1961)"},
+  {q:"I took a deep breath and listened to the old brag of my heart. I am, I am, I am.", a:"Sylvia Plath", s:"The Bell Jar, ch. 20 (1963)"},
+  {q:"What matters most is how well you walk through the fire.", a:"Charles Bukowski", s:"“How Is Your Heart?”"},
+  {q:"I am nothing. I'll never be anything. I couldn't want to be something. Apart from that, I have in me all the dreams in the world.", a:"Fernando Pessoa", s:"“Tobacco Shop”, as Álvaro de Campos (1928)"},
 ];
 
 const LINKS_REF = [
@@ -879,7 +930,7 @@ function show(view){
   document.querySelectorAll("section.view").forEach(s => s.hidden = s.id !== "view-"+view);
 }
 tabs.forEach(b => b.addEventListener("click", () => { show(b.dataset.view); window.scrollTo({top:0}); }));
-{ const h = location.hash.slice(1); if (["today","ideas","mind","quotes","links","dp","notebook"].includes(h)) show(h); }
+{ const h = location.hash.slice(1); if (["today","ideas","mind","thinkers","quotes","links","dp","notebook"].includes(h)) show(h); }
 
 /* ================= TODAY ================= */
 let affIdx = dayNum % AFFIRMATIONS.length;
@@ -1510,6 +1561,191 @@ const practiceIdx = (dayNum * 5) % MIND.length;
   $("#pr-more").onclick = () => { mindFilter = "All"; renderMind(); show("mind"); setTimeout(()=>document.getElementById("mind-"+practiceIdx)?.scrollIntoView({block:"start"}), 50); };
 }
 
+/* ================= THINKERS ================= */
+const THINKERS = [
+  // Death, character and the human condition
+  {n:"Ernest Becker", d:"1924–1974", c:"Death and character", w:"The Denial of Death (1973); Escape from Evil (1975)",
+   idea:"Human beings are split: a self that can imagine eternity, inside a body that will die. Much of culture, ambition and character is a “hero project”, a way to feel we count for more than a mortal animal. Becker won the Pulitzer Prize for the book two months after his death.",
+   life:"Working late to be indispensable, building a legacy, or defending your country, team or religion with fury: Becker would ask what fear of insignificance is being held off.",
+   dp:"Closest of all to your essays: the hardwired need for eternity, the “I” that negates mortality, and the alpha drive.",
+   q:"The irony of man's condition is that the deepest need is to be free of the anxiety of death and annihilation; but it is life itself which awakens it, and so we must shrink from being fully alive.", qs:"The Denial of Death, ch. 4"},
+  {n:"Otto Rank", d:"1884–1939", c:"Death and character", w:"The Trauma of Birth (1924); Will Therapy (1929–31); Art and Artist (1932)",
+   idea:"Freud's closest disciple before their break. Rank saw two fears in every life: fear of life (of standing out, separate and exposed) and fear of death (of dissolving back into the crowd). He described the “average” person who adapts, the neurotic who is paralysed, and the artist who turns the conflict into creation.",
+   life:"Wanting to stand out at work and also wanting to belong, and feeling torn whenever one wins.",
+   dp:"Rank's artist, who creates rather than conforms, resembles your ego-matured “artist”.",
+   links:[["Search: Otto Rank",SEPQ("Otto Rank")]]},
+  {n:"Norman O. Brown", d:"1913–2002", c:"Death and character", w:"Life Against Death (1959); Love's Body (1966)",
+   idea:"Brown read Freud as a prophet. Civilisation, he argued, is built on the repression of death and of the body's joy; we hoard money, time and achievements because we cannot accept that we die. He imagined a “resurrection of the body”, a life lived without the flight from mortality.",
+   life:"Saving for a future you never quite allow yourself to enjoy.",
+   dp:"Your view that the ego builds layers of complexity over simple creaturely instinct.",
+   links:[["Search: Norman O. Brown",SEPQ("Norman O. Brown")]]},
+  {n:"Erich Fromm", d:"1900–1980", c:"Death and character", w:"Escape from Freedom (1941); The Art of Loving (1956); To Have or to Be? (1976)",
+   idea:"Modern people gain freedom and then flee from it, into authoritarianism, conformity or destructiveness. Fromm contrasted a “having” mode of life (possessing, consuming) with a “being” mode (loving, creating, sharing).",
+   life:"Feeling secure only when you own, control or are approved of.",
+   dp:"Fromm's “being” mode is close to your resident: being is being in itself.",
+   q:"Love is an activity, not a passive affect; it is a “standing in,” not a “falling for.”", qs:"The Art of Loving (1956)"},
+  {n:"Wilhelm Reich", d:"1897–1957", c:"Death and character", w:"Character Analysis (1933); The Mass Psychology of Fascism (1933)",
+   idea:"Reich described “character armour”: chronic muscular and emotional tension that keeps feeling at bay. Defences live in the body as well as the mind. His later orgone theories were rejected by science and led to his imprisonment, but the idea of body armour shaped many therapies.",
+   life:"Tight shoulders before a difficult conversation; a fixed polite smile.",
+   dp:"Your ego defences and shielding, written into the body.",
+   links:[["Search: Reich character armour",SEPQ("Wilhelm Reich character armor")]]},
+  {n:"Alfred Adler", d:"1870–1937", c:"Death and character", w:"Understanding Human Nature (1927); What Life Should Mean to You (1931)",
+   idea:"Founder of individual psychology. Everyone begins with feelings of inferiority and strives to overcome them. Healthy striving becomes contribution to others (Gemeinschaftsgefühl, social interest); unhealthy striving becomes a lonely chase for superiority.",
+   life:"Competing with a sibling or colleague long after anyone else is keeping score.",
+   dp:"Adler's striving for superiority is very near your alpha drive.",
+   links:[["Search: Alfred Adler",SEPQ("Alfred Adler individual psychology")]]},
+  {n:"Carl Gustav Jung", d:"1875–1961", c:"Death and character", w:"Psychological Types (1921); The Archetypes and the Collective Unconscious; Memories, Dreams, Reflections (1962)",
+   idea:"Beneath the personal unconscious lies a collective one, shaped by archetypes. Life's second half is for individuation: integrating the persona, the shadow and the rest of the psyche into a whole.",
+   life:"Midlife restlessness: success achieved, and a sense that something else is now asking to be lived.",
+   dp:"Your path from ego-personality to self has the same direction as individuation.",
+   q:"Everything that irritates us about others can lead us to an understanding of ourselves.", qs:"Memories, Dreams, Reflections (1962)"},
+  {n:"J. A. C. Brown", d:"British psychiatrist, 20th century", c:"Death and character", w:"Freud and the Post-Freudians (1961)",
+   idea:"A clear map of how psychoanalysis branched after Freud: Adler, Jung, Rank, Horney, Fromm, Sullivan and the object-relations school. Becker relied on it to survey the field.",
+   life:"Useful whenever you meet a psychological idea and want to know which school it came from.",
+   dp:"A guide to the psychoanalytic vocabulary your layered model of mind echoes.",
+   links:[["Search: post-Freudians",SEPQ("post-Freudian psychoanalysis")]]},
+  {n:"Theodor Reik", d:"1888–1969", c:"Death and character", w:"Masochism in Modern Man (1941); Listening with the Third Ear (1948)",
+   idea:"Reik read “social masochism” as a strategy, not a love of pain: accepting suffering now to secure a later triumph, “victory through defeat”. He also urged analysts to listen with the “third ear”, to their own intuition.",
+   life:"The martyr at home or work who sacrifices loudly, and quietly expects to be repaid in guilt or gratitude.",
+   dp:"A clear case of the ego using virtue, even suffering, to win.",
+   links:[["Search: Theodor Reik",SEPQ("Theodor Reik masochism")]]},
+  {n:"Wilhelm Stekel", d:"1868–1940", c:"Death and character", w:"Conditions of Nervous Anxiety and Their Treatment (1908); Sadism and Masochism (1929)",
+   idea:"An early Freudian who pioneered active, shorter therapy and wrote at length on anxiety, fetishism and the symbolism of dreams. He saw many symptoms as flights from responsibility.",
+   life:"Dramatic gestures of commitment that avoid the daily, humble work the commitment needs.",
+   dp:"Your mature ego works for the work itself, without needing a heroic stage.",
+   q:"The mark of the immature man is that he wants to die nobly for a cause, while the mark of the mature man is that he wants to live humbly for one.", qs:"attributed to Stekel; quoted in J. D. Salinger, The Catcher in the Rye (1951)"},
+  {n:"Robert Bak & May Romm", d:"20th-century psychoanalysts", c:"Death and character", w:"Bak, “The Phallic Woman” (1968); Romm, “Some Dynamics in Fetishism” (1949)",
+   idea:"Their clinical papers on fetishism are central to Becker's chapter on perversion. Becker's reading: the fetish shrinks the overwhelming reality of the body and of another person down to something controllable. It is a protest against creatureliness.",
+   life:"In milder forms, fixing on a single detail of a person or object to avoid facing the whole, uncontrollable reality.",
+   dp:"Your thought that we cannot accept being creatures like any other.",
+   links:[["Search: Becker on fetishism",SEPQ("Becker Denial of Death perversion")]]},
+  {n:"Erwin Straus", d:"1891–1975", c:"Death and character", w:"The Primary World of Senses (1935); “The Upright Posture” (1952)",
+   idea:"A phenomenological psychiatrist. Straus argued that sensing is not passive data-gathering but living communication with the world, and that standing upright shapes the way human beings experience distance, dignity and freedom.",
+   life:"How differently the same room feels when you are lying ill in bed, and when you stand in it.",
+   dp:"Your outer conscious mind, rooted in the senses, before the ego interprets anything.",
+   links:[["Search: Erwin Straus",SEPQ("Erwin Straus phenomenology")]]},
+  {n:"Medard Boss", d:"1903–1990", c:"Death and character", w:"Psychoanalysis and Daseinsanalysis (1963); Zollikon Seminars with Heidegger (1959–69)",
+   idea:"Boss joined psychiatry to Heidegger's philosophy. Instead of hidden mechanisms, he asked how a person is open to the world, and how illness narrows that openness.",
+   life:"In anxiety the whole world can shrink to one threat; in love it can open wide.",
+   dp:"Ego maturity in your sense is a widening of openness: a boundary-less ego, open to learning.",
+   links:[["Search: Daseinsanalysis",SEPQ("Daseinsanalysis Medard Boss")]]},
+  // Will, despair and diversion
+  {n:"Arthur Schopenhauer", d:"1788–1860", c:"Will and diversion", w:"The World as Will and Representation (1818); On the Freedom of the Will (1839)",
+   idea:"Behind every appearance is blind, striving Will. Desire brings pain while unmet and boredom once met. Relief comes through art, compassion and the quieting of the will, ideas he found echoed in the Upanishads and Buddhism.",
+   life:"The parcel you longed for arrives, and an hour later you are scrolling for the next thing.",
+   dp:"Your happiness essay: fluctuation is inevitable, and the ego-personality always moves on to the next moment.",
+   q:"Life swings like a pendulum backward and forward between pain and boredom.", qs:"The World as Will and Representation, Vol. I §57", links:[["SEP: Schopenhauer",SEP("schopenhauer")]]},
+  {n:"Blaise Pascal", d:"1623–1662", c:"Will and diversion", w:"Pensées (1670)",
+   idea:"Pascal saw human beings as suspended between greatness and wretchedness. Unable to bear our condition, we flee into diversion (divertissement): games, busyness, noise.",
+   life:"Reaching for your phone in a queue, or at the first moment of silence.",
+   dp:"Diversion is Pascal's word for what you call keeping the self switched off.",
+   q:"The heart has its reasons which reason does not know.", qs:"Pensées 277 (Brunschvicg)", links:[["SEP: Pascal",SEP("pascal")]]},
+  // Play, leisure and festivity
+  {n:"Johan Huizinga", d:"1872–1945", c:"Play and leisure", w:"Homo Ludens (1938); The Waning of the Middle Ages (1919)",
+   idea:"Culture arises in and as play: law, poetry, war and ritual all carry play's rules, boundaries and seriousness. Human beings are Homo ludens, the playing creature, as much as Homo sapiens.",
+   life:"Losing yourself in a game with a child, and finding the rest of the day lighter.",
+   dp:"Your artist moves playfully between seriousness and detachment.",
+   q:"Play is older than culture.", qs:"Homo Ludens (1938), ch. 1", links:[["Search: Huizinga",SEPQ("Huizinga Homo Ludens")]]},
+  {n:"Josef Pieper", d:"1904–1997", c:"Play and leisure", w:"Leisure: The Basis of Culture (1948)",
+   idea:"Leisure is not idleness or a break to recharge for work. It is an attitude of receptive contemplation, the capacity to celebrate and to see, and it is the root of culture. A world of “total work” loses it.",
+   life:"A weekend spent recovering only so you can work better on Monday.",
+   dp:"Your enthusiast rejects “patchy living”, waiting for the recognised moments instead of living every one.",
+   links:[["Search: Josef Pieper",SEPQ("Josef Pieper leisure")]]},
+  {n:"Harvey Cox", d:"born 1929", c:"Play and leisure", w:"The Secular City (1965); The Feast of Fools (1969)",
+   idea:"In The Feast of Fools, Cox argued that modern societies have lost festivity and fantasy: the ability to celebrate and to imagine. Both are needed for a fully human life, and for hope.",
+   life:"Birthdays and holidays that feel like logistics rather than celebrations.",
+   dp:"A reminder that not every celebration is ego-display; some festivity frees.",
+   links:[["Search: Harvey Cox",SEPQ("Harvey Cox Feast of Fools")]]},
+  {n:"G. K. Chesterton", d:"1874–1936", c:"Play and leisure", w:"Orthodoxy (1908); Heretics (1905)",
+   idea:"A master of paradox who defended wonder, humility and common sense. Reason alone, unbalanced by imagination, can become a prison.",
+   life:"Taking yourself so seriously that a small slight ruins a whole day.",
+   dp:"Your warning about a mind imprisoned by its own complex thoughts.",
+   q:"Angels can fly because they can take themselves lightly.", qs:"Orthodoxy (1908), ch. 7", links:[["Search: Chesterton",SEPQ("G. K. Chesterton")]]},
+  // Time and reality
+  {n:"Henri Bergson", d:"1859–1941", c:"Time and reality", w:"Time and Free Will (1889); Matter and Memory (1896); Creative Evolution (1907)",
+   idea:"Clock time is space in disguise, a line of identical instants. Lived time, durée, is a flowing, qualitative whole in which the past is carried into the present. Life is a creative surge (élan vital).",
+   life:"An hour with someone you love and an hour in a waiting room are the same on the clock and nothing alike in experience.",
+   dp:"Your anticipation essay: the moment has no fixed material existence; existence is energy moving forward.",
+   q:"To exist is to change, to change is to mature, to mature is to go on creating oneself endlessly.", qs:"Creative Evolution (1907)", links:[["SEP: Bergson",SEP("bergson")]]},
+  {n:"Gottfried Wilhelm Leibniz", d:"1646–1716", c:"Time and reality", w:"Monadology (1714); New Essays on Human Understanding (1704); Theodicy (1710)",
+   idea:"Reality is made of simple centres of perception (monads). Leibniz also described “minute perceptions”, too small to notice, that shape our mood and choices: an early idea of the unconscious.",
+   life:"A low mood you can't explain, built from small things you never consciously registered.",
+   dp:"Minute perceptions are a forerunner of your automated thoughts below consciousness.",
+   q:"Why is there something rather than nothing?", qs:"Principles of Nature and Grace §7 (1714)", links:[["SEP: Leibniz",SEP("leibniz")]]},
+  {n:"Lee Smolin", d:"born 1955", c:"Time and reality", w:"Time Reborn (2013); with Unger, The Singular Universe and the Reality of Time (2014)",
+   idea:"A theoretical physicist who argues that time is fundamentally real, not an illusion of a timeless block universe, and that even the laws of nature may evolve.",
+   life:"If the future is genuinely open, then your choices this morning are not already written.",
+   dp:"Supports your forward-moving, unidirectional picture of human time.",
+   links:[["Search: Smolin time",SEPQ("Smolin reality of time")]]},
+  {n:"Roberto Mangabeira Unger", d:"born 1947", c:"Time and reality", w:"The Self Awakened (2007); The Religion of the Future (2014); The Singular Universe (2014)",
+   idea:"Human beings are greater than every context they build: institutions, beliefs, characters. We should keep those structures open to revision and resist the “belittlement” of a life lived on rails.",
+   life:"Staying in a role or routine long after it has stopped fitting, because it has become who you think you are.",
+   dp:"Close to your critique of the settled mind and of shielding.",
+   links:[["Search: Unger",SEPQ("Roberto Mangabeira Unger")]]},
+  {n:"Leslie Ballentine", d:"Canadian physicist", c:"Time and reality", w:"“The Statistical Interpretation of Quantum Mechanics” (1970); Quantum Mechanics: A Modern Development (1998)",
+   idea:"A physicist known for the ensemble interpretation: a quantum state describes the statistics of many similarly prepared systems, not a single system, and gives no special role to consciousness.",
+   life:"A useful caution when someone claims quantum physics proves the mind creates reality.",
+   dp:"Fits your suspicion of consolations: ideas that sound profound but soothe more than they explain.",
+   links:[["Search: ensemble interpretation",SEPQ("ensemble interpretation quantum mechanics")]]},
+  {n:"Erwin Schrödinger", d:"1887–1961", c:"Time and reality", w:"What Is Life? (1944); Mind and Matter (1958); My View of the World (1961)",
+   idea:"A founder of quantum mechanics who asked how living things keep order against entropy, an idea that inspired molecular biology. Drawing on the Upanishads, he held that consciousness is ultimately one.",
+   life:"The sense, on a quiet walk, that “I” and the world are not as separate as they seem.",
+   dp:"Your essays would ask whether “oneness” is insight or a consolation for the loneliness of being a single entity.",
+   q:"Consciousness is a singular of which the plural is unknown.", qs:"Mind and Matter (1958)", links:[["Search: Schrödinger",SEPQ("Schrödinger What is Life")]]},
+  // Writers of the inner life
+  {n:"Anaïs Nin", d:"1903–1977", c:"Writers of the inner life", w:"The Diary of Anaïs Nin (1966–); Seduction of the Minotaur (1961)",
+   idea:"Nin, who was analysed by Otto Rank and later worked with him, made the diary an art of self-discovery: truth is found by attending closely to the inner life and its contradictions.",
+   life:"Two people describe the same evening so differently that it might have been two events.",
+   dp:"Your line: no two people can understand the same thing in the same way.",
+   q:"We don't see things as they are, we see them as we are.", qs:"Seduction of the Minotaur (1961)", links:[["Search: Anaïs Nin",SEPQ("Anaïs Nin")]]},
+  {n:"Sylvia Plath", d:"1932–1963", c:"Writers of the inner life", w:"The Bell Jar (1963); Ariel (1965)",
+   idea:"Plath wrote depression and the pressures on a woman's selfhood with unflinching precision. Her work holds both despair and a fierce insistence on being alive.",
+   life:"A day when everything looks normal from outside and feels airless inside.",
+   dp:"Your essays on existential anxiety when the self is let into consciousness.",
+   q:"I took a deep breath and listened to the old brag of my heart. I am, I am, I am.", qs:"The Bell Jar (1963), ch. 20", links:[["Search: Plath",SEPQ("Sylvia Plath")]]},
+  {n:"Charles Bukowski", d:"1920–1994", c:"Writers of the inner life", w:"Ham on Rye (1982); The Last Night of the Earth Poems (1992)",
+   idea:"A poet of factories, bars and racetracks who refused polish and pretence. Under the roughness is a stubborn faith in endurance and honest feeling.",
+   life:"Getting through a grinding week without pretending it was anything else.",
+   dp:"Your artist sees things raw, “as it is,” without sugar-coating.",
+   q:"What matters most is how well you walk through the fire.", qs:"“How Is Your Heart?”", links:[["Search: Bukowski",SEPQ("Charles Bukowski")]]},
+  {n:"Fernando Pessoa", d:"1888–1935", c:"Writers of the inner life", w:"The Book of Disquiet (pub. 1982); poems as Caeiro, Reis, Campos and others",
+   idea:"Pessoa wrote as dozens of “heteronyms”, fully imagined poets with their own styles and philosophies. The self, for him, was a crowd and a fiction.",
+   life:"Being a different person with your parents, your friends and your colleagues, and wondering which one is you.",
+   dp:"A living experiment in your question: is there a self beneath the ego-personality?",
+   q:"I am nothing. I'll never be anything. I couldn't want to be something. Apart from that, I have in me all the dreams in the world.", qs:"“Tobacco Shop” (as Álvaro de Campos, 1928)", links:[["Search: Pessoa",SEPQ("Fernando Pessoa heteronyms")]]},
+  // Reason and revolt
+  {n:"Periyar E. V. Ramasamy", d:"1879–1973", c:"Reason and revolt", w:"Self-Respect Movement (from 1925); Kudi Arasu (journal, from 1925)",
+   idea:"A Tamil social reformer who called people to rationalism and self-respect. He fought caste hierarchy, superstition and the subordination of women, and urged everyone to question inherited authority.",
+   life:"Following a custom only because your family always has, without asking whom it serves.",
+   dp:"Your critique of readymade answers, gurus and religion sold as a shortcut.",
+   links:[["Search: Periyar",SEPQ("Periyar Self-Respect Movement")]]},
+];
+THINKERS.forEach(t => { if (!t.links) t.links = []; });
+const TH_CLUSTERS = ["All", ...new Set(THINKERS.map(t=>t.c))];
+let thFilter = "All";
+function renderThinkers(){
+  $("#th-filters").innerHTML = TH_CLUSTERS.map(c=>`<button type="button" aria-pressed="${c===thFilter}" data-tcl="${esc(c)}">${esc(c)}</button>`).join("");
+  $("#th-list").innerHTML = THINKERS.map((t,i)=>({t,i})).filter(({t})=>thFilter==="All"||t.c===thFilter).map(({t,i})=>`
+    <article class="item">
+      <div class="qmeta"><span class="chip">${esc(t.c)}</span><span class="thinkers">${esc(t.d)}</span></div>
+      <h3>${esc(t.n)}</h3>
+      <p class="thinkers">${esc(t.w)}</p>
+      <p class="body">${esc(t.idea)}</p>
+      ${t.q ? `<p class="dpquote">“${esc(t.q)}” <span class="cite">— ${esc(t.qs)}</span></p>` : ""}
+      <dl class="mind-grid">
+        <div><dt>In daily life</dt><dd class="scene">${esc(t.life)}</dd></div>
+        <div><dt>Your essays</dt><dd>${esc(t.dp)}</dd></div>
+      </dl>
+      <div class="refs">${t.links.map(linkHTML).join("")}<button class="linkish" data-th="${i}">Reflect on this</button></div>
+    </article>`).join("");
+}
+$("#th-filters").addEventListener("click", e => { const c = e.target.closest("button")?.dataset.tcl; if (c){ thFilter=c; renderThinkers(); } });
+$("#th-list").addEventListener("click", e => {
+  const i = e.target.closest("[data-th]")?.dataset.th; if (i==null) return;
+  const t = THINKERS[i];
+  startTopic({cat:t.n, q:`${t.n}: does this see something true about your life?`, f:`${t.idea} Everyday: ${t.life}`, r:[]});
+});
+
 /* ================= QUOTES ================= */
 $("#quote-list").innerHTML = QUOTES.map((x,i)=>`
   <article class="item">
@@ -1590,6 +1826,7 @@ window.addEventListener("appinstalled", () => { $("#install-btn").hidden = true;
 renderIdeas();
 renderDP();
 renderMind();
+renderThinkers();
 Store.init();
 </script>
 
