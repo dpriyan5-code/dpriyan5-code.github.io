@@ -2609,7 +2609,7 @@ async function loadSection(key){
   const sec = CA_SECTIONS.find(s => s.key === key);
   const st = $("#ca-status"); st.textContent = `Searching ${sec.label.toLowerCase()} news… this can take a minute.`;
   try { await fetchSection(sec); st.textContent = ""; }
-  catch (err) { st.textContent = err?.code === "no_place" ? "Add your place first." : (ERROR_COPY[err?.code] || "Couldn't fetch the news just now. Check that web search is enabled for your API organisation."); }
+  catch (err) { st.textContent = err?.code === "no_place" ? "Add your place first." : (ERROR_COPY[err?.code] || "Couldn't fetch the news just now. Check that web search is enabled for your API organisation.") + (err?.message ? ` Anthropic says: “${err.message}”` : ""); }
   if (caTab === key) renderPane();
   renderTabs();
 }
@@ -2620,11 +2620,12 @@ $("#ca-settings").addEventListener("submit", async e => {
   const btn = $("#ca-go"); btn.disabled = true;
   const keys = ["local","state","national","international","social"]; let done = 0;
   const st = $("#ca-status");
-  const run = async k => { const sec = CA_SECTIONS.find(s => s.key === k); try { await fetchSection(sec); } catch {} done++; st.textContent = `Loaded ${done} of ${keys.length} sections…`; renderTabs(); if (caTab === k) renderPane(); };
+  let lastErr = "";
+  const run = async k => { const sec = CA_SECTIONS.find(s => s.key === k); try { await fetchSection(sec); } catch (err) { lastErr = (ERROR_COPY[err?.code] || "Some sections couldn't load.") + (err?.message ? ` Anthropic says: “${err.message}”` : ""); } done++; st.textContent = `Loaded ${done} of ${keys.length} sections…`; renderTabs(); if (caTab === k) renderPane(); };
   st.textContent = `Loading ${keys.length} sections… this can take a few minutes.`;
   const queue = keys.slice(); const workers = [1,2].map(async () => { while (queue.length) await run(queue.shift()); });
   await Promise.all(workers);
-  st.textContent = `Updated ${new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}.`;
+  st.textContent = lastErr || `Updated ${new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}.`;
   btn.disabled = !apiKey();
 });
 
