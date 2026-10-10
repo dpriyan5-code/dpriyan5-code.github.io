@@ -238,6 +238,16 @@ h2.sub{font-size:1.5rem}
 .chip.sent-humorous{color:var(--dawn)}
 .assess.mine{border-left-color:var(--lapis)}
 
+/* opinion desk */
+.op-steps{list-style:none;margin:var(--s5) 0 0;padding:0;display:grid;gap:var(--s4)}
+.op-step{display:grid;grid-template-columns:2.25rem 1fr;gap:var(--s3);padding:var(--s4);border:1px solid var(--line);border-radius:1rem;background:var(--surface)}
+.op-num{width:2.25rem;height:2.25rem;border-radius:50%;display:grid;place-items:center;background:var(--dawn-soft);color:var(--dawn);font-family:var(--display);font-weight:600;font-size:1.2rem}
+.op-body{display:grid;gap:var(--s2);min-width:0}
+.op-body h3{font-size:1.3rem}
+.op-body textarea{width:100%;min-height:5rem;resize:vertical;border:1px solid var(--line);border-radius:.7rem;background:var(--bg);padding:var(--s2) var(--s3);line-height:1.5}
+.op-help{display:grid;gap:var(--s2);padding:var(--s3) var(--s4);border-left:2px solid var(--lapis);background:var(--surface-2);border-radius:0 .7rem .7rem 0;font-size:.95rem}
+.op-final{font-family:var(--display);font-size:1.15rem;line-height:1.45}
+
 /* epiphany */
 .item,details.debate{scroll-margin-top:7rem}
 .flash{animation:flash 1.8s ease-out}
@@ -514,6 +524,32 @@ details.dlg .thread{margin-top:var(--s4)}
     <div class="nb-section">
       <h2 class="sub">My epiphanies</h2>
       <div class="list" id="epi-saved"></div>
+    </div>
+  </section>
+
+  <!-- OPINION DESK -->
+  <section class="view" id="view-opinion" role="tabpanel" hidden>
+    <div class="intro">
+      <span class="eyebrow">Think it through before the crowd decides for you</span>
+      <h2>Opinion Desk</h2>
+      <p>Bring any trending topic from wherever you read the news. Seven steps take you from first reaction to an opinion you can stand behind. Write each step yourself; Claude can help at any step, but it does not search the web, so check current facts in your own sources.</p>
+    </div>
+    <form class="addbox" id="op-form">
+      <label class="eyebrow" for="op-topic">The topic</label>
+      <input id="op-topic" maxlength="200" placeholder="e.g. The new state policy on…">
+      <label class="eyebrow" for="op-context">What you've read (optional)</label>
+      <textarea id="op-context" maxlength="3000" placeholder="Paste a headline, a few lines, or links from the outlets you read"></textarea>
+    </form>
+    <ol class="op-steps" id="op-steps"></ol>
+    <div class="row epi-actions">
+      <button class="btn primary" type="button" id="op-save">Save opinion</button>
+      <button class="btn" type="button" id="op-talk">Discuss with the companion</button>
+      <button class="btn ghost" type="button" id="op-new">New topic</button>
+      <span class="status" id="op-status"></span>
+    </div>
+    <div class="nb-section">
+      <h2 class="sub">My opinions</h2>
+      <div class="list" id="op-saved"></div>
     </div>
   </section>
 
@@ -1123,7 +1159,7 @@ function strip(e){ const {id, ...rest} = e; return JSON.parse(JSON.stringify(res
 /* ================= NAVIGATION ================= */
 const GROUPS = {
   today:{views:[["today","Today"]]},
-  epiphany:{views:[["epiphany","Epiphany"]]},
+  epiphany:{views:[["epiphany","Epiphany"],["opinion","Opinion Desk"]]},
   explore:{views:[["ideas","Ideas"],["mind","Mind & Life"],["thinkers","Thinkers"],["critique","Critical Evaluation"],["quotes","Quotes"],["links","Readings"]]},
   me:{views:[["dp","My Philosophy"],["notebook","My Notebook"]]},
 };
@@ -2530,6 +2566,101 @@ $("#epi-saved").addEventListener("click", e => {
   $("#epi-text").value = x.text; renderEpi(); $("#epi-work").scrollIntoView({behavior:"smooth", block:"start"});
 });
 Store.onChange(renderEpiphanies);
+
+/* ================= OPINION DESK ================= */
+const OP_STEPS = [
+  {k:"facts", t:"Get the facts straight", p:"Read the story in two outlets that usually disagree. What do both agree actually happened? That is your factual floor.", ph:"Both sources agree that…", help:"Help me sort facts from claims",
+   ask:(o)=>`Help the person separate facts from claims about this topic, using only what they have provided. List what appears to be established, what is disputed or opinion, and 3 specific things they should verify in reliable sources. Say clearly that you cannot check current events yourself.`},
+  {k:"gut", t:"Your first reaction", p:"In one line, before reading any commentary. This is a starting point, not a conclusion.", ph:"My gut says…", help:null},
+  {k:"question", t:"Question the reaction", p:"Which layer of your mind is reacting: ego defences, the alpha drive, or something deeper? Is this “common good” a collective ego? Can you see it as it is, without the ego's tint?", ph:"Looking at my reaction honestly…", help:"Examine my reaction through my essays",
+   ask:(o)=>`Examine the person's first reaction using DP's own concepts (three layers of mind, alpha drive, shielding, collective ego, absolute judgement). Be honest and specific, not flattering. Point out which layer the reaction most likely comes from and what it may be protecting. End with one question.`},
+  {k:"steelman", t:"Steelman the other side", p:"Write the strongest case a thoughtful opponent would make, not a cartoon. If you can't, you don't yet understand the issue.", ph:"The best argument against my view is…", help:"Write the strongest opposing case",
+   ask:(o)=>`Write the strongest case against the person's first reaction, as a thoughtful, well-informed opponent would make it, in about 150 words. Then add one more distinct opposing position if the debate has more than two sides. Do not invent facts.`},
+  {k:"stakes", t:"Who gains, who pays", p:"Periyar's test: whom does this protect, and whom does it exclude? Think of people with the least power in the story.", ph:"Those who gain… Those who pay…", help:"Map who gains and who pays",
+   ask:(o)=>`List who gains and who pays if each main position on this topic wins: different groups, including those with the least power and those not in the room. Keep it to concrete groups, and flag where the effects are uncertain.`},
+  {k:"opinion", t:"Your opinion in three sentences", p:"1. What you think. 2. Your strongest reason. 3. What evidence would change your mind.", ph:"1. I think…\n2. Because…\n3. I would change my mind if…", help:"Critique my draft",
+   ask:(o)=>`Critique the person's three-sentence opinion. Is it clear? Is the reason actually the strongest one? Is the "what would change my mind" condition genuine and testable? Note any hidden assumption. Suggest one sharper rewording, without changing their position.`},
+  {k:"revisit", t:"Sleep on it", p:"Trends reward speed; opinions worth keeping survive a night's sleep. Save now, then come back tomorrow: has anything changed?", ph:"Next day: my view has / hasn't changed because…", help:null},
+];
+let op = null;
+function opBlank(){ return {id:null, topic:"", context:"", steps:{}, helps:{}}; }
+function opCollect(){
+  op = op || opBlank();
+  op.topic = $("#op-topic").value.trim(); op.context = $("#op-context").value.trim();
+  OP_STEPS.forEach(s => { op.steps[s.k] = (document.getElementById("op-s-"+s.k)?.value || "").trim(); });
+  return op;
+}
+function renderOpSteps(){
+  const online = companionMode() !== "offline";
+  $("#op-steps").innerHTML = OP_STEPS.map((s,i) => `
+    <li class="op-step">
+      <div class="op-num">${i+1}</div>
+      <div class="op-body">
+        <h3>${esc(s.t)}</h3>
+        <p class="note">${esc(s.p)}</p>
+        <textarea id="op-s-${s.k}" maxlength="3000" placeholder="${esc(s.ph)}">${esc(op?.steps?.[s.k] || "")}</textarea>
+        ${s.help ? `<div class="row"><button class="linkish" type="button" data-ophelp="${s.k}" ${online ? "" : "disabled"}>${esc(s.help)}</button>${online ? "" : `<span class="note">Needs Claude (API key or the Claude version).</span>`}</div>` : ""}
+        <div class="op-help" id="op-h-${s.k}" ${op?.helps?.[s.k] ? "" : "hidden"}>${op?.helps?.[s.k] ? md(op.helps[s.k]) : ""}</div>
+      </div>
+    </li>`).join("");
+}
+$("#op-steps").addEventListener("click", async e => {
+  const k = e.target.closest("[data-ophelp]")?.dataset.ophelp; if (!k) return;
+  const o = opCollect();
+  if (!o.topic) { toast("Write the topic first."); $("#op-topic").focus(); return; }
+  const s = OP_STEPS.find(x => x.k === k); const box = document.getElementById("op-h-"+k);
+  const b = e.target.closest("button"); b.disabled = true;
+  box.hidden = false; box.innerHTML = `<p class="thinking">Thinking…</p>`;
+  try {
+    const text = await askText(`Topic: ${o.topic}
+${o.context ? "What the person has read: " + o.context : ""}
+${o.steps.facts ? "Facts they established: " + o.steps.facts : ""}
+${o.steps.gut ? "Their first reaction: " + o.steps.gut : ""}
+${o.steps.question ? "Their self-examination: " + o.steps.question : ""}
+${o.steps.opinion ? "Their three-sentence opinion: " + o.steps.opinion : ""}
+
+The person's own philosophy: ${DP_SUMMARY}
+
+${s.ask(o)}
+Be fair to all sides and do not tell them what to conclude. Plain prose, short paragraphs, under 220 words.`);
+    o.helps[k] = text; box.innerHTML = md(text);
+  } catch (err) { box.innerHTML = `<p class="note">${esc(ERROR_COPY[err?.code] || "Couldn't help with that just now.")}</p>`; }
+  finally { b.disabled = false; }
+});
+$("#op-save").onclick = () => {
+  const o = opCollect(); if (!o.topic) { toast("Write the topic first."); return; }
+  o.id = o.id || "opinion-" + Date.now();
+  Store.put({...JSON.parse(JSON.stringify(o)), kind:"opinion", savedAt: o.savedAt || Date.now()});
+  toast("Opinion saved. Come back tomorrow for step 7.");
+};
+$("#op-talk").onclick = () => {
+  const o = opCollect(); if (!o.topic) { toast("Write the topic first."); return; }
+  startTopic({cat:"Opinion Desk", q:`${o.topic}: is my opinion sound?`, f:[o.steps.gut && "First reaction: " + o.steps.gut, o.steps.opinion && "My opinion: " + o.steps.opinion, o.context && "Context: " + o.context].filter(Boolean).join(" · ") || "I'm forming an opinion on this topic.", r:[]});
+};
+$("#op-new").onclick = () => { op = opBlank(); $("#op-topic").value = ""; $("#op-context").value = ""; renderOpSteps(); window.scrollTo({top:0}); $("#op-topic").focus(); };
+function renderOpinions(){
+  const list = Store.of("opinion");
+  $("#op-saved").innerHTML = list.length ? list.map(x => {
+    const days = Math.floor((Date.now() - (x.savedAt || x.created)) / 864e5);
+    const due = days >= 1 && !x.steps?.revisit;
+    return `<article class="item"><div class="qmeta"><span class="status">${new Date(x.created).toLocaleDateString()}</span>${due ? `<span class="chip dawnchip">Ready to revisit</span>` : ""}</div>
+      <h3>${esc(x.topic)}</h3>
+      ${x.steps?.opinion ? `<p class="body op-final">${esc(x.steps.opinion).replace(/\n/g,"<br>")}</p>` : x.steps?.gut ? `<p class="gloss">First reaction: ${esc(x.steps.gut)}</p>` : ""}
+      ${x.steps?.revisit ? `<p class="gloss"><strong>Next day:</strong> ${esc(x.steps.revisit)}</p>` : ""}
+      <div class="refs"><button class="linkish" data-op-open="${esc(x.id)}">${due ? "Revisit" : "Open"}</button><button class="x" data-op-del="${esc(x.id)}">Delete</button></div></article>`;
+  }).join("") : `<p class="empty">Opinions you work through will collect here, with the date, so you can see how your views change.</p>`;
+}
+$("#op-saved").addEventListener("click", e => {
+  const del = e.target.closest("[data-op-del]");
+  if (del) { if (del.dataset.armed) { Store.remove(del.dataset.opDel); toast("Removed"); } else { del.dataset.armed = "1"; del.textContent = "Click again to confirm"; } return; }
+  const id = e.target.closest("[data-op-open]")?.dataset.opOpen; if (!id) return;
+  const x = Store.entries.find(y => y.id === id); if (!x) return;
+  op = {...JSON.parse(JSON.stringify(x)), steps:x.steps||{}, helps:x.helps||{}};
+  $("#op-topic").value = x.topic || ""; $("#op-context").value = x.context || "";
+  renderOpSteps(); window.scrollTo({top:0});
+});
+Store.onChange(renderOpinions);
+op = opBlank(); renderOpSteps();
 
 /* ================= QUOTES ================= */
 $("#quote-list").innerHTML = QUOTES.map((x,i)=>`
