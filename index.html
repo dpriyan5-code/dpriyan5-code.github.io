@@ -163,6 +163,24 @@ h2.sub{font-size:1.5rem}
   nav.tabs button{flex:0 0 auto}
 }
 
+/* epiphany & current affairs */
+.item,details.debate{scroll-margin-top:7rem}
+.flash{animation:flash 1.8s ease-out}
+@keyframes flash{0%{background:var(--dawn-soft)}100%{background:transparent}}
+.epi-form textarea{min-height:7rem;font-family:var(--display);font-size:1.25rem;line-height:1.4}
+.epi-result{display:grid;gap:var(--s5)}
+.echoes{display:flex;flex-wrap:wrap;gap:var(--s2)}
+.echo{display:inline-flex;align-items:center;gap:var(--s2);max-width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:.8rem;padding:.4rem .7rem;cursor:pointer;font-size:.9rem}
+.echo:hover{border-color:var(--lapis)}
+.echo > span:last-child{min-width:0;overflow-wrap:anywhere}
+.essence{font-family:var(--display);font-style:italic;font-size:1.35rem;line-height:1.4;max-width:58ch}
+.ca-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:var(--s3)}
+.ca-fields > div{display:grid;gap:var(--s1)}
+.opinion{display:grid;gap:var(--s2)}
+.opinion textarea{width:100%;min-height:6rem;border:1px solid var(--line);border-radius:.7rem;background:var(--surface);padding:var(--s2) var(--s3)}
+.persp{display:grid;gap:var(--s3);margin-top:var(--s2)}
+@media (prefers-reduced-motion:reduce){.flash{animation:none}}
+
 /* critical evaluation */
 details.debate{border-top:1px solid var(--line);padding-block:var(--s4)}
 details.debate:first-child{border-top:0;padding-top:0}
@@ -241,10 +259,12 @@ details.dlg .thread{margin-top:var(--s4)}
     <div class="brand">Reflections <i>at dawn</i></div>
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button role="tab" id="tab-today" data-view="today" aria-selected="true">Today</button>
+      <button role="tab" id="tab-epiphany" data-view="epiphany" aria-selected="false">Epiphany</button>
       <button role="tab" id="tab-ideas" data-view="ideas" aria-selected="false">Ideas</button>
       <button role="tab" id="tab-mind" data-view="mind" aria-selected="false">Mind &amp; Life</button>
       <button role="tab" id="tab-thinkers" data-view="thinkers" aria-selected="false">Thinkers</button>
       <button role="tab" id="tab-critique" data-view="critique" aria-selected="false">Critical Evaluation</button>
+      <button role="tab" id="tab-affairs" data-view="affairs" aria-selected="false">Current Affairs</button>
       <button role="tab" id="tab-quotes" data-view="quotes" aria-selected="false">Quotes</button>
       <button role="tab" id="tab-links" data-view="links" aria-selected="false">Readings</button>
       <button role="tab" id="tab-dp" data-view="dp" aria-selected="false">My Philosophy</button>
@@ -356,6 +376,73 @@ details.dlg .thread{margin-top:var(--s4)}
       <p>Twelve questions on which great minds disagree. Each topic sets out the main positions, names each one's strength and its limit, checks it against the evidence where evidence exists, and ends with an assessment and a test you can run in your own day. The assessments are arguments, not verdicts: argue back.</p>
     </div>
     <div class="list" id="ce-list"></div>
+  </section>
+
+  <!-- EPIPHANY -->
+  <section class="view" id="view-epiphany" role="tabpanel" aria-labelledby="tab-epiphany" hidden>
+    <div class="intro">
+      <span class="eyebrow">Catch the insight before it fades</span>
+      <h2>Epiphany</h2>
+      <p>Write down a sudden realisation, however rough. Reflections finds where it echoes among the thinkers, ideas, debates and quotes in the app, and in your own essays. Then it opens a creative conversation to take the insight further.</p>
+    </div>
+    <form class="addbox epi-form" id="epi-form">
+      <label class="eyebrow" for="epi-text">My epiphany</label>
+      <textarea id="epi-text" maxlength="3000" placeholder="e.g. I realised I only feel lonely when I'm trying to be seen."></textarea>
+      <div class="row"><button class="btn primary" type="submit" id="epi-go">Find where it echoes</button><span class="status" id="epi-status"></span></div>
+    </form>
+    <div class="epi-result" id="epi-result" hidden>
+      <div class="nb-section">
+        <h2 class="sub">Echoes in your library</h2>
+        <p class="note">Found by matching the words and themes of your epiphany. Tap one to go to it.</p>
+        <div class="echoes" id="epi-echoes"></div>
+      </div>
+      <div class="nb-section" id="epi-deep" hidden>
+        <h2 class="sub">A deeper reading</h2>
+        <p class="essence" id="epi-essence"></p>
+        <div class="list" id="epi-res"></div>
+        <dl class="mind-grid" id="epi-more"></dl>
+      </div>
+      <div class="row">
+        <button class="btn primary" type="button" id="epi-talk">Develop this in a dialogue</button>
+        <button class="btn" type="button" id="epi-save">Save epiphany</button>
+      </div>
+    </div>
+    <div class="nb-section">
+      <h2 class="sub">My epiphanies</h2>
+      <div class="list" id="epi-saved"></div>
+    </div>
+  </section>
+
+  <!-- CURRENT AFFAIRS -->
+  <section class="view" id="view-affairs" role="tabpanel" aria-labelledby="tab-affairs" hidden>
+    <div class="intro">
+      <span class="eyebrow">The world, examined</span>
+      <h2>Current Affairs</h2>
+      <p>Local, national and international news, and what is trending on social media, gathered fresh with web search. For each story you can write your own opinion, then see the major positions people hold and how your favourite thinkers' ideas would read it.</p>
+    </div>
+    <form class="addbox ca-settings" id="ca-settings">
+      <div class="ca-fields">
+        <div><label class="eyebrow" for="ca-place">Your place</label><input id="ca-place" maxlength="120" placeholder="City, state, country"></div>
+        <div><label class="eyebrow" for="ca-fav">Favourite thinkers</label><input id="ca-fav" maxlength="300" placeholder="Ernest Becker, Periyar, Erich Fromm"></div>
+      </div>
+      <div class="row"><button class="btn primary" type="submit" id="ca-go">Get today's briefing</button><span class="status" id="ca-status"></span></div>
+      <p class="note" id="ca-note"></p>
+    </form>
+    <div id="ca-briefing"></div>
+    <div class="nb-section">
+      <h2 class="sub">Add a story yourself</h2>
+      <form class="addbox" id="ca-add">
+        <label class="eyebrow" for="ca-add-h">Headline or topic</label>
+        <input id="ca-add-h" maxlength="200" placeholder="What happened, in a line">
+        <label class="eyebrow" for="ca-add-s">Details or link (optional)</label>
+        <textarea id="ca-add-s" maxlength="2000" placeholder="Paste a link or a few lines about it"></textarea>
+        <div class="row"><button class="btn primary" type="submit">Add story</button></div>
+      </form>
+    </div>
+    <div class="nb-section">
+      <h2 class="sub">My takes</h2>
+      <div class="list" id="ca-saved"></div>
+    </div>
   </section>
 
   <!-- QUOTES -->
@@ -961,7 +1048,7 @@ function show(view){
   document.querySelectorAll("section.view").forEach(s => s.hidden = s.id !== "view-"+view);
 }
 tabs.forEach(b => b.addEventListener("click", () => { show(b.dataset.view); window.scrollTo({top:0}); }));
-{ const h = location.hash.slice(1); if (["today","ideas","mind","thinkers","critique","quotes","links","dp","notebook"].includes(h)) show(h); }
+{ const h = location.hash.slice(1); if (["today","epiphany","ideas","mind","thinkers","critique","affairs","quotes","links","dp","notebook"].includes(h)) show(h); }
 
 /* ================= TODAY ================= */
 let affIdx = dayNum % AFFIRMATIONS.length;
@@ -1030,6 +1117,7 @@ function updateMode(){
   $("#companion-settings").hidden = m === "claude";
   $("#api-key-status").textContent = apiKey() ? "A key is saved on this device." : "No key saved. The offline guide is answering.";
   $("#api-key-remove").hidden = !apiKey();
+  updateAffairsNote();
 }
 (async () => {
   try { sample = window.claude?.use ? await window.claude.use("sample") : null; } catch { sample = null; }
@@ -1327,7 +1415,7 @@ const DP_ESSAYS = [
 
 function renderDP(){
   $("#dp-principles").innerHTML = DP_PRINCIPLES.map((p,i)=>`
-    <article class="item">
+    <article class="item" id="dpp-${i}">
       <h3>${esc(p.t)}</h3>
       <p class="body">${esc(p.b)}</p>
       <p class="dpquote">“${esc(p.q)}” <span class="cite">— ${esc(p.src)}</span></p>
@@ -1362,7 +1450,7 @@ function renderIdeas(){
   const tags = ["All", ...new Set(IDEAS.map(i=>i.tag))];
   $("#idea-filters").innerHTML = tags.map(t=>`<button type="button" aria-pressed="${t===ideaFilter}" data-tag="${esc(t)}">${esc(t)}</button>`).join("");
   $("#idea-list").innerHTML = IDEAS.map((it,i)=>({it,i})).filter(({it})=>ideaFilter==="All"||it.tag===ideaFilter).map(({it,i}) => `
-    <article class="item">
+    <article class="item" id="idea-${i}">
       <div class="qmeta"><span class="chip">${esc(it.tag)}</span><span class="thinkers">${esc(it.who)}</span></div>
       <h3>${esc(it.t)}</h3>
       <p class="body">${esc(it.b)}</p>
@@ -1889,7 +1977,7 @@ let thFilter = "All";
 function renderThinkers(){
   $("#th-filters").innerHTML = TH_CLUSTERS.map(c=>`<button type="button" aria-pressed="${c===thFilter}" data-tcl="${esc(c)}">${esc(c)}</button>`).join("");
   $("#th-list").innerHTML = THINKERS.map((t,i)=>({t,i})).filter(({t})=>thFilter==="All"||t.c===thFilter).map(({t,i})=>`
-    <article class="item">
+    <article class="item" id="th-${i}">
       <div class="qmeta"><span class="chip">${esc(t.c)}</span><span class="thinkers">${esc(t.d)}</span></div>
       <h3>${esc(t.n)}</h3>
       <p class="thinkers">${esc(t.w)}</p>
@@ -2037,7 +2125,7 @@ const DEBATES = [
 ];
 function renderDebates(){
   $("#ce-list").innerHTML = DEBATES.map((d,i)=>`
-    <details class="debate"${i===0?" open":""}>
+    <details class="debate" id="ce-${i}"${i===0?" open":""}>
       <summary><span class="eyebrow">Topic ${i+1}</span><span class="dq">${esc(d.t)}</span></summary>
       <div class="positions">${d.pos.map(p=>`
         <div class="pos">
@@ -2060,9 +2148,317 @@ document.getElementById("view-critique").addEventListener("click", e => {
   startTopic({cat:"Critical evaluation", q:d.t, f:"Positions: " + d.pos.map(p=>`${p.who} (${p.work}): ${p.claim}`).join(" · ") + " Assessment: " + d.synth, r:[]});
 });
 
+/* ================= SHARED: ask Claude for JSON ================= */
+const DP_SUMMARY = "DP's essays develop a philosophy of ego maturity: three layers of mind (outer conscious mind of ego defences; the ego-personality driven by an alpha drive to feel unique; the deep psycho-philosophical self); wisdom is realised not transferred; most philosophy consoles rather than reveals; no common meaning for mankind; any final philosophy is a settled mind; absolute judgement is judging by non-judging; the common good is often collective ego; when the ego matures enough it neutralises itself.";
+function parseJSONText(text){
+  const a = text.indexOf("{"), b = text.lastIndexOf("}");
+  if (a < 0 || b <= a) throw {code:"invalid_json"};
+  return JSON.parse(text.slice(a, b + 1));
+}
+async function apiFailure(res){
+  let detail = ""; try { detail = (await res.json())?.error?.message || ""; } catch {}
+  const code = res.status === 401 || res.status === 403 ? "bad_key" : res.status === 429 ? "rate_limited" : res.status === 400 ? "invalid_request" : "upstream_error";
+  return {code, message: detail};
+}
+// Non-streaming call that can use server tools (web search) and resumes paused turns.
+async function callApiFull({system, messages, tools, signal}){
+  let msgs = messages.slice();
+  for (let round = 0; round < 4; round++) {
+    let res;
+    try {
+      res = await fetch("https://api.anthropic.com/v1/messages", {
+        method:"POST", signal,
+        headers:{"content-type":"application/json","x-api-key":apiKey(),"anthropic-version":"2023-06-01",
+          "anthropic-beta":"server-side-fallback-2026-07-01","anthropic-dangerous-direct-browser-access":"true"},
+        body: JSON.stringify({model:"claude-opus-5-5", max_tokens:16000, output_config:{effort:"medium"}, fallbacks:"default",
+          system, messages:msgs, ...(tools ? {tools} : {})}),
+      });
+    } catch (e) { throw {code: e?.name === "AbortError" ? "cancelled" : "offline"}; }
+    if (!res.ok) throw await apiFailure(res);
+    const data = await res.json();
+    if (data.stop_reason === "pause_turn") { msgs = [...msgs, {role:"assistant", content:data.content}]; continue; }
+    if (data.stop_reason === "refusal") throw {code:"refused"};
+    return (data.content || []).filter(b => b.type === "text").map(b => b.text).join("");
+  }
+  throw {code:"upstream_error"};
+}
+async function askJSON(prompt, {search = false} = {}){
+  const system = "You are a careful research and philosophy assistant inside the Reflections app. Reply with one JSON object only, no prose around it.";
+  if (search) {
+    if (!apiKey()) throw {code:"needs_key"};
+    return parseJSONText(await callApiFull({system, messages:[{role:"user", content:prompt}], tools:[{type:"web_search_20260209", name:"web_search", max_uses:8}]}));
+  }
+  if (sample) return await sample.json(prompt);
+  if (apiKey()) return parseJSONText(await callApiFull({system, messages:[{role:"user", content:prompt}]}));
+  throw {code:"needs_key"};
+}
+Object.assign(ERROR_COPY, {
+  needs_key: "This needs Claude. Add your API key in My Notebook → Companion, or open the app inside Claude.",
+  invalid_json: "Claude's answer came back in an unexpected shape. Try again.",
+});
+function flash(el){ if (!el) return; el.scrollIntoView({behavior:"smooth", block:"start"}); el.classList.add("flash"); setTimeout(()=>el.classList.remove("flash"), 1800); }
+function goTo(view, id, prep){ prep?.(); show(view); setTimeout(()=>{ const el = document.getElementById(id); if (el?.tagName === "DETAILS") el.open = true; flash(el); }, 60); }
+
+/* ================= EPIPHANY ================= */
+const STOP = new Set("a an the and or but if then so of to in on at by for with from as is are was were be been being it its this that these those i me my we our you your he she they them his her their not no yes do does did done have has had can could would should will just only very more most less much many some any all into out up down over under again about than too also what which who whom when where why how there here such own same other each both few nor s t don now am".split(" "));
+const CONCEPTS = {death:["mortality","dying","die","dead","finitude"], mortal:["death","mortality"], self:["ego","identity","i","self"], ego:["self","identity","alpha"], time:["duration","moment","future","past","present"], moment:["time","present"], happy:["happiness","joy","pleasure","flourishing"], happiness:["joy","pleasure","flourishing","wellbeing"], meaning:["purpose","meaningless","significance"], purpose:["meaning"], free:["freedom","will","choice"], freedom:["free","will","choice"], love:["relationship","attachment","intimacy"], lonely:["loneliness","isolation","alone","solitude"], fear:["anxiety","dread","terror"], anxiety:["fear","dread","angst"], god:["religion","faith","sacred"], religion:["god","faith","consolation"], play:["leisure","game","festivity"], work:["labour","labor","job"], mind:["consciousness","thought","unconscious"], society:["collective","social","crowd","culture"], suffer:["suffering","pain"], pain:["suffering"], truth:["knowledge","wisdom"], wisdom:["truth","realisation"], seen:["recognition","esteem","approval","attention"], judge:["judgement","judgment","bias"], nature:["creature","animal","instinct"], body:["instinct","armour","creature"]};
+const stem = w => w.replace(/(ings|ing|edly|ed|ies|es|s|ly)$/,"").replace(/[’']/g,"");
+const tokens = t => String(t).toLowerCase().replace(/[^a-zÀ-ɏ\s-]/g," ").split(/[\s-]+/).filter(w => w.length > 2 && !STOP.has(w));
+let LIB = null;
+function buildLib(){
+  const L = [];
+  THINKERS.forEach((t,i)=>L.push({type:"Thinker", name:t.n, text:`${t.n} ${t.c} ${t.w} ${t.idea} ${t.life}`, go:()=>goTo("thinkers","th-"+i,()=>{thFilter="All";renderThinkers();})}));
+  IDEAS.forEach((x,i)=>L.push({type:"Idea", name:x.t, text:`${x.t} ${x.tag} ${x.b} ${x.who}`, go:()=>goTo("ideas","idea-"+i,()=>{ideaFilter="All";renderIdeas();})}));
+  MIND.forEach((m,i)=>L.push({type:"Mind & life", name:m.t, text:`${m.t} ${m.th} ${m.idea} ${m.life} ${m.root}`, go:()=>goTo("mind","mind-"+i,()=>{mindFilter="All";renderMind();})}));
+  DEBATES.forEach((d,i)=>L.push({type:"Debate", name:d.t, text:`${d.t} ${d.synth} ${d.pos.map(p=>p.who+" "+p.claim).join(" ")}`, go:()=>goTo("critique","ce-"+i)}));
+  DP_PRINCIPLES.forEach((p,i)=>L.push({type:"Your essays", name:p.t, text:`${p.t} ${p.b} ${p.q}`, go:()=>goTo("dp","dpp-"+i)}));
+  QUOTES.forEach((q,i)=>L.push({type:"Quote", name:`${q.a}: “${q.q.length>70?q.q.slice(0,70)+"…":q.q}”`, text:`${q.q} ${q.a}`, go:()=>goTo("quotes","quote-"+i)}));
+  const df = new Map();
+  L.forEach(e => { e.toks = new Set(tokens(e.text).map(stem)); e.nameToks = new Set(tokens(e.name).map(stem)); e.toks.forEach(w => df.set(w, (df.get(w)||0)+1)); });
+  LIB = {L, df, N:L.length};
+}
+function findEchoes(text, n = 8){
+  if (!LIB) buildLib();
+  const base = tokens(text);
+  const q = new Map();
+  base.forEach(w => { q.set(stem(w), 1); (CONCEPTS[w] || CONCEPTS[stem(w)] || []).forEach(c => { const s = stem(c); if (!q.has(s)) q.set(s, 0.6); }); });
+  const scored = LIB.L.map(e => {
+    let s = 0;
+    q.forEach((wt, w) => { if (e.toks.has(w)) { const idf = Math.log(1 + LIB.N / (LIB.df.get(w) || 1)); s += wt * idf * (e.nameToks.has(w) ? 2 : 1); } });
+    return {e, s};
+  }).filter(x => x.s > 0).sort((a,b) => b.s - a.s);
+  const out = [], perType = {};
+  for (const x of scored) { perType[x.e.type] = (perType[x.e.type]||0) + 1; if (perType[x.e.type] <= 3) out.push(x.e); if (out.length >= n) break; }
+  return out;
+}
+let epi = null;
+function renderEchoes(list){
+  $("#epi-echoes").innerHTML = list.length ? list.map((e,i)=>`<button type="button" class="echo" data-echo="${i}"><span class="chip">${esc(e.type)}</span><span>${esc(e.name)}</span></button>`).join("")
+    : `<p class="empty">No close matches in the library yet. The deeper reading below can look further.</p>`;
+}
+$("#epi-echoes").addEventListener("click", e => { const i = e.target.closest("[data-echo]")?.dataset.echo; if (i!=null) epi?.echoes[i]?.go(); });
+function thinkerIndex(name){ const n = String(name).toLowerCase(); return THINKERS.findIndex(t => t.n.toLowerCase() === n || t.n.toLowerCase().split(" ").pop() === n.split(" ").pop()); }
+function renderDeep(d){
+  $("#epi-deep").hidden = false;
+  $("#epi-essence").textContent = d.essence || "";
+  $("#epi-res").innerHTML = (d.resonances || []).map(r => { const ti = thinkerIndex(r.thinker); return `
+    <article class="item"><div class="qmeta"><span class="chip">Resonance</span><span class="thinkers">${esc(r.work || "")}</span></div>
+    <h3>${esc(r.thinker || "")}</h3><p class="body">${esc(r.why || "")}</p>
+    ${ti >= 0 ? `<div class="refs"><button class="linkish" data-goth="${ti}">Open ${esc(THINKERS[ti].n)} in Thinkers</button></div>` : ""}</article>`; }).join("");
+  const c = d.counterpoint || {};
+  $("#epi-more").innerHTML = `
+    ${c.thinker ? `<div><dt>Counterpoint · ${esc(c.thinker)}</dt><dd>${esc(c.why || "")}</dd></div>` : ""}
+    ${d.extension ? `<div><dt>If this is true…</dt><dd class="scene">${esc(d.extension)}</dd></div>` : ""}
+    ${(d.questions||[]).length ? `<div><dt>Questions to develop it</dt><dd>${d.questions.map(q=>esc(q)).join("<br>")}</dd></div>` : ""}
+    ${d.daily ? `<div><dt>Test it today</dt><dd>${esc(d.daily)}</dd></div>` : ""}`;
+}
+$("#epi-res").addEventListener("click", e => { const i = e.target.closest("[data-goth]")?.dataset.goth; if (i!=null) goTo("thinkers","th-"+i,()=>{thFilter="All";renderThinkers();}); });
+$("#epi-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const text = $("#epi-text").value.trim(); if (!text) return;
+  epi = {text, echoes: findEchoes(text), deep: null, id: null};
+  $("#epi-result").hidden = false; $("#epi-deep").hidden = true; renderEchoes(epi.echoes);
+  if (companionMode() === "offline") { $("#epi-status").textContent = "Add your API key (My Notebook → Companion) for a deeper reading by Claude."; return; }
+  const btn = $("#epi-go"); btn.disabled = true; $("#epi-status").textContent = "Reading your epiphany…";
+  try {
+    const names = THINKERS.map(t => t.n).join(", ");
+    epi.deep = await askJSON(`A person had this epiphany: «${text}»
+
+Their own philosophy: ${DP_SUMMARY}
+
+Thinkers already in their app (prefer these names when they fit, spelled exactly): ${names}
+
+Find where this insight echoes in the history of ideas and push it further creatively. Reply with JSON:
+{"essence": "the core insight restated precisely in one sentence",
+ "resonances": [{"thinker": "name", "work": "a specific real work", "why": "one or two sentences on how it echoes or deepens the epiphany"}],
+ "counterpoint": {"thinker": "name", "why": "the strongest challenge to the epiphany"},
+ "extension": "a bold next step: what follows if the epiphany is true",
+ "questions": ["three creative questions to develop it"],
+ "daily": "one way to test it in ordinary life this week"}
+Give 4 to 6 resonances, including at least one from outside Western philosophy and one from psychology. Cite only works that exist, and do not put invented quotations in quotation marks.`);
+    renderDeep(epi.deep); $("#epi-status").textContent = "";
+  } catch (err) {
+    $("#epi-status").textContent = ERROR_COPY[err?.code] || "Couldn't get a deeper reading just now. The echoes above still work.";
+  } finally { btn.disabled = false; }
+});
+$("#epi-talk").onclick = () => {
+  if (!epi) return;
+  const res = (epi.deep?.resonances || []).map(r => `${r.thinker} (${r.work}): ${r.why}`).join(" · ") || epi.echoes.map(e => e.name).join(", ");
+  startTopic({cat:"Epiphany", q:`My epiphany: “${epi.text}” Where can it go?`, f:`Echoes: ${res}${epi.deep?.extension ? " If true: " + epi.deep.extension : ""}`, r:[]});
+};
+$("#epi-save").onclick = () => {
+  if (!epi) return;
+  epi.id = epi.id || "epiphany-" + Date.now();
+  Store.put({id:epi.id, kind:"epiphany", text:epi.text, essence:epi.deep?.essence || "", resonances:(epi.deep?.resonances || []).map(r=>({thinker:r.thinker, work:r.work, why:r.why})), echoes:epi.echoes.map(e=>e.type+": "+e.name), extension:epi.deep?.extension || ""});
+  toast("Epiphany saved");
+};
+function renderEpiphanies(){
+  const list = Store.of("epiphany");
+  $("#epi-saved").innerHTML = list.length ? list.map(x=>`
+    <article class="item"><span class="status">${new Date(x.created).toLocaleDateString()}</span>
+      <p class="quote">“${esc(x.text)}”</p>
+      ${x.essence ? `<p class="body">${esc(x.essence)}</p>` : ""}
+      ${(x.resonances||[]).length ? `<p class="thinkers">Echoes: ${x.resonances.map(r=>esc(r.thinker)).join(" · ")}</p>` : (x.echoes||[]).length ? `<p class="thinkers">${x.echoes.slice(0,4).map(esc).join(" · ")}</p>` : ""}
+      <div class="refs"><button class="linkish" data-epi-open="${esc(x.id)}">Continue this thread</button><button class="x" data-epi-del="${esc(x.id)}">Delete</button></div>
+    </article>`).join("") : `<p class="empty">Your epiphanies will collect here, each with the thinkers it echoes.</p>`;
+}
+$("#epi-saved").addEventListener("click", e => {
+  const del = e.target.closest("[data-epi-del]");
+  if (del) { if (del.dataset.armed) { Store.remove(del.dataset.epiDel); toast("Removed"); } else { del.dataset.armed = "1"; del.textContent = "Click again to confirm"; } return; }
+  const id = e.target.closest("[data-epi-open]")?.dataset.epiOpen; if (!id) return;
+  const x = Store.entries.find(y => y.id === id); if (!x) return;
+  startTopic({cat:"Epiphany", q:`My epiphany: “${x.text}” Where can it go now?`, f:(x.resonances||[]).map(r=>`${r.thinker}: ${r.why}`).join(" · ") || (x.echoes||[]).join(", "), r:[]});
+});
+Store.onChange(renderEpiphanies);
+
+/* ================= CURRENT AFFAIRS ================= */
+const CA_PLACE = "reflections.place", CA_FAV = "reflections.favThinkers", CA_BRIEF = "reflections.briefing";
+const DEFAULT_FAV = "Ernest Becker, Periyar, Erich Fromm, Otto Rank, Arthur Schopenhauer";
+$("#ca-place").value = lsGet(CA_PLACE, "");
+$("#ca-fav").value = lsGet(CA_FAV, DEFAULT_FAV);
+$("#ca-place").addEventListener("change", () => lsSet(CA_PLACE, $("#ca-place").value.trim()));
+$("#ca-fav").addEventListener("change", () => lsSet(CA_FAV, $("#ca-fav").value.trim()));
+let briefing = lsGet(CA_BRIEF, null);
+const caStories = []; // stories currently on screen: briefing items + manual ones
+function updateAffairsNote(){
+  const m = companionMode();
+  $("#ca-go").disabled = !apiKey();
+  $("#ca-note").textContent = apiKey()
+    ? "Uses Claude's web search with your API key. Each briefing runs several searches, billed to your API account."
+    : m === "claude"
+      ? "Live headlines need web search, which works in the installed phone app with your API key. Here you can add stories yourself and get perspectives on them."
+      : "Live headlines need your Anthropic API key (My Notebook → Companion). You can still add stories yourself.";
+}
+function storyHTML(s, idx){
+  const saved = Store.entries.find(e => e.kind === "affair" && e.headline === s.headline);
+  return `
+    <article class="item story" id="story-${idx}">
+      <h3>${esc(s.headline)}</h3>
+      ${s.summary ? `<p class="body">${esc(s.summary)}</p>` : ""}
+      ${s.why ? `<p class="gloss"><strong>Why it matters:</strong> ${esc(s.why)}</p>` : ""}
+      ${(s.sources||[]).length ? `<div class="refs">${s.sources.filter(x=>/^https?:\/\//.test(x.url||"")).map(x=>linkHTML([x.title||"Source", x.url])).join("")}</div>` : ""}
+      ${saved?.opinion ? `<div class="assess mine"><span class="eyebrow">My opinion</span><p>${esc(saved.opinion)}</p></div>` : ""}
+      <div class="refs"><button class="linkish" data-op="${idx}">${saved?.opinion ? "Edit my opinion" : "Write my opinion"}</button><button class="linkish" data-persp="${idx}">Perspectives</button><button class="linkish" data-catalk="${idx}">Discuss</button></div>
+      <div class="opinion" data-opbox="${idx}" hidden>
+        <label class="eyebrow" for="op-${idx}">My opinion</label>
+        <textarea id="op-${idx}" maxlength="4000">${esc(saved?.opinion || "")}</textarea>
+        <div class="row"><button class="btn primary" type="button" data-opsave="${idx}">Save my take</button></div>
+      </div>
+      <div class="persp" data-pbox="${idx}" ${saved?.perspectives ? "" : "hidden"}>${saved?.perspectives ? perspHTML(saved.perspectives) : ""}</div>
+    </article>`;
+}
+function perspHTML(p){
+  return `
+    ${(p.major||[]).length ? `<span class="eyebrow">Major positions</span><div class="positions">${p.major.map(m=>`<div class="pos"><h4>${esc(m.view||"")}</h4><p>${esc(m.argument||"")}</p></div>`).join("")}</div>` : ""}
+    ${(p.thinkers||[]).length ? `<span class="eyebrow">Through your favourite thinkers</span><div class="positions">${p.thinkers.map(t=>`<div class="pos"><h4>${esc(t.name||"")}</h4><p>${esc(t.reading||"")}</p></div>`).join("")}</div>` : ""}
+    ${p.dp ? `<div class="assess"><span class="eyebrow">Through your essays</span><p>${esc(p.dp)}</p></div>` : ""}
+    ${p.question ? `<p class="scene">${esc(p.question)}</p>` : ""}`;
+}
+function renderBriefing(){
+  caStories.length = 0;
+  let html = "";
+  if (briefing?.data?.sections) {
+    html += `<p class="status">Briefing for ${esc(briefing.place || "your area")} · ${esc(new Date(briefing.at).toLocaleString())}</p>`;
+    for (const sec of briefing.data.sections) {
+      html += `<div class="nb-section"><h2 class="sub">${esc(sec.scope || "")}</h2>`;
+      if (sec.note) html += `<p class="note">${esc(sec.note)}</p>`;
+      html += `<div class="list">${(sec.items||[]).map(it => { caStories.push(it); return storyHTML(it, caStories.length - 1); }).join("") || `<p class="empty">Nothing found for this section.</p>`}</div></div>`;
+    }
+  } else {
+    html = `<p class="empty">${apiKey() ? "Set your place and tap “Get today's briefing”." : "No briefing yet."}</p>`;
+  }
+  $("#ca-briefing").innerHTML = html;
+}
+$("#ca-settings").addEventListener("submit", async e => {
+  e.preventDefault();
+  const place = $("#ca-place").value.trim(); lsSet(CA_PLACE, place); lsSet(CA_FAV, $("#ca-fav").value.trim());
+  if (!place) { toast("Add your place first, such as a city and country."); return; }
+  const btn = $("#ca-go"); btn.disabled = true; $("#ca-status").textContent = "Searching today's news… this can take a minute.";
+  try {
+    const today = new Date().toLocaleDateString(undefined, {weekday:"long", year:"numeric", month:"long", day:"numeric"});
+    const data = await askJSON(`Today is ${today}. The person lives in ${place}.
+Use web search to find the most important and most-discussed news right now. Reply with JSON:
+{"sections": [
+ {"scope": "Local", "items": [...]},
+ {"scope": "National", "items": [...]},
+ {"scope": "International", "items": [...]},
+ {"scope": "Social media", "items": [...]}
+]}
+Each item: {"headline": "...", "summary": "two neutral, factual sentences", "why": "one sentence on why it matters", "sources": [{"title": "publication name", "url": "https://..."}]}.
+Give 3 items each for Local, National and International, and 2 for Social media (topics trending on social platforms; name the platform where you can).
+Only include stories you actually found in search results from the last 48 hours, with their real URLs. Never invent a story, a figure or a URL. If you cannot find local news for the place, return an empty items array for that section with a "note" explaining why.`, {search:true});
+    briefing = {at: Date.now(), place, data}; lsSet(CA_BRIEF, briefing);
+    renderBriefing(); $("#ca-status").textContent = "";
+  } catch (err) {
+    $("#ca-status").textContent = ERROR_COPY[err?.code] || "Couldn't fetch the news just now. Check that web search is enabled for your API organisation, then try again.";
+  } finally { btn.disabled = !apiKey(); }
+});
+$("#ca-add").addEventListener("submit", e => {
+  e.preventDefault();
+  const h = $("#ca-add-h").value.trim(), s = $("#ca-add-s").value.trim(); if (!h) return;
+  const url = (s.match(/https?:\/\/\S+/) || [])[0];
+  saveTake({headline:h, summary:s.replace(url||"", "").trim(), sources: url ? [{title:"Link", url}] : []}, "");
+  $("#ca-add-h").value = ""; $("#ca-add-s").value = ""; toast("Story added to My takes");
+});
+function saveTake(story, opinion, perspectives){
+  const prev = Store.entries.find(e => e.kind === "affair" && e.headline === story.headline);
+  Store.put({...(prev||{}), id: prev?.id || "affair-" + Date.now(), kind:"affair", headline:story.headline, summary:story.summary||"", why:story.why||"", sources:story.sources||[], opinion: opinion ?? prev?.opinion ?? "", perspectives: perspectives ?? prev?.perspectives ?? null});
+}
+async function getPerspectives(story, box){
+  box.hidden = false; box.innerHTML = `<p class="thinking">Gathering perspectives…</p>`;
+  const prev = Store.entries.find(e => e.kind === "affair" && e.headline === story.headline);
+  try {
+    const fav = ($("#ca-fav").value.trim() || DEFAULT_FAV);
+    const p = await askJSON(`News story: ${story.headline}
+${story.summary || ""}
+${prev?.opinion ? "The person's own opinion: " + prev.opinion : ""}
+
+Their own philosophy: ${DP_SUMMARY}
+Their favourite thinkers: ${fav}
+
+Reply with JSON:
+{"major": [{"view": "short label for a position people hold", "argument": "its strongest case in two sentences"}],
+ "thinkers": [{"name": "one of the favourite thinkers", "reading": "how that thinker's ideas would interpret this story, in two sentences"}],
+ "dp": "how DP's essays would read the story, in two sentences",
+ "question": "one searching question for the person"}
+Give 3 or 4 major positions that represent the real range of public opinion fairly, each in its strongest form, without taking sides. Give 3 thinker readings, framed as interpretations of their ideas, not as things they said. Do not invent facts about the story beyond what is given.`);
+    box.innerHTML = perspHTML(p);
+    saveTake(story, undefined, p);
+  } catch (err) {
+    box.innerHTML = `<p class="note">${esc(ERROR_COPY[err?.code] || "Couldn't get perspectives just now. Try again in a moment.")}</p>`;
+  }
+}
+function storyFromEl(el){
+  const idx = el.dataset.op ?? el.dataset.persp ?? el.dataset.catalk ?? el.dataset.opsave;
+  if (el.closest("#ca-saved")) { const id = el.closest("[data-take]")?.dataset.take; const t = Store.entries.find(x => x.id === id); return t ? {story:t, idx} : null; }
+  return {story: caStories[idx], idx};
+}
+document.getElementById("view-affairs").addEventListener("click", e => {
+  const el = e.target.closest("[data-op],[data-persp],[data-catalk],[data-opsave],[data-take-del]"); if (!el) return;
+  if (el.dataset.takeDel) { if (el.dataset.armed) { Store.remove(el.dataset.takeDel); toast("Removed"); } else { el.dataset.armed = "1"; el.textContent = "Click again to confirm"; } return; }
+  const root = el.closest(".story"); const got = storyFromEl(el); if (!got?.story) return;
+  const {story} = got;
+  if (el.dataset.op != null) { const b = root.querySelector("[data-opbox]"); b.hidden = !b.hidden; if (!b.hidden) b.querySelector("textarea").focus(); }
+  if (el.dataset.opsave != null) { const v = root.querySelector("[data-opbox] textarea").value.trim(); saveTake(story, v); toast("Your take is saved"); root.querySelector("[data-opbox]").hidden = true; }
+  if (el.dataset.persp != null) getPerspectives(story, root.querySelector("[data-pbox]"));
+  if (el.dataset.catalk != null) {
+    const t = Store.entries.find(x => x.kind === "affair" && x.headline === story.headline);
+    startTopic({cat:"Current affairs", q:`${story.headline}: what do you make of it?`, f:`${story.summary || ""}${t?.opinion ? " My opinion: " + t.opinion : ""}`, r:[]});
+  }
+});
+function renderTakes(){
+  const list = Store.of("affair");
+  $("#ca-saved").innerHTML = list.length ? list.map((t,i)=>`
+    <div data-take="${esc(t.id)}">${storyHTML(t, "s"+i).replace('<article class="item story"', `<article class="item story"`)}<div class="refs"><button class="x" data-take-del="${esc(t.id)}">Delete</button></div></div>`).join("")
+    : `<p class="empty">Stories you give an opinion on, or add yourself, are kept here.</p>`;
+  if (briefing) renderBriefing();
+}
+Store.onChange(renderTakes);
+renderBriefing();
+
 /* ================= QUOTES ================= */
 $("#quote-list").innerHTML = QUOTES.map((x,i)=>`
-  <article class="item">
+  <article class="item" id="quote-${i}">
     <p class="quote">“${esc(x.q)}”</p>
     <p class="cite"><b>${esc(x.a)}</b> · ${esc(x.s)}</p>
     ${x.n?`<p class="gloss">${esc(x.n)}</p>`:""}
