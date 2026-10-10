@@ -1308,13 +1308,13 @@ function apiBody(extra){
   return JSON.stringify(b);
 }
 // Direct call to the Claude API with the person's own key, streamed so replies appear as they're written.
-async function callApi({system, messages, onText, signal}){
+async function callApi({system, messages, onText, signal, effort}){
   let res;
   try {
     res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST", signal,
       headers: apiHeaders(),
-      body: apiBody({stream:true, system, messages}),
+      body: apiBody({stream:true, system, messages, ...(effort ? {output_config:{effort}} : {})}),
     });
   } catch (e) {
     throw {code: e?.name === "AbortError" ? "cancelled" : "offline"};
@@ -2286,47 +2286,52 @@ document.getElementById("view-critique").addEventListener("click", e => {
 
 /* ================= SHARED: ask Claude for JSON ================= */
 const DP_SUMMARY = "DP's essays develop a philosophy of ego maturity: three layers of mind (outer conscious mind of ego defences; the ego-personality driven by an alpha drive to feel unique; the deep psycho-philosophical self); wisdom is realised not transferred; most philosophy consoles rather than reveals; no common meaning for mankind; any final philosophy is a settled mind; absolute judgement is judging by non-judging; the common good is often collective ego; when the ego matures enough it neutralises itself.";
+// Tolerant JSON reading: ignores prose or code fences around the object and stray trailing commas.
 function parseJSONText(text){
-  const a = text.indexOf("{"), b = text.lastIndexOf("}");
-  if (a < 0 || b <= a) throw {code:"invalid_json"};
-  return JSON.parse(text.slice(a, b + 1));
+  const t = String(text || "").replace(/```(?:json)?/gi, "");
+  const a = t.indexOf("{"), b = t.lastIndexOf("}");
+  if (a < 0 || b <= a) throw {code:"invalid_json", message:""};
+  const body = t.slice(a, b + 1);
+  try { return JSON.parse(body); }
+  catch { try { return JSON.parse(body.replace(/,\s*([}\]])/g, "$1").replace(/[“”]/g, '"')); } catch { throw {code:"invalid_json", message:""}; } }
+}
+// One automatic retry for passing problems: a dropped connection, Claude being briefly busy, or a rate limit.
+const TRANSIENT = new Set(["offline","upstream_error","rate_limited","empty_completion","queue_overflow"]);
+async function withRetry(fn){
+  try { return await fn(); }
+  catch (err) {
+    if (!TRANSIENT.has(err?.code)) throw err;
+    await new Promise(r => setTimeout(r, err.code === "rate_limited" ? 6000 : 2000));
+    return await fn();
+  }
+}
+function errText(err, fallback){
+  const base = ERROR_COPY[err?.code] || fallback;
+  return err?.message && !base.includes(err.message) ? `${base} (${err.message})` : base;
 }
 async function apiFailure(res){
   let detail = ""; try { detail = (await res.json())?.error?.message || ""; } catch {}
   const code = res.status === 401 || res.status === 403 ? "bad_key" : res.status === 429 ? "rate_limited" : res.status === 400 ? "invalid_request" : "upstream_error";
   return {code, message: detail};
 }
-// Non-streaming call that can use server tools (web search) and resumes paused turns.
-async function callApiFull({system, messages, tools, signal}){
-  let msgs = messages.slice();
-  for (let round = 0; round < 4; round++) {
-    let res;
-    try {
-      res = await fetch("https://api.anthropic.com/v1/messages", {
-        method:"POST", signal,
-        headers: apiHeaders(),
-        body: apiBody({system, messages:msgs, ...(tools ? {tools} : {})}),
-      });
-    } catch (e) { throw {code: e?.name === "AbortError" ? "cancelled" : "offline"}; }
-    if (!res.ok) throw await apiFailure(res);
-    const data = await res.json();
-    if (data.stop_reason === "pause_turn") { msgs = [...msgs, {role:"assistant", content:data.content}]; continue; }
-    if (data.stop_reason === "refusal") throw {code:"refused"};
-    return (data.content || []).filter(b => b.type === "text").map(b => b.text).join("");
-  }
-  throw {code:"upstream_error"};
-}
-async function askJSON(prompt, {search = false} = {}){
-  const system = "You are a careful research and philosophy assistant inside the Unshielded app. Reply with one JSON object only, no prose around it.";
-  if (search) {
-    if (!apiKey()) throw {code:"needs_key"};
-    return parseJSONText(await callApiFull({system, messages:[{role:"user", content:prompt}], tools:[{type:"web_search_20260209", name:"web_search", max_uses:8}]}));
-  }
-  if (sample) return await sample.json(prompt);
-  if (apiKey()) return parseJSONText(await callApiFull({system, messages:[{role:"user", content:prompt}]}));
+// Helper calls stream their answer (like the conversation) so phones don't drop a long, silent connection.
+async function streamedText(system, prompt, effort){
+  if (sample) return (await withRetry(() => sample(prompt, {cache:false}))).text;
+  if (apiKey()) return (await withRetry(() => callApi({system, messages:[{role:"user", content:prompt}], effort}))).text;
   throw {code:"needs_key"};
 }
+async function askJSON(prompt, {effort = "low"} = {}){
+  const system = "You are a careful research and philosophy assistant inside the Unshielded app. Reply with one JSON object only, no prose around it.";
+  const text = await streamedText(system, prompt + "\n\nReply with the JSON object only.", effort);
+  try { return parseJSONText(text); }
+  catch {
+    const again = await streamedText(system, prompt + "\n\nImportant: reply with one valid JSON object only. No commentary, no code fences.", effort);
+    return parseJSONText(again);
+  }
+}
 Object.assign(ERROR_COPY, {
+  upstream_error: "Claude is busy or the connection dropped. Try again in a minute.",
+  invalid_request: "Anthropic rejected the request.",
   needs_key: "This needs Claude. Add your API key in My Notebook → Companion, or open the app inside Claude.",
   invalid_json: "Claude's answer came back in an unexpected shape. Try again.",
 });
@@ -2365,9 +2370,7 @@ function findEchoes(text, n = 8){
   return out;
 }
 async function askText(prompt){
-  if (sample) return (await sample(prompt, {cache:false})).text;
-  if (apiKey()) return await callApiFull({system:"You are a creative philosophical companion inside the Unshielded app. Write vividly and precisely. Never invent quotations.", messages:[{role:"user", content:prompt}]});
-  throw {code:"needs_key"};
+  return await streamedText("You are a creative philosophical companion inside the Unshielded app. Write vividly and precisely. Never invent quotations.", prompt, "low");
 }
 function thinkerIndex(name){ const n = String(name||"").toLowerCase().trim(); if (!n) return -1; return THINKERS.findIndex(t => { const tn = t.n.toLowerCase(); return tn === n || tn.split(" ").pop() === n.split(" ").pop(); }); }
 const TYPE_CLASS = {"Thinker":"t-thinker","Idea":"t-idea","Mind & Life":"t-mind","Debate":"t-debate","Your essays":"t-essay","Quote":"t-quote","Resonance":"t-res"};
@@ -2478,7 +2481,7 @@ Find where this insight echoes in the history of ideas and push it further creat
  "extension": "a bold next step: what follows if the epiphany is true",
  "questions": ["three creative questions to develop it"],
  "daily": "one way to test it in ordinary life this week"}
-Give 6 or 7 resonances across different traditions, including at least one from outside Western philosophy, one from psychology and one from literature or science. Cite only works that exist, and do not put invented quotations in quotation marks.`);
+Give 6 or 7 resonances across different traditions, including at least one from outside Western philosophy, one from psychology and one from literature or science. Cite only works that exist, and do not put invented quotations in quotation marks.`, {effort:"medium"});
 }
 $("#epi-form").addEventListener("submit", async e => {
   e.preventDefault();
@@ -2488,7 +2491,7 @@ $("#epi-form").addEventListener("submit", async e => {
   if (!epiOnline()) return;
   const btn = $("#epi-go"); btn.disabled = true; $("#epi-status").textContent = "Mapping your epiphany… this can take a little while.";
   try { await deepReading(); renderEpi(); $("#epi-status").textContent = ""; }
-  catch (err) { $("#epi-status").textContent = ERROR_COPY[err?.code] || "Couldn't get Claude's reading just now. The inner ring still works."; }
+  catch (err) { $("#epi-status").textContent = errText(err, "Couldn't get Claude's reading just now. The inner ring still works."); }
   finally { btn.disabled = false; }
 });
 $("#epi-lenses").addEventListener("click", async e => {
@@ -2502,7 +2505,7 @@ Look at this epiphany strictly through the lens of ${l}${l === "Your essays" ? "
 Reply with JSON: {"provocation": "two or three sentences on what this lens reveals that the person may not have seen", "connections": [{"name": "a thinker, school, finding or work", "work": "a specific real work or study with year", "why": "how it bears on the epiphany, two sentences"}]}
 Give 4 connections. Cite only real works and studies; mention if a finding is contested.`);
     renderLenses(l);
-  } catch (err) { $("#epi-lens-out").innerHTML = `<p class="note">${esc(ERROR_COPY[err?.code] || "Couldn't open that lens just now.")}</p>`; }
+  } catch (err) { $("#epi-lens-out").innerHTML = `<p class="note">${esc(errText(err, "Couldn't open that lens just now."))}</p>`; }
 });
 document.getElementById("view-epiphany").addEventListener("click", async e => {
   const gt = e.target.closest("[data-goth]"); if (gt) { const i = gt.dataset.goth; goTo("thinkers","th-"+i,()=>{thFilter="All";renderThinkers();}); return; }
@@ -2519,7 +2522,7 @@ Latest step: ${name}, because ${why}
 Take the thread further. From ${name}'s ideas, give 3 next connections (thinkers, works or ideas), each moving somewhere genuinely new rather than repeating earlier steps, and say what the whole trail now suggests about the epiphany.
 Reply with JSON: {"next": [{"name": "...", "work": "a real work", "why": "two sentences"}], "synthesis": "two or three sentences"}`);
     epi.threads.push(r); renderTrail();
-  } catch (err) { $("#epi-thread-out").innerHTML = `<p class="note">${esc(ERROR_COPY[err?.code] || "Couldn't follow the thread just now.")}</p>`; }
+  } catch (err) { $("#epi-thread-out").innerHTML = `<p class="note">${esc(errText(err, "Couldn't follow the thread just now."))}</p>`; }
 });
 $("#epi-studio").addEventListener("click", async e => {
   const k = e.target.closest("[data-studio]")?.dataset.studio; if (!k || !epi) return;
@@ -2533,7 +2536,7 @@ The person's own philosophy: ${DP_SUMMARY}
 ${instr}
 Reply with the piece only, in plain text with light Markdown (italics, short paragraphs). No preamble.`);
     epi.studio.push({mode:k, label, text}); renderStudio();
-  } catch (err) { toast(ERROR_COPY[err?.code] || "Couldn't write that just now."); }
+  } catch (err) { toast(errText(err, "Couldn't write that just now.")); }
   finally { b.disabled = false; b.textContent = old; }
 });
 $("#epi-talk").onclick = () => {
@@ -2591,7 +2594,6 @@ function opCollect(){
   return op;
 }
 function renderOpSteps(){
-  const online = companionMode() !== "offline";
   $("#op-steps").innerHTML = OP_STEPS.map((s,i) => `
     <li class="op-step">
       <div class="op-num">${i+1}</div>
@@ -2599,7 +2601,7 @@ function renderOpSteps(){
         <h3>${esc(s.t)}</h3>
         <p class="note">${esc(s.p)}</p>
         <textarea id="op-s-${s.k}" maxlength="3000" placeholder="${esc(s.ph)}">${esc(op?.steps?.[s.k] || "")}</textarea>
-        ${s.help ? `<div class="row"><button class="linkish" type="button" data-ophelp="${s.k}" ${online ? "" : "disabled"}>${esc(s.help)}</button>${online ? "" : `<span class="note">Needs Claude (API key or the Claude version).</span>`}</div>` : ""}
+        ${s.help ? `<div class="row"><button class="linkish" type="button" data-ophelp="${s.k}">${esc(s.help)}</button></div>` : ""}
         <div class="op-help" id="op-h-${s.k}" ${op?.helps?.[s.k] ? "" : "hidden"}>${op?.helps?.[s.k] ? md(op.helps[s.k]) : ""}</div>
       </div>
     </li>`).join("");
@@ -2609,6 +2611,7 @@ $("#op-steps").addEventListener("click", async e => {
   const o = opCollect();
   if (!o.topic) { toast("Write the topic first."); $("#op-topic").focus(); return; }
   const s = OP_STEPS.find(x => x.k === k); const box = document.getElementById("op-h-"+k);
+  if (companionMode() === "offline") { box.hidden = false; box.innerHTML = `<p class="note">${esc(ERROR_COPY.needs_key)}</p>`; return; }
   const b = e.target.closest("button"); b.disabled = true;
   box.hidden = false; box.innerHTML = `<p class="thinking">Thinking…</p>`;
   try {
@@ -2624,7 +2627,7 @@ The person's own philosophy: ${DP_SUMMARY}
 ${s.ask(o)}
 Be fair to all sides and do not tell them what to conclude. Plain prose, short paragraphs, under 220 words.`);
     o.helps[k] = text; box.innerHTML = md(text);
-  } catch (err) { box.innerHTML = `<p class="note">${esc(ERROR_COPY[err?.code] || "Couldn't help with that just now.")}</p>`; }
+  } catch (err) { box.innerHTML = `<p class="note">${esc(errText(err, "Couldn't help with that just now."))}</p>`; }
   finally { b.disabled = false; }
 });
 $("#op-save").onclick = () => {
