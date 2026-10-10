@@ -238,7 +238,7 @@ h2.sub{font-size:1.5rem}
 .chip.sent-humorous{color:var(--dawn)}
 .assess.mine{border-left-color:var(--lapis)}
 
-/* epiphany & current affairs */
+/* epiphany */
 .item,details.debate{scroll-margin-top:7rem}
 .flash{animation:flash 1.8s ease-out}
 @keyframes flash{0%{background:var(--dawn-soft)}100%{background:transparent}}
@@ -311,7 +311,7 @@ details.debate > *:not(summary){margin-top:var(--s4)}
 .tenets li::before{content:counter(t,upper-roman)".";font-family:var(--display);font-weight:600;color:var(--dawn);font-size:1.1rem}
 .tenets li span{font-family:var(--display);font-size:1.3rem;line-height:1.35;min-width:0;overflow-wrap:anywhere}
 .addbox{display:grid;gap:var(--s2)}
-.addbox input,.addbox textarea{width:100%;border:1px solid var(--line);border-radius:.7rem;background:var(--surface);padding:var(--s2) var(--s3)}
+.addbox input,.addbox textarea,.addbox select{width:100%;border:1px solid var(--line);border-radius:.7rem;background:var(--surface);padding:var(--s2) var(--s3)}
 .addbox textarea{min-height:5rem;resize:vertical}
 .empty{color:var(--muted);font-style:italic}
 .x{background:none;border:0;color:var(--muted);cursor:pointer;font-size:.8rem}
@@ -339,7 +339,6 @@ details.dlg .thread{margin-top:var(--s4)}
       <button role="tab" data-group="today" aria-selected="true"><svg viewBox="0 0 24 24"><path d="M3 18h18M6 18a6 6 0 0 1 12 0M12 4v3M4.9 8.9l2 2M19.1 8.9l-2 2"/></svg>Today</button>
       <button role="tab" data-group="epiphany" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6z"/><path d="M19 17l.7 1.8 1.8.7-1.8.7L19 22l-.7-1.8-1.8-.7 1.8-.7z"/></svg>Epiphany</button>
       <button role="tab" data-group="explore" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M4 5h6a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4zM20 5h-6a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h6z"/></svg>Explore</button>
-      <button role="tab" data-group="world" aria-selected="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>World</button>
       <button role="tab" data-group="me" aria-selected="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Me</button>
     </nav>
     <nav class="subnav" id="subnav" aria-label="Pages" hidden></nav>
@@ -518,28 +517,6 @@ details.dlg .thread{margin-top:var(--s4)}
     </div>
   </section>
 
-  <!-- CURRENT AFFAIRS -->
-  <section class="view" id="view-affairs" role="tabpanel" hidden>
-    <div class="intro">
-      <span class="eyebrow">The world, examined</span>
-      <h2>Current Affairs</h2>
-      <p>Ten or more stories in each section, gathered fresh with web search: your city, your state, your country, the world, and what social media is talking about. Local news channels are one tap away. For every story, write your own opinion, then see the major positions, real published opinion pieces, and how your favourite thinkers' ideas would read it.</p>
-    </div>
-    <form class="addbox ca-settings" id="ca-settings">
-      <details class="ca-set" id="ca-set">
-        <summary><span id="ca-set-sum">Set your place and favourite thinkers</span></summary>
-        <div class="ca-fields">
-          <div><label class="eyebrow" for="ca-place">Your place</label><input id="ca-place" maxlength="120" placeholder="City, state, country"></div>
-          <div><label class="eyebrow" for="ca-fav">Favourite thinkers</label><input id="ca-fav" maxlength="300" placeholder="Ernest Becker, Periyar, Erich Fromm"></div>
-        </div>
-      </details>
-      <div class="row"><button class="btn primary" type="submit" id="ca-go">Refresh all sections</button><span class="status" id="ca-status"></span></div>
-      <p class="note" id="ca-note"></p>
-    </form>
-    <div class="filters ca-tabs" id="ca-tabs" role="tablist" aria-label="News sections"></div>
-    <div id="ca-pane"></div>
-  </section>
-
   <!-- QUOTES -->
   <section class="view" id="view-quotes" role="tabpanel" aria-labelledby="tab-quotes" hidden>
     <div class="intro">
@@ -668,6 +645,12 @@ details.dlg .thread{margin-top:var(--s4)}
       <form class="addbox" id="api-key-form" autocomplete="off">
         <label class="eyebrow" for="api-key">Anthropic API key</label>
         <input id="api-key" type="password" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
+        <label class="eyebrow" for="api-model">Model</label>
+        <select id="api-model">
+          <option value="claude-opus-5-5">Claude Opus 5.5: deepest answers, highest cost</option>
+          <option value="claude-sonnet-5-5">Claude Sonnet 5.5: balanced, about half the cost</option>
+          <option value="claude-haiku-5-5">Claude Haiku 5.5: quick and cheapest, about 40× cheaper</option>
+        </select>
         <div class="row"><button class="btn primary" type="submit">Save key</button><button class="btn ghost" type="button" id="api-key-remove" hidden>Remove key</button><span class="status" id="api-key-status"></span></div>
       </form>
     </div>
@@ -1142,7 +1125,6 @@ const GROUPS = {
   today:{views:[["today","Today"]]},
   epiphany:{views:[["epiphany","Epiphany"]]},
   explore:{views:[["ideas","Ideas"],["mind","Mind & Life"],["thinkers","Thinkers"],["critique","Critical Evaluation"],["quotes","Quotes"],["links","Readings"]]},
-  world:{views:[["affairs","Current Affairs"]]},
   me:{views:[["dp","My Philosophy"],["notebook","My Notebook"]]},
 };
 const VIEW_GROUP = {}; Object.entries(GROUPS).forEach(([g,o]) => o.views.forEach(([v]) => VIEW_GROUP[v] = g));
@@ -1225,14 +1207,13 @@ function updateMode(){
   const m = companionMode();
   $("#mode-note").textContent = {
     claude: "Your companion is Claude. It reads your personal philosophy and recent ideas so it can engage with them.",
-    api: "Your companion is Claude, using your own API key. It reads your personal philosophy and recent ideas so it can engage with them.",
+    api: "Your companion is Claude (" + ({"claude-opus-5-5":"Opus","claude-sonnet-5-5":"Sonnet","claude-haiku-5-5":"Haiku"}[apiModel()] || "Opus") + "), using your own API key. It reads your personal philosophy and recent ideas so it can engage with them.",
     offline: "Offline companion: a Socratic guide keeps the questions coming. To talk with Claude, add your API key in My Notebook, or open this app inside Claude.",
   }[m];
   $("#distill-btn").hidden = m === "offline";
   $("#companion-settings").hidden = m === "claude";
   $("#api-key-status").textContent = apiKey() ? "A key is saved on this device." : "No key saved. The offline guide is answering.";
   $("#api-key-remove").hidden = !apiKey();
-  updateAffairsNote();
 }
 (async () => {
   try { sample = window.claude?.use ? await window.claude.use("sample") : null; } catch { sample = null; }
@@ -1278,24 +1259,26 @@ function alternate(turns){
   return out;
 }
 
+// Model and request options chosen in My Notebook → Companion. Haiku has no server-side fallback.
+function apiModel(){ return lsGet("reflections.model", "claude-opus-5-5"); }
+function apiHeaders(){
+  const h = {"content-type":"application/json","x-api-key":apiKey(),"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"};
+  if (apiModel() !== "claude-haiku-5-5") h["anthropic-beta"] = "server-side-fallback-2026-07-01";
+  return h;
+}
+function apiBody(extra){
+  const b = {model:apiModel(), max_tokens:16000, output_config:{effort:"medium"}, ...extra};
+  if (apiModel() !== "claude-haiku-5-5") b.fallbacks = "default";
+  return JSON.stringify(b);
+}
 // Direct call to the Claude API with the person's own key, streamed so replies appear as they're written.
 async function callApi({system, messages, onText, signal}){
   let res;
   try {
     res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST", signal,
-      headers: {
-        "content-type": "application/json",
-        "x-api-key": apiKey(),
-        "anthropic-version": "2023-06-01",
-        "anthropic-beta": "server-side-fallback-2026-07-01",
-        "anthropic-dangerous-direct-browser-access": "true",
-      },
-      body: JSON.stringify({
-        model: "claude-opus-5-5", max_tokens: 16000, stream: true,
-        output_config: {effort: "medium"}, fallbacks: "default",
-        system, messages,
-      }),
+      headers: apiHeaders(),
+      body: apiBody({stream:true, system, messages}),
     });
   } catch (e) {
     throw {code: e?.name === "AbortError" ? "cancelled" : "offline"};
@@ -1437,6 +1420,8 @@ $("#api-key-form").addEventListener("submit", e => {
   if (!v.startsWith("sk-ant-")) { toast("That doesn't look like an Anthropic API key. It starts with sk-ant-."); return; }
   lsSet(KEY_STORE, v); $("#api-key").value = ""; updateMode(); toast("Key saved on this device");
 });
+$("#api-model").value = apiModel();
+$("#api-model").addEventListener("change", () => { lsSet("reflections.model", $("#api-model").value); toast("Model saved"); updateMode(); });
 $("#api-key-remove").onclick = () => { try { localStorage.removeItem(KEY_STORE); } catch {} updateMode(); toast("Key removed"); };
 $("#distill-keep").onclick = () => { if (distilled) addTenet(distilled); $("#distill").hidden = true; toast("Added to your personal philosophy"); };
 $("#distill-drop").onclick = () => { $("#distill").hidden = true; };
@@ -2283,10 +2268,8 @@ async function callApiFull({system, messages, tools, signal}){
     try {
       res = await fetch("https://api.anthropic.com/v1/messages", {
         method:"POST", signal,
-        headers:{"content-type":"application/json","x-api-key":apiKey(),"anthropic-version":"2023-06-01",
-          "anthropic-beta":"server-side-fallback-2026-07-01","anthropic-dangerous-direct-browser-access":"true"},
-        body: JSON.stringify({model:"claude-opus-5-5", max_tokens:16000, output_config:{effort:"medium"}, fallbacks:"default",
-          system, messages:msgs, ...(tools ? {tools} : {})}),
+        headers: apiHeaders(),
+        body: apiBody({system, messages:msgs, ...(tools ? {tools} : {})}),
       });
     } catch (e) { throw {code: e?.name === "AbortError" ? "cancelled" : "offline"}; }
     if (!res.ok) throw await apiFailure(res);
@@ -2547,260 +2530,6 @@ $("#epi-saved").addEventListener("click", e => {
   $("#epi-text").value = x.text; renderEpi(); $("#epi-work").scrollIntoView({behavior:"smooth", block:"start"});
 });
 Store.onChange(renderEpiphanies);
-
-/* ================= CURRENT AFFAIRS ================= */
-const CA_PLACE = "reflections.place", CA_FAV = "reflections.favThinkers", CA_CACHE = "reflections.ca2";
-const DEFAULT_FAV = "Ernest Becker, Periyar, Erich Fromm, Otto Rank, Arthur Schopenhauer";
-const CA_CATS = ["Politics","Economy","Society","Science & tech","Environment","Health","Culture","Sport","Crime & law","Other"];
-const CA_SECTIONS = [
-  {key:"local", label:"Local", kind:"news", scope: p => `the city or district of ${p} itself: civic issues, local politics, infrastructure, transport, weather, crime and courts, education, culture and events`},
-  {key:"state", label:"State", kind:"news", scope: p => `the state, province or region that ${p} belongs to: state government and politics, policy, economy, society, culture`},
-  {key:"national", label:"National", kind:"news", scope: p => `the country that ${p} is in: national politics, parliament and courts, economy, society, science, sport`},
-  {key:"international", label:"International", kind:"news", scope: () => `the world: geopolitics and conflicts, global economy, climate, science and technology, major events in other countries`},
-  {key:"social", label:"Social media", kind:"social"},
-  {key:"channels", label:"Channels", kind:"channels"},
-  {key:"takes", label:"My takes", kind:"takes"},
-];
-var caTab = "local", caCat = "All";
-var caCache = lsGet(CA_CACHE, {place:"", sections:{}, channels:null});
-const caStories = new Map();
-$("#ca-place").value = lsGet(CA_PLACE, "");
-$("#ca-fav").value = lsGet(CA_FAV, DEFAULT_FAV);
-function caSetSummary(){ const p = $("#ca-place").value.trim(); $("#ca-set-sum").textContent = p ? `📍 ${p} · change place or thinkers` : "Set your place and favourite thinkers"; $("#ca-set").open = !p; }
-caSetSummary();
-$("#ca-place").addEventListener("change", () => { lsSet(CA_PLACE, $("#ca-place").value.trim()); $("#ca-set-sum").textContent = $("#ca-place").value.trim() ? `📍 ${$("#ca-place").value.trim()} · change place or thinkers` : "Set your place and favourite thinkers"; });
-$("#ca-fav").addEventListener("change", () => lsSet(CA_FAV, $("#ca-fav").value.trim()));
-const caPlace = () => $("#ca-place").value.trim();
-function updateAffairsNote(){
-  if (!caReady) return; // runs before this section has loaded
-  $("#ca-go").disabled = !apiKey();
-  $("#ca-note").textContent = apiKey()
-    ? "Uses Claude's web search with your API key. Each section runs several searches, billed to your API account."
-    : companionMode() === "claude"
-      ? "Live news needs web search, which works in the installed phone app with your API key. Here you can browse channels, add stories yourself and get perspectives."
-      : "Live news needs your Anthropic API key (Me → My Notebook → Companion). Channels, your own stories and My takes work without it.";
-  if (caTab) renderPane();
-}
-function caSave(){ lsSet(CA_CACHE, caCache); }
-function ago(t){ const m = Math.round((Date.now() - t) / 60000); return m < 1 ? "just now" : m < 60 ? m + " min ago" : m < 1440 ? Math.round(m/60) + " h ago" : new Date(t).toLocaleDateString(); }
-
-/* ---- fetching ---- */
-async function fetchSection(sec){
-  const place = caPlace(); if (!place) throw {code:"no_place"};
-  const today = new Date().toLocaleDateString(undefined, {weekday:"long", year:"numeric", month:"long", day:"numeric"});
-  let data;
-  if (sec.kind === "news") {
-    data = await askJSON(`Today is ${today}. The person lives in ${place}.
-Use web search to find at least 10 of the most important and most-discussed news stories right now about ${sec.scope(place)}.
-Search several times with different queries, and draw on several different outlets, including local-language outlets where relevant.
-Reply with JSON: {"items": [{"headline": "...", "summary": "two neutral, factual sentences", "why": "one sentence on why it matters", "category": "one of ${CA_CATS.join(", ")}", "when": "today, yesterday, or a date", "sources": [{"title": "outlet name", "url": "https://..."}]}], "note": "optional, e.g. if little was found"}
-Give 10 to 12 items, most significant first, each with 1 to 3 real URLs from your search results, from the last 72 hours. Never invent a story, a figure or a URL.`, {search:true});
-  } else {
-    data = await askJSON(`Today is ${today}. The person lives in ${place}.
-Use web search to find at least 12 topics trending on social media right now, both in the person's country and globally: X (Twitter), YouTube, Instagram, Reddit, Facebook, and platforms popular locally (for example ShareChat, Moj or viral WhatsApp forwards in India, if relevant). Use news coverage of trends and trend trackers that you find in search.
-Reply with JSON: {"items": [{"headline": "the trending topic or hashtag", "platform": "X, YouTube, Instagram, Reddit, Facebook, WhatsApp or Other", "reach": "Local, National or Global", "summary": "what it is and why it is trending, two sentences", "takes": ["three representative viewpoints people are expressing, paraphrased, without usernames"], "sentiment": "positive, negative, mixed, divided or humorous", "category": "one of ${CA_CATS.join(", ")}", "sources": [{"title": "outlet or tracker", "url": "https://..."}]}]}
-Give 12 to 15 items. Only include trends you found evidence for in search results from the last few days. Never invent trends, numbers or URLs.`, {search:true});
-  }
-  if (caCache.place !== place) caCache = {place, sections:{}, channels:caCache.channels && caCache.place === place ? caCache.channels : null};
-  caCache.sections[sec.key] = {at:Date.now(), items:(data.items||[]).filter(it => it && it.headline), note:data.note || ""};
-  caSave();
-}
-async function loadSection(key){
-  const sec = CA_SECTIONS.find(s => s.key === key);
-  const st = $("#ca-status"); st.textContent = `Searching ${sec.label.toLowerCase()} news… this can take a minute.`;
-  try { await fetchSection(sec); st.textContent = ""; }
-  catch (err) { st.textContent = err?.code === "no_place" ? "Add your place first." : (ERROR_COPY[err?.code] || "Couldn't fetch the news just now. Check that web search is enabled for your API organisation.") + (err?.message ? ` Anthropic says: “${err.message}”` : ""); }
-  if (caTab === key) renderPane();
-  renderTabs();
-}
-$("#ca-settings").addEventListener("submit", async e => {
-  e.preventDefault();
-  lsSet(CA_PLACE, caPlace()); lsSet(CA_FAV, $("#ca-fav").value.trim());
-  if (!caPlace()) { toast("Add your place first, such as a city, state and country."); return; }
-  const btn = $("#ca-go"); btn.disabled = true;
-  const keys = ["local","state","national","international","social"]; let done = 0;
-  const st = $("#ca-status");
-  let lastErr = "";
-  const run = async k => { const sec = CA_SECTIONS.find(s => s.key === k); try { await fetchSection(sec); } catch (err) { lastErr = (ERROR_COPY[err?.code] || "Some sections couldn't load.") + (err?.message ? ` Anthropic says: “${err.message}”` : ""); } done++; st.textContent = `Loaded ${done} of ${keys.length} sections…`; renderTabs(); if (caTab === k) renderPane(); };
-  st.textContent = `Loading ${keys.length} sections… this can take a few minutes.`;
-  const queue = keys.slice(); const workers = [1,2].map(async () => { while (queue.length) await run(queue.shift()); });
-  await Promise.all(workers);
-  st.textContent = lastErr || `Updated ${new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}.`;
-  btn.disabled = !apiKey();
-});
-
-/* ---- channels ---- */
-const YT = q => `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`;
-const CH_WORLD = [["BBC News","Website","English","https://www.bbc.com/news"],["Reuters","Wire","English","https://www.reuters.com"],["AP News","Wire","English","https://apnews.com"],["Al Jazeera","TV & web","English","https://www.aljazeera.com"],["The Guardian","Newspaper","English","https://www.theguardian.com"],["DW","TV & web","English","https://www.dw.com"],["France 24","TV & web","English","https://www.france24.com/en/"]];
-const CH_INDIA = [["The Hindu","Newspaper","English","https://www.thehindu.com"],["The Indian Express","Newspaper","English","https://indianexpress.com"],["Hindustan Times","Newspaper","English","https://www.hindustantimes.com"],["The Times of India","Newspaper","English","https://timesofindia.indiatimes.com"],["NDTV","TV & web","English","https://www.ndtv.com"],["India Today","TV & web","English","https://www.indiatoday.in"],["Scroll","Website","English","https://scroll.in"],["The Wire","Website","English","https://thewire.in"],["ThePrint","Website","English","https://theprint.in"]];
-const CH_TN = [["Dinamalar","Newspaper","Tamil","https://www.dinamalar.com"],["Dinamani","Newspaper","Tamil","https://www.dinamani.com"],["Daily Thanthi","Newspaper","Tamil","https://www.dailythanthi.com"],["Hindu Tamil Thisai","Newspaper","Tamil","https://www.hindutamil.in"],["BBC News Tamil","Website","Tamil","https://www.bbc.com/tamil"],
-  ["Sun News (live)","TV","Tamil",YT("Sun News live")],["Puthiya Thalaimurai (live)","TV","Tamil",YT("Puthiya Thalaimurai live")],["Thanthi TV (live)","TV","Tamil",YT("Thanthi TV live")],["News7 Tamil (live)","TV","Tamil",YT("News7 Tamil live")],["Polimer News (live)","TV","Tamil",YT("Polimer News live")],["Kalaignar Seithigal (live)","TV","Tamil",YT("Kalaignar Seithigal live")],["News18 Tamil Nadu (live)","TV","Tamil",YT("News18 Tamil Nadu live")]];
-const TN_RE = /tamil|chennai|madras|coimbatore|madurai|trichy|tiruchirappalli|salem|tirunelveli|vellore|erode|tiruppur|thoothukudi|tuticorin|thanjavur|kanchipuram|kanyakumari|nagercoil|hosur|cuddalore|dindigul|karur|namakkal|pudukkottai|villupuram|ramanathapuram|sivaganga|virudhunagar|theni|nilgiris|ooty|krishnagiri|dharmapuri|ariyalur|perambalur|nagapattinam|tiruvarur|tiruvallur|chengalpattu|ranipet|tirupathur|kallakurichi|tenkasi|mayiladuthurai/i;
-const IN_RE = /india|bharat|delhi|mumbai|bengaluru|bangalore|hyderabad|kolkata|pune|kerala|karnataka|maharashtra|gujarat|punjab|bihar|odisha|assam|telangana|andhra|rajasthan|uttar|madhya|bengal|goa|puducherry|pondicherry/i;
-function channelGroups(){
-  const p = caPlace(), g = [];
-  if (TN_RE.test(p)) g.push(["Tamil Nadu", CH_TN]);
-  if (TN_RE.test(p) || IN_RE.test(p)) g.push(["India", CH_INDIA]);
-  g.push(["International", CH_WORLD]);
-  return g;
-}
-async function findChannels(){
-  if (!caPlace()) { toast("Add your place first."); return; }
-  const btn = $("#ch-find"); if (btn) { btn.disabled = true; btn.textContent = "Searching…"; }
-  try {
-    const d = await askJSON(`The person lives in ${caPlace()}. Use web search to find 12 to 15 news sources for their area and language: local and regional TV news channels (with their official YouTube channel or live stream), newspapers, news websites, radio and notable independent news YouTubers or podcasts.
-Reply with JSON: {"channels": [{"name": "...", "type": "TV, Newspaper, Website, YouTube, Radio or Podcast", "language": "...", "note": "a few words on coverage", "url": "official https URL found in search"}]}
-Only include outlets you found in search results, with their real official URLs. Do not rate their political leaning.`, {search:true});
-    caCache.channels = {at:Date.now(), place:caPlace(), items:d.channels || []}; caSave(); renderPane();
-  } catch (err) { toast(ERROR_COPY[err?.code] || "Couldn't search for channels just now."); if (btn) { btn.disabled = false; btn.textContent = "Find more channels for my place"; } }
-}
-function chCard([n,t,l,u]){ return `<a class="linkcard" href="${esc(u)}" target="_blank" rel="noopener"><em>${esc(t)} · ${esc(l)}</em><strong>${esc(n)}</strong><span>${esc(u.includes("youtube.com/results") ? "Watch on YouTube" : u.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,""))}</span></a>`; }
-
-/* ---- rendering ---- */
-function renderTabs(){
-  $("#ca-tabs").innerHTML = CA_SECTIONS.map(s => {
-    const n = s.kind === "news" || s.kind === "social" ? (caCache.sections[s.key]?.items.length || 0) : s.kind === "takes" ? Store.of("affair").length : 0;
-    return `<button type="button" role="tab" data-catab="${s.key}" aria-pressed="${s.key===caTab}">${esc(s.label)}${n ? ` <span class="count">${n}</span>` : ""}</button>`;
-  }).join("");
-}
-function takeFor(h){ return Store.entries.find(e => e.kind === "affair" && e.headline === h); }
-function storyCard(s, key){
-  caStories.set(key, s);
-  const t = takeFor(s.headline);
-  const sent = s.sentiment ? `<span class="chip sent sent-${esc(String(s.sentiment).toLowerCase().split(/\W/)[0])}">${esc(s.sentiment)}</span>` : "";
-  return `
-    <article class="item story" data-k="${esc(key)}">
-      <div class="qmeta">${s.platform ? `<span class="chip dawnchip">${esc(s.platform)}</span>` : ""}${s.category ? `<span class="chip">${esc(s.category)}</span>` : ""}${sent}${s.reach ? `<span class="thinkers">${esc(s.reach)}</span>` : ""}${s.when ? `<span class="thinkers">${esc(s.when)}</span>` : ""}</div>
-      <h3>${esc(s.headline)}</h3>
-      ${s.summary ? `<p class="body">${esc(s.summary)}</p>` : ""}
-      ${s.why ? `<p class="gloss"><strong>Why it matters:</strong> ${esc(s.why)}</p>` : ""}
-      ${(s.takes||[]).length ? `<ul class="takes">${s.takes.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>` : ""}
-      ${(s.sources||[]).length ? `<div class="refs srcs">${s.sources.filter(x=>/^https?:\/\//.test(x.url||"")).map(x=>linkHTML([x.title||"Source", x.url])).join("")}</div>` : ""}
-      ${t?.opinion ? `<div class="assess mine"><span class="eyebrow">My opinion</span><p>${esc(t.opinion)}</p></div>` : ""}
-      <div class="story-actions">
-        <button class="btn" data-act="op">${t?.opinion ? "Edit my opinion" : "My opinion"}</button>
-        <button class="btn" data-act="persp">Perspectives</button>
-        <button class="btn" data-act="pub">Published opinions</button>
-        <button class="btn ghost" data-act="talk">Discuss</button>
-      </div>
-      <div class="opinion" data-box="op" hidden>
-        <label class="eyebrow" for="op-${esc(key)}">My opinion</label>
-        <textarea id="op-${esc(key)}" maxlength="4000">${esc(t?.opinion || "")}</textarea>
-        <div class="row"><button class="btn primary" type="button" data-act="opsave">Save my take</button></div>
-      </div>
-      <div class="persp" data-box="persp" ${t?.perspectives ? "" : "hidden"}>${t?.perspectives ? perspHTML(t.perspectives) : ""}</div>
-      <div class="persp" data-box="pub" ${t?.published ? "" : "hidden"}>${t?.published ? pubHTML(t.published) : ""}</div>
-    </article>`;
-}
-function perspHTML(p){
-  return `
-    ${(p.major||[]).length ? `<span class="eyebrow">Major positions</span><div class="positions">${p.major.map(m=>`<div class="pos"><h4>${esc(m.view||"")}</h4><p>${esc(m.argument||"")}</p></div>`).join("")}</div>` : ""}
-    ${(p.thinkers||[]).length ? `<span class="eyebrow">Through your favourite thinkers</span><div class="positions">${p.thinkers.map(t=>`<div class="pos"><h4>${esc(t.name||"")}</h4><p>${esc(t.reading||"")}</p></div>`).join("")}</div>` : ""}
-    ${p.dp ? `<div class="assess"><span class="eyebrow">Through your essays</span><p>${esc(p.dp)}</p></div>` : ""}
-    ${p.question ? `<p class="scene">${esc(p.question)}</p>` : ""}`;
-}
-function pubHTML(list){
-  return `<span class="eyebrow">Published opinions</span><div class="positions">${list.map(o=>`<div class="pos"><h4>${esc(o.outlet||"")}${o.author ? ` · ${esc(o.author)}` : ""}</h4><p class="thinkers">${esc(o.stance||"")}</p><p>${esc(o.gist||"")}</p>${/^https?:\/\//.test(o.url||"") ? `<p><a href="${esc(o.url)}" target="_blank" rel="noopener">Read it ↗</a></p>` : ""}</div>`).join("")}</div>`;
-}
-function renderPane(){
-  const sec = CA_SECTIONS.find(s => s.key === caTab); const pane = $("#ca-pane");
-  caStories.clear();
-  if (sec.kind === "news" || sec.kind === "social") {
-    const c = caCache.sections[sec.key];
-    const items = c?.items || [];
-    const cats = ["All", ...new Set(items.map(i => i.category).filter(Boolean))];
-    if (!cats.includes(caCat)) caCat = "All";
-    const shown = items.filter(i => caCat === "All" || i.category === caCat);
-    pane.innerHTML = `
-      <div class="pane-head"><h2 class="sub">${esc(sec.label)}</h2><span class="status">${c ? `${items.length} stories · ${ago(c.at)}${caCache.place ? " · " + esc(caCache.place) : ""}` : "Not loaded yet"}</span>
-        <button class="btn" type="button" data-load="${sec.key}" ${apiKey() ? "" : "disabled"}>${c ? "Refresh" : "Load"} ${esc(sec.label.toLowerCase())}</button></div>
-      ${c?.note ? `<p class="note">${esc(c.note)}</p>` : ""}
-      ${items.length ? `<div class="filters">${cats.map(x=>`<button type="button" data-cacat="${esc(x)}" aria-pressed="${x===caCat}">${esc(x)}</button>`).join("")}</div>` : ""}
-      <div class="list">${shown.map((s,i) => storyCard(s, sec.key + ":" + items.indexOf(s))).join("") || `<p class="empty">${apiKey() ? (caPlace() ? `Tap “Load ${esc(sec.label.toLowerCase())}”, or refresh all sections above.` : "Add your place above, then load the news.") : "Live news needs your API key. Meanwhile, browse Channels or add a story in My takes."}</p>`}</div>`;
-  } else if (sec.kind === "channels") {
-    const found = caCache.channels?.items || [];
-    pane.innerHTML = `
-      ${channelGroups().map(([g, list]) => `<div class="nb-section"><h2 class="sub">${esc(g)}</h2><div class="linkgrid ch">${list.map(chCard).join("")}</div></div>`).join("")}
-      <div class="nb-section"><h2 class="sub">Found for ${esc(caCache.channels?.place || caPlace() || "your place")}</h2>
-        ${found.length ? `<div class="linkgrid ch">${found.filter(c=>/^https?:\/\//.test(c.url||"")).map(c=>chCard([c.name, c.type, c.language || "", c.url])).join("")}</div>` : `<p class="note">${apiKey() ? "Search the web for local TV channels, newspapers, YouTube news channels and radio in your area." : "With your API key, Unshielded can search for local channels in your area."}</p>`}
-        <div class="row"><button class="btn primary" type="button" id="ch-find" ${apiKey() ? "" : "disabled"}>${found.length ? "Search again" : "Find more channels for my place"}</button></div>
-      </div>`;
-  } else {
-    const list = Store.of("affair");
-    pane.innerHTML = `
-      <div class="nb-section"><h2 class="sub">Add a story yourself</h2>
-        <form class="addbox" id="ca-add">
-          <label class="eyebrow" for="ca-add-h">Headline or topic</label>
-          <input id="ca-add-h" maxlength="200" placeholder="What happened, in a line">
-          <label class="eyebrow" for="ca-add-s">Details or link (optional)</label>
-          <textarea id="ca-add-s" maxlength="2000" placeholder="Paste a link or a few lines about it"></textarea>
-          <div class="row"><button class="btn primary" type="submit">Add story</button></div>
-        </form></div>
-      <div class="nb-section"><h2 class="sub">My takes</h2>
-        <div class="list">${list.map(t => storyCard(t, "take:" + t.id)).join("") || `<p class="empty">Stories you give an opinion on, or add yourself, are kept here.</p>`}</div></div>`;
-  }
-}
-function saveTake(story, patch){
-  const prev = takeFor(story.headline);
-  Store.put({...(prev||{}), id: prev?.id || "affair-" + Date.now(), kind:"affair", headline:story.headline, summary:story.summary||"", why:story.why||"", category:story.category||"", platform:story.platform||"", sentiment:story.sentiment||"", takes:story.takes||[], sources:story.sources||[], opinion: prev?.opinion || "", perspectives: prev?.perspectives || null, published: prev?.published || null, ...patch});
-}
-async function getPerspectives(story, box){
-  box.hidden = false; box.innerHTML = `<p class="thinking">Gathering perspectives…</p>`;
-  const t = takeFor(story.headline);
-  try {
-    const p = await askJSON(`News story: ${story.headline}
-${story.summary || ""}
-${t?.opinion ? "The person's own opinion: " + t.opinion : ""}
-
-Their own philosophy: ${DP_SUMMARY}
-Their favourite thinkers: ${$("#ca-fav").value.trim() || DEFAULT_FAV}
-
-Reply with JSON:
-{"major": [{"view": "short label for a position people hold", "argument": "its strongest case in two sentences"}],
- "thinkers": [{"name": "one of the favourite thinkers", "reading": "how that thinker's ideas would interpret this story, in two sentences"}],
- "dp": "how DP's essays would read the story, in two sentences",
- "question": "one searching question for the person"}
-Give 4 major positions that represent the real range of public opinion fairly, each in its strongest form, without taking sides. Give 3 thinker readings, framed as interpretations of their ideas, not as things they said. If the person gave an opinion, the question should test it. Do not invent facts beyond what is given.`);
-    box.innerHTML = perspHTML(p); saveTake(story, {perspectives:p});
-  } catch (err) { box.innerHTML = `<p class="note">${esc(ERROR_COPY[err?.code] || "Couldn't get perspectives just now.")}</p>`; }
-}
-async function getPublished(story, box){
-  if (!apiKey()) { toast("Finding published opinions needs web search: add your API key in Me → My Notebook."); return; }
-  box.hidden = false; box.innerHTML = `<p class="thinking">Searching for opinion pieces…</p>`;
-  try {
-    const d = await askJSON(`News story: ${story.headline}
-${story.summary || ""}
-Use web search to find 4 to 6 actual opinion pieces, editorials, columns or expert analyses published about this story, from different outlets and representing different viewpoints.
-Reply with JSON: {"opinions": [{"outlet": "...", "author": "name if given", "stance": "a short neutral label for the position taken", "gist": "its argument in two sentences, paraphrased", "url": "https://..."}]}
-Only include real pieces you found in search results, with their URLs. Never invent a piece, author or URL.`, {search:true});
-    box.innerHTML = pubHTML(d.opinions || []); saveTake(story, {published:d.opinions || []});
-  } catch (err) { box.innerHTML = `<p class="note">${esc(ERROR_COPY[err?.code] || "Couldn't find opinion pieces just now.")}</p>`; }
-}
-document.getElementById("view-affairs").addEventListener("click", e => {
-  const tab = e.target.closest("[data-catab]"); if (tab) { caTab = tab.dataset.catab; caCat = "All"; renderTabs(); renderPane(); return; }
-  const cat = e.target.closest("[data-cacat]"); if (cat) { caCat = cat.dataset.cacat; renderPane(); return; }
-  const ld = e.target.closest("[data-load]"); if (ld) { ld.disabled = true; loadSection(ld.dataset.load); return; }
-  if (e.target.closest("#ch-find")) { findChannels(); return; }
-  const btn = e.target.closest("[data-act]"); if (!btn) return;
-  const card = btn.closest(".story"); const story = caStories.get(card.dataset.k); if (!story) return;
-  const act = btn.dataset.act;
-  if (act === "op") { const b = card.querySelector('[data-box="op"]'); b.hidden = !b.hidden; if (!b.hidden) b.querySelector("textarea").focus(); }
-  if (act === "opsave") { saveTake(story, {opinion: card.querySelector('[data-box="op"] textarea').value.trim()}); toast("Your take is saved"); }
-  if (act === "persp") getPerspectives(story, card.querySelector('[data-box="persp"]'));
-  if (act === "pub") getPublished(story, card.querySelector('[data-box="pub"]'));
-  if (act === "talk") { const t = takeFor(story.headline); startTopic({cat:"Current affairs", q:`${story.headline}: what do you make of it?`, f:`${story.summary || ""}${t?.opinion ? " My opinion: " + t.opinion : ""}`, r:[]}); }
-});
-document.getElementById("view-affairs").addEventListener("submit", e => {
-  if (e.target.id !== "ca-add") return;
-  e.preventDefault();
-  const h = $("#ca-add-h").value.trim(), s = $("#ca-add-s").value.trim(); if (!h) return;
-  const url = (s.match(/https?:\/\/\S+/) || [])[0];
-  saveTake({headline:h, summary:s.replace(url||"", "").trim(), sources: url ? [{title:"Link", url}] : []}, {});
-  toast("Story added to My takes");
-});
-Store.onChange(() => { renderTabs(); if (!document.getElementById("view-affairs").hidden) { const y = window.scrollY; renderPane(); window.scrollTo(0, y); } });
-var caReady = true;
-renderTabs(); renderPane(); updateAffairsNote();
 
 /* ================= QUOTES ================= */
 $("#quote-list").innerHTML = QUOTES.map((x,i)=>`
