@@ -238,6 +238,17 @@ h2.sub{font-size:1.5rem}
 .chip.sent-humorous{color:var(--dawn)}
 .assess.mine{border-left-color:var(--lapis)}
 
+/* today extras, kindred */
+.today-extras{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:var(--s3)}
+.mini{display:grid;gap:var(--s2);align-content:start;padding:var(--s4) var(--s5);border:1px solid var(--line);border-radius:1rem;background:var(--surface);cursor:pointer;transition:transform .15s ease,border-color .15s ease;min-width:0}
+.mini:hover{border-color:var(--dawn);transform:translateY(-2px)}
+.mini h3{font-size:1.35rem}
+.mini p{font-size:.9rem;color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.mini-go{font-size:.85rem;color:var(--dawn);font-weight:500}
+.item h3{transition:color .15s ease}
+.art h3{font-size:1.5rem}
+@media (prefers-reduced-motion:reduce){.mini{transition:none}.mini:hover{transform:none}}
+
 /* opinion desk */
 .op-steps{list-style:none;margin:var(--s5) 0 0;padding:0;display:grid;gap:var(--s4)}
 .op-step{display:grid;grid-template-columns:2.25rem 1fr;gap:var(--s3);padding:var(--s4);border:1px solid var(--line);border-radius:1rem;background:var(--surface)}
@@ -365,18 +376,20 @@ details.dlg .thread{margin-top:var(--s4)}
       <p class="affirm" id="affirm"></p>
       <p class="after" id="affirm-after"></p>
       <div class="dawn-actions">
-        <button class="btn primary" id="begin">Turn to today's question</button>
-        <button class="btn ghost" id="next-affirm">Another affirmation</button>
+        <button class="btn primary" id="begin">Begin today's inquiry</button>
+        <button class="btn ghost" id="next-affirm">Draw another</button>
       </div>
     </div>
 
     <article class="practice" id="practice">
-      <div class="qmeta"><span class="eyebrow">Today's mind practice</span><span class="chip dawnchip" id="pr-theme"></span></div>
+      <div class="qmeta"><span class="eyebrow">A practice for today</span><span class="chip dawnchip" id="pr-theme"></span></div>
       <h3 id="pr-title"></h3>
       <p class="scene" id="pr-scene"></p>
       <p><strong>Try this today:</strong> <span id="pr-do"></span></p>
       <div class="row"><button class="linkish" id="pr-talk">Talk this through</button><button class="linkish" id="pr-more">Read more in Mind &amp; Life</button></div>
     </article>
+
+    <div class="today-extras" id="today-extras"></div>
 
     <div class="question" id="question-block" hidden>
       <div class="qmeta">
@@ -420,8 +433,8 @@ details.dlg .thread{margin-top:var(--s4)}
   <section class="view" id="view-ideas" role="tabpanel" aria-labelledby="tab-ideas" hidden>
     <div class="intro">
       <span class="eyebrow">The fundamentals</span>
-      <h2>Ideas that people keep returning to</h2>
-      <p>Each idea comes with the thinkers who shaped it and a scholarly reference to read further, including a set of famous thought experiments. Use "Reflect on this" to make any of them this morning's conversation.</p>
+      <h2>Ideas that refuse to die</h2>
+      <p>The thoughts humanity keeps coming back to, from the examined life to the trolley problem. Each comes with the minds who shaped it and a door to read further. Tap “Reflect on this” to make one this morning's conversation.</p>
     </div>
     <div class="filters" id="idea-filters"></div>
     <div class="list" id="idea-list"></div>
@@ -430,9 +443,9 @@ details.dlg .thread{margin-top:var(--s4)}
   <!-- MIND & LIFE -->
   <section class="view" id="view-mind" role="tabpanel" aria-labelledby="tab-mind" hidden>
     <div class="intro">
-      <span class="eyebrow">Psychology meets philosophy</span>
+      <span class="eyebrow">Where the mind meets Monday morning</span>
       <h2>Mind &amp; Life</h2>
-      <p>What psychology has measured about the mind, what philosophy said about it first, and where it shows up in an ordinary day. Each idea ends with one small practice to try today.</p>
+      <p>What psychology has measured, what philosophy saw first, and the exact moment it shows up in your ordinary day: the snapped reply, the scroll, the sleepless replay. Each idea ends with one small practice.</p>
     </div>
     <div class="filters" id="mind-filters"></div>
     <div class="list" id="mind-list"></div>
@@ -441,9 +454,9 @@ details.dlg .thread{margin-top:var(--s4)}
   <!-- THINKERS -->
   <section class="view" id="view-thinkers" role="tabpanel" aria-labelledby="tab-thinkers" hidden>
     <div class="intro">
-      <span class="eyebrow">Your circle of thinkers</span>
+      <span class="eyebrow">Your circle of kindred minds</span>
       <h2>Thinkers</h2>
-      <p>Many of these voices meet in one book, Ernest Becker's <em>The Denial of Death</em> (1973), which drew on Rank, Brown, Fromm, Reich, Adler, Jung and the psychoanalysts around them. Others ask what time and reality are, or write the inner life from the inside. Each card says what the thinker saw, where you meet it in an ordinary day, and how it touches your own essays.</p>
+      <p>Seventy-seven minds, from Becker's circle and the Tamil sages to today's philosophers of the self. Those marked <em>Kindred</em> think most like your essays: start there. Each card says what they saw, where you meet it in a day, and how it touches your own philosophy.</p>
     </div>
     <div class="filters" id="th-filters"></div>
     <div class="list" id="th-list"></div>
@@ -452,7 +465,7 @@ details.dlg .thread{margin-top:var(--s4)}
   <!-- CRITICAL EVALUATION -->
   <section class="view" id="view-critique" role="tabpanel" aria-labelledby="tab-critique" hidden>
     <div class="intro">
-      <span class="eyebrow">The great thinkers, weighed against each other</span>
+      <span class="eyebrow">Great minds, in the ring</span>
       <h2>Critical Evaluation</h2>
       <p>Twelve questions on which great minds disagree. Each topic sets out the main positions, names each one's strength and its limit, checks it against the evidence where evidence exists, and ends with an assessment and a test you can run in your own day. The assessments are arguments, not verdicts: argue back.</p>
     </div>
@@ -462,7 +475,7 @@ details.dlg .thread{margin-top:var(--s4)}
   <!-- EPIPHANY -->
   <section class="view" id="view-epiphany" role="tabpanel" hidden>
     <div class="intro">
-      <span class="eyebrow">Catch the insight before it fades</span>
+      <span class="eyebrow">Catch the spark before it fades</span>
       <h2>Epiphany</h2>
       <p>Write down a sudden realisation, however rough. Unshielded maps where it shines among the thinkers, ideas, debates and your own essays, lets you follow the thread from thinker to thinker, look at it through different lenses, and shape it into something new.</p>
     </div>
@@ -553,11 +566,22 @@ details.dlg .thread{margin-top:var(--s4)}
     </div>
   </section>
 
+  <!-- ARTICLES -->
+  <section class="view" id="view-articles" role="tabpanel" hidden>
+    <div class="intro">
+      <span class="eyebrow">Essays that change how you see</span>
+      <h2>Articles</h2>
+      <p>Twenty-two classic essays, each short enough for a quiet morning. Every one says why it is worth your time and how it speaks to your own philosophy. Start with the kindred ones.</p>
+    </div>
+    <div class="filters" id="art-filters"></div>
+    <div class="list" id="art-list"></div>
+  </section>
+
   <!-- QUOTES -->
   <section class="view" id="view-quotes" role="tabpanel" aria-labelledby="tab-quotes" hidden>
     <div class="intro">
-      <span class="eyebrow">Primary sources</span>
-      <h2>Words, with where they come from</h2>
+      <span class="eyebrow">Lines worth carrying</span>
+      <h2>Quotes</h2>
       <p>Every quote is cited to the work it appears in. Where a famous line is a paraphrase or reaches us through someone else, the note says so.</p>
     </div>
     <div class="list" id="quote-list"></div>
@@ -566,8 +590,8 @@ details.dlg .thread{margin-top:var(--s4)}
   <!-- LINKS -->
   <section class="view" id="view-links" role="tabpanel" aria-labelledby="tab-links" hidden>
     <div class="intro">
-      <span class="eyebrow">Going deeper</span>
-      <h2>Readings, conversations and references</h2>
+      <span class="eyebrow">Doors to walk through</span>
+      <h2>Readings</h2>
       <p>Encyclopedias for precision, long conversations for depth, and the primary texts themselves, many of them free.</p>
     </div>
     <h2 class="sub">Reference works</h2>
@@ -648,7 +672,7 @@ details.dlg .thread{margin-top:var(--s4)}
   <!-- NOTEBOOK -->
   <section class="view" id="view-notebook" role="tabpanel" aria-labelledby="tab-notebook" hidden>
     <div class="intro">
-      <span class="eyebrow">Yours alone</span>
+      <span class="eyebrow">Your private study</span>
       <h2>My Notebook</h2>
       <p id="store-note">Your philosophy, your ideas and your saved dialogues. Only you can see them.</p>
     </div>
@@ -1160,7 +1184,7 @@ function strip(e){ const {id, ...rest} = e; return JSON.parse(JSON.stringify(res
 const GROUPS = {
   today:{views:[["today","Today"]]},
   epiphany:{views:[["epiphany","Epiphany"],["opinion","Opinion Desk"]]},
-  explore:{views:[["ideas","Ideas"],["mind","Mind & Life"],["thinkers","Thinkers"],["critique","Critical Evaluation"],["quotes","Quotes"],["links","Readings"]]},
+  explore:{views:[["ideas","Ideas"],["mind","Mind & Life"],["thinkers","Thinkers"],["critique","Critical Evaluation"],["quotes","Quotes"],["links","Readings"],["articles","Articles"]]},
   me:{views:[["dp","My Philosophy"],["notebook","My Notebook"]]},
 };
 const VIEW_GROUP = {}; Object.entries(GROUPS).forEach(([g,o]) => o.views.forEach(([v]) => VIEW_GROUP[v] = g));
@@ -2106,15 +2130,129 @@ const THINKERS = [
    life:"Noticing who is quietly excluded from a gathering, and why.",
    dp:"Like Periyar, a critique of inherited hierarchy dressed as sacred order.",
    links:[["Search: Ambedkar",SEPQ("B. R. Ambedkar Annihilation of Caste")]]},
+  // Kindred minds: the illusion of self, defences against existence, and modern diagnoses
+  {n:"Peter Wessel Zapffe", d:"1899–1990", c:"Death and character", kin:true, w:"“The Last Messiah” (1933); On the Tragic (1941)",
+   idea:"A Norwegian philosopher and mountaineer. Human consciousness, he argued, is overdeveloped for our situation, so we survive by four defences: isolation (pushing hard thoughts out), anchoring (fixing ourselves to God, nation, family or career), distraction, and sublimation (turning pain into art).",
+   life:"Filling every quiet moment with scrolling, plans or noise, so the large questions never quite arrive.",
+   dp:"The closest match to your “Philosophical consolations”: anchoring and distraction are your consolations, named a century earlier.",
+   links:[["Search: The Last Messiah",SEPQ("Zapffe The Last Messiah")]]},
+  {n:"U. G. Krishnamurti", d:"1918–2007", c:"Beyond the self", kin:true, w:"The Mystique of Enlightenment (1982); Mind Is a Myth (1988)",
+   idea:"No relation to Jiddu Krishnamurti. U.G. rejected every spiritual path, guru and goal, including his own experience. The search for enlightenment, he said, is itself the obstacle: the self keeps itself alive by seeking.",
+   life:"Collecting books, retreats and practices that promise transformation, and noticing the collecting never ends.",
+   dp:"Very close to your “there is no eureka moment” and your view that enlightenment becomes a settled mind.",
+   links:[["Search: U. G. Krishnamurti",SEPQ("U. G. Krishnamurti Mystique of Enlightenment")]]},
+  {n:"Thomas Metzinger", d:"born 1958", c:"The illusion of self", kin:true, w:"Being No One (2003); The Ego Tunnel (2009)",
+   idea:"A philosopher of mind who argues that no self exists: the brain builds a transparent self-model so convincing that we cannot see it as a model. We live inside an “ego tunnel”.",
+   life:"In a dream you never doubt that it is you; Metzinger says waking life works the same way.",
+   dp:"Gives a neuroscience-informed version of your ego-personality as a construction.",
+   q:"Nobody ever was or had a self.", qs:"Being No One (2003)", links:[["Search: Metzinger",SEPQ("Metzinger self-model")]]},
+  {n:"Douglas Hofstadter", d:"born 1945", c:"The illusion of self", w:"Gödel, Escher, Bach (1979); I Am a Strange Loop (2007)",
+   idea:"The “I” is a strange loop: a pattern in the brain that refers to itself so richly that it seems to be a solid thing.",
+   life:"Thinking about how you come across, and then thinking about yourself thinking about it.",
+   dp:"A playful, mathematical cousin of your claim that the “I” is real as a pattern but not as a thing.",
+   q:"In the end, we are self-perceiving, self-inventing, locked-in mirages that are little miracles of self-reference.", qs:"I Am a Strange Loop (2007)", links:[["Search: Hofstadter",SEPQ("Hofstadter strange loop")]]},
+  {n:"Derek Parfit", d:"1942–2017", c:"The illusion of self", kin:true, w:"Reasons and Persons (1984); On What Matters (2011)",
+   idea:"Through thought experiments about teleportation and divided brains, Parfit argued that personal identity is not what matters. What matters is psychological connection, and accepting this made death and others' lives feel different to him.",
+   life:"Realising your younger self is almost a stranger, and caring for your future self a bit like caring for someone else.",
+   dp:"Parfit describes the relief your essays promise when the “I” loosens.",
+   q:"When I changed my view, the walls of my glass tunnel disappeared.", qs:"Reasons and Persons §95 (1984)", links:[["SEP: Personal Identity",SEP("identity-personal")]]},
+  {n:"Daniel Dennett", d:"1942–2024", c:"The illusion of self", w:"Consciousness Explained (1991); Freedom Evolves (2003)",
+   idea:"The self is a “centre of narrative gravity”: not a thing in the head but the useful fiction at the centre of the stories a brain tells about itself.",
+   life:"How your sense of who you are shifts depending on which story you tell at dinner.",
+   dp:"Fits your view of the ego-personality as built and maintained, though Dennett is less interested in dissolving it.",
+   links:[["Search: Dennett self",SEPQ("Dennett center of narrative gravity")]]},
+  {n:"Nāgārjuna", d:"c. 150–250 CE", c:"Beyond the self", w:"Mūlamadhyamakakārikā (Fundamental Verses on the Middle Way)",
+   idea:"Founder of the Madhyamaka school of Buddhism. Nothing has independent, fixed existence: everything arises dependently, which is what “emptiness” means. Even emptiness is empty.",
+   life:"Your mood, your identity and your opinions all turn out to depend on sleep, company and circumstance.",
+   dp:"A rigorous ancient ally of your absolute judgement: seeing entities without fixing them.",
+   q:"Whatever is dependently co-arisen, that is explained to be emptiness.", qs:"Mūlamadhyamakakārikā 24.18, trans. Jay Garfield", links:[["SEP: Nāgārjuna",SEP("nagarjuna")]]},
+  {n:"Ramana Maharshi", d:"1879–1950", c:"Beyond the self", w:"Who Am I? (Nan Yar?, 1901, published 1923)",
+   idea:"A sage of Tiruvannamalai in Tamil Nadu who taught one practice: self-inquiry. Trace every thought back to the “I” that has it, and ask who that “I” is, until the question dissolves the questioner.",
+   life:"When anger rises, asking not “why am I angry?” but “who is angry?”",
+   dp:"His inquiry is a direct method for going inward to touch the self, as your essays urge.",
+   links:[["Search: Ramana Maharshi",SEPQ("Ramana Maharshi self-inquiry")]]},
+  {n:"Nisargadatta Maharaj", d:"1897–1981", c:"Beyond the self", w:"I Am That (1973)",
+   idea:"A Mumbai cigarette seller turned teacher, known for blunt dialogues. Stay with the bare sense “I am”, before any “I am this or that”, and see that what you truly are cannot be an object.",
+   life:"Noticing how quickly “I am” becomes “I am a failure” or “I am right”.",
+   dp:"Close to your non-shielder: identity held lightly, surrendered willingly.",
+   q:"Love says I am everything. Wisdom says I am nothing. Between the two my life flows.", qs:"I Am That (1973)", links:[["Search: Nisargadatta",SEPQ("Nisargadatta I Am That")]]},
+  {n:"Jacques Lacan", d:"1901–1981", c:"Death and character", w:"“The Mirror Stage” (1936; 1949); Écrits (1966)",
+   idea:"The ego forms when an infant recognises itself in a mirror and identifies with a unified image it does not yet feel. The ego is therefore built on a misrecognition, and desire is always the desire of the other.",
+   life:"Feeling like yourself only in the image others reflect back to you.",
+   dp:"Echoes your “budding point of ego”, the moment a child realises it is separate.",
+   links:[["SEP: Lacan",SEP("lacan")]]},
+  {n:"Heinz Kohut", d:"1913–1981", c:"Self and growth", w:"The Analysis of the Self (1971); The Restoration of the Self (1977)",
+   idea:"Founder of self psychology. Healthy narcissism grows when a child is mirrored and has someone to idealise; when that fails, people spend life seeking admiration to hold a fragile self together.",
+   life:"Needing likes or praise to feel steady, and crashing when they don't come.",
+   dp:"Kohut's fragile self explains your early shielders, who defend an ego that was never allowed to mature.",
+   links:[["Search: Kohut",SEPQ("Heinz Kohut self psychology")]]},
+  {n:"Erik Erikson", d:"1902–1994", c:"Self and growth", w:"Childhood and Society (1950); Identity: Youth and Crisis (1968)",
+   idea:"Life unfolds in eight stages, each with a crisis: trust, autonomy, identity, intimacy, generativity, and finally integrity versus despair. He coined the phrase “identity crisis”.",
+   life:"In your twenties asking who you are; in midlife asking what you are leaving behind.",
+   dp:"Supports your observation that most egos stop developing around 18–25 and spend the rest of life defending.",
+   links:[["Search: Erikson",SEPQ("Erik Erikson psychosocial stages")]]},
+  {n:"Friedrich Nietzsche", d:"1844–1900", c:"Existential philosophy and therapy", w:"The Gay Science (1882); Thus Spoke Zarathustra (1883–85); Beyond Good and Evil (1886)",
+   idea:"He unmasked morality as often a disguise for resentment and the will to power, announced the death of God as a cultural event, and asked whether you could will your life to recur forever.",
+   life:"Noticing when “being nice” is really a way to feel superior.",
+   dp:"Your analysis of virtue as ego-display is deeply Nietzschean.",
+   q:"Whoever fights monsters should see to it that in the process he does not become a monster.", qs:"Beyond Good and Evil §146", links:[["SEP: Nietzsche",SEP("nietzsche")]]},
+  {n:"Albert Camus", d:"1913–1960", c:"Existential philosophy and therapy", w:"The Stranger (1942); The Myth of Sisyphus (1942); The Rebel (1951)",
+   idea:"The absurd is the clash between our need for meaning and a silent universe. The answer is neither suicide nor a leap of faith, but lucid revolt and a love of life without appeal.",
+   life:"Doing the same commute, the same chores, and choosing to find them yours anyway.",
+   dp:"Shares your view that there is no common meaning; differs in answering with revolt rather than ego maturity.",
+   q:"In the depths of winter, I finally learned that within me there lay an invincible summer.", qs:"“Return to Tipasa” (1952)", links:[["SEP: Camus",SEP("camus")]]},
+  {n:"Simone de Beauvoir", d:"1908–1986", c:"Existential philosophy and therapy", w:"The Ethics of Ambiguity (1947); The Second Sex (1949)",
+   idea:"Freedom is real but always situated, and my freedom requires the freedom of others. Identities like “woman” are made, not given.",
+   life:"Discovering a role you thought was natural was actually expected of you.",
+   dp:"Her point that freedom is shared complicates your individualist: can one mature alone?",
+   q:"One is not born, but rather becomes, a woman.", qs:"The Second Sex (1949)", links:[["SEP: Beauvoir",SEP("beauvoir")]]},
+  {n:"Baruch Spinoza", d:"1632–1677", c:"Beyond the self", w:"Ethics (1677); Theological-Political Treatise (1670)",
+   idea:"God and Nature are one. Human beings are part of nature, not a kingdom within a kingdom. Freedom is understanding the causes of our emotions, and the highest joy is the intellectual love of that whole.",
+   life:"An insult stings less once you understand exactly why the other person said it.",
+   dp:"Spinoza's understanding without mockery or lament is your absolute judgement in its classic form.",
+   q:"All things excellent are as difficult as they are rare.", qs:"Ethics V, Prop. 42, Scholium", links:[["SEP: Spinoza",SEP("spinoza")]]},
+  {n:"Thiruvalluvar", d:"c. 1st century BCE – 5th century CE", c:"Reason and revolt", w:"Tirukkural (1,330 couplets on virtue, wealth and love)",
+   idea:"The Tamil poet-philosopher whose couplets set out a practical, largely non-sectarian ethics of everyday life: truthfulness, kindness, self-control and wise judgement, open to every caste and creed.",
+   life:"Weighing advice by whether it is true, not by who said it.",
+   dp:"Kural 423 is a Tamil statement of your absolute judgement and of Periyar's reason.",
+   q:"Whatever you hear, from whomever you hear it, to discern its true meaning is wisdom.", qs:"Tirukkural 423, translations vary", links:[["Search: Tirukkural",SEPQ("Tirukkural Thiruvalluvar")]]},
+  {n:"Cārvāka (Lokāyata)", d:"ancient Indian school", c:"Reason and revolt", w:"Known mainly through critics' summaries; the Bārhaspatya sūtras survive only in fragments",
+   idea:"India's materialist and sceptical school: only perception is a reliable source of knowledge; there is no soul apart from the body, no afterlife, and ritual is a way for priests to profit.",
+   life:"Asking for evidence before accepting a promise of rewards in some future life.",
+   dp:"An ancient root of Periyar's rationalism and of your suspicion of religion sold as a shortcut.",
+   links:[["SEP search: Cārvāka",SEPQ("Carvaka Lokayata")]]},
+  {n:"Byung-Chul Han", d:"born 1959", c:"Modern diagnosis", kin:true, w:"The Burnout Society (2010); The Transparency Society (2012)",
+   idea:"A Korean-German philosopher. We no longer live in a society of discipline (“you must”) but of achievement (“you can”), where people exploit themselves and call it freedom, until they burn out.",
+   life:"Working on weekends because no one asked you to, and feeling guilty when you rest.",
+   dp:"A sharp modern account of the ego-personality's unending need to maintain itself.",
+   links:[["Search: Byung-Chul Han",SEPQ("Byung-Chul Han Burnout Society")]]},
+  {n:"Yuval Noah Harari", d:"born 1976", c:"Modern diagnosis", w:"Sapiens (2011); Homo Deus (2015)",
+   idea:"Human cooperation at scale rests on shared fictions: nations, money, corporations and religions exist because enough people believe in them.",
+   life:"A banknote is paper; it works because everyone agrees it is worth something.",
+   dp:"Shared fictions are a large-scale form of your collective ego.",
+   links:[["Search: Harari shared fictions",SEPQ("Harari Sapiens shared fictions")]]},
+  {n:"Robert Sapolsky", d:"born 1957", c:"Modern diagnosis", w:"Behave (2017); Determined (2023)",
+   idea:"A neuroscientist and primatologist who argues that every behaviour is the outcome of biology and history, from the second before to millions of years before, leaving no room for free will. He thinks this should make us kinder.",
+   life:"Judging someone's outburst less harshly once you know what their week, or childhood, was like.",
+   dp:"Supports your creaturely view of humans; his conclusion that blame should fade parallels your non-judging.",
+   links:[["SEP: Free Will",SEP("free-will")]]},
+  {n:"Iain McGilchrist", d:"born 1953", c:"Modern diagnosis", w:"The Master and His Emissary (2009); The Matter with Things (2021)",
+   idea:"A psychiatrist who argues that the brain's two hemispheres attend to the world differently: the left grasps, categorises and controls; the right sees wholes, context and the living. Modern culture, he says, has let the left take over.",
+   life:"Seeing a forest as timber and acreage, or as a living whole: the same trees, two ways of attending.",
+   dp:"His right-hemisphere attention resembles your absolute judgement; his left resembles the ego's grasping.",
+   links:[["Search: McGilchrist",SEPQ("McGilchrist Master and His Emissary")]]},
 ];
 THINKERS.forEach(t => { if (!t.links) t.links = []; });
-const TH_CLUSTERS = ["All", ...new Set(THINKERS.map(t=>t.c))];
+// Thinkers whose ideas sit closest to DP's essays
+const KINDRED = new Set(["Ernest Becker","Otto Rank","Erich Fromm","Alfred Adler","Theodor Reik","Donald Winnicott","Jiddu Krishnamurti","Alan Watts","Periyar E. V. Ramasamy","Emil Cioran","Arthur Schopenhauer"]);
+THINKERS.forEach(t => { if (KINDRED.has(t.n)) t.kin = true; });
+const TH_CLUSTERS = ["All", "Kindred minds", ...new Set(THINKERS.map(t=>t.c))];
 let thFilter = "All";
 function renderThinkers(){
   $("#th-filters").innerHTML = TH_CLUSTERS.map(c=>`<button type="button" aria-pressed="${c===thFilter}" data-tcl="${esc(c)}">${esc(c)}</button>`).join("");
-  $("#th-list").innerHTML = THINKERS.map((t,i)=>({t,i})).filter(({t})=>thFilter==="All"||t.c===thFilter).map(({t,i})=>`
+  $("#th-list").innerHTML = THINKERS.map((t,i)=>({t,i})).filter(({t})=>thFilter==="All"||(thFilter==="Kindred minds" ? t.kin : t.c===thFilter)).map(({t,i})=>`
     <article class="item" id="th-${i}">
-      <div class="qmeta"><span class="chip">${esc(t.c)}</span><span class="thinkers">${esc(t.d)}</span></div>
+      <div class="qmeta"><span class="chip">${esc(t.c)}</span>${t.kin ? `<span class="chip dawnchip">Kindred mind</span>` : ""}<span class="thinkers">${esc(t.d)}</span></div>
       <h3>${esc(t.n)}</h3>
       <p class="thinkers">${esc(t.w)}</p>
       <p class="body">${esc(t.idea)}</p>
@@ -2665,6 +2803,130 @@ $("#op-saved").addEventListener("click", e => {
 Store.onChange(renderOpinions);
 op = opBlank(); renderOpSteps();
 
+/* ================= ARTICLES ================= */
+const FIND = q => `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+const ARTICLES = [
+  {t:"The Last Messiah", a:"Peter Wessel Zapffe", y:1933, th:"Death & defences", mins:20, kin:true,
+   why:"A short, unforgettable essay arguing that human beings survive their own consciousness through four defences: isolation, anchoring, distraction and sublimation.",
+   dp:"Reads like a companion piece to your “Philosophical consolations”."},
+  {t:"Thoughts for the Times on War and Death", a:"Sigmund Freud", y:1915, th:"Death & defences", mins:40,
+   why:"Written early in the First World War: Freud argues that in the unconscious no one believes in their own death, and that war strips away civilised pretence.",
+   dp:"Supports your claim that the “I” negates mortality."},
+  {t:"The Absurd", a:"Thomas Nagel", y:1971, th:"Meaning", mins:30,
+   why:"A calm, precise argument that the sense of absurdity comes from our ability to step back and see our serious lives from outside, and that irony, not despair, is the fitting response.",
+   dp:"A gentler counterpart to your view that there is no common meaning."},
+  {t:"The Myth of Sisyphus (title essay)", a:"Albert Camus", y:1942, th:"Meaning", mins:15,
+   why:"The few pages that end with Sisyphus happy: lucid revolt as the answer to a silent universe.",
+   dp:"Read alongside your “Man's Need for Meaning” and compare the two answers."},
+  {t:"What Is It Like to Be a Bat?", a:"Thomas Nagel", y:1974, th:"Mind & self", mins:35,
+   why:"The essay that made consciousness a hard problem again: some facts are only available from the inside.",
+   dp:"Bears on your claim that wisdom cannot cross from one mind to another."},
+  {t:"Personal Identity", a:"Derek Parfit", y:1971, th:"Mind & self", mins:45, kin:true,
+   why:"Parfit's first case that identity is not what matters in survival, using split-brain and fusion thought experiments.",
+   dp:"A rigorous path toward your “freedom of being” through loosening the I."},
+  {t:"Against Narrativity", a:"Galen Strawson", y:2004, th:"Mind & self", mins:40, kin:true,
+   why:"Challenges the popular idea that a good life must be lived as a story. Some people, Strawson argues, are “episodic” and live perfectly well without a self-narrative.",
+   dp:"Supports your resident, who lives in the flow rather than in a life story."},
+  {t:"Freedom of the Will and the Concept of a Person", a:"Harry Frankfurt", y:1971, th:"Freedom", mins:35,
+   why:"Introduces desires about our desires: a person is free when they want what they want to want.",
+   dp:"A useful tool for your question of when the ego's wants are truly one's own."},
+  {t:"On Bullshit", a:"Harry Frankfurt", y:1986, th:"Truth", mins:25,
+   why:"A witty essay on speech that doesn't care whether it is true, and why it is more dangerous than lying.",
+   dp:"Much of what your essays call ego-defence travels as bullshit in Frankfurt's precise sense."},
+  {t:"Moral Saints", a:"Susan Wolf", y:1982, th:"Ethics", mins:35,
+   why:"Argues that a person who is morally perfect in every act would be strangely unappealing, and that a good life needs more than morality.",
+   dp:"Puts pressure on the ideal of the ego-matured person: is it desirable, or only admirable?"},
+  {t:"The Sovereignty of Good over Other Concepts", a:"Iris Murdoch", y:1967, th:"Ethics", mins:40,
+   why:"Moral life is mostly attention: the slow work of seeing others justly, unselfing ourselves, often helped by beauty.",
+   dp:"Murdoch's “unselfing” is a close cousin of your ego maturity."},
+  {t:"Reflections on the Right Use of School Studies with a View to the Love of God", a:"Simone Weil", y:1942, th:"Attention", mins:20,
+   why:"Weil argues that the real purpose of study is to train attention, and that attention is the substance of love and prayer.",
+   dp:"Attention without the ego's grasping: your absolute judgement in practice."},
+  {t:"This Is Water", a:"David Foster Wallace", y:2005, th:"Attention", mins:20,
+   why:"A commencement speech about the default setting of self-centredness in ordinary days, and the freedom of choosing what to pay attention to.",
+   dp:"Everyday life seen through the lens of your three layers of mind."},
+  {t:"The Makropulos Case: Reflections on the Tedium of Immortality", a:"Bernard Williams", y:1973, th:"Death & defences", mins:40,
+   why:"Would you want to live forever? Williams argues an endless life would become unbearably dull, because character would run out of reasons.",
+   dp:"Tests your claim that the need for eternity is hardwired: would eternity satisfy it?"},
+  {t:"On the Suffering of the World", a:"Arthur Schopenhauer", y:1851, th:"Suffering", mins:25,
+   why:"Schopenhauer's bleakest and most bracing short essay, from Parerga and Paralipomena: pain is positive, pleasure merely its absence.",
+   dp:"A strong statement of the fluctuations your happiness essay calls inevitable."},
+  {t:"The Will to Believe", a:"William James", y:1896, th:"Truth", mins:35,
+   why:"When evidence cannot decide and the choice is forced and momentous, James argues we may let our passional nature decide.",
+   dp:"A direct challenge to your suspicion of consolations: when is belief legitimate?"},
+  {t:"Self-Reliance", a:"Ralph Waldo Emerson", y:1841, th:"Freedom", mins:40, kin:true,
+   why:"The great American essay on trusting your own mind over conformity, tradition and reputation.",
+   dp:"Your individualist, who follows no ideals, in nineteenth-century prose."},
+  {t:"In Praise of Idleness", a:"Bertrand Russell", y:1932, th:"Work & leisure", mins:25,
+   why:"Argues that the belief in the virtue of work does great harm, and that a four-hour working day would make people happier and kinder.",
+   dp:"Pairs with your resident, who works for the work itself, not for virtue."},
+  {t:"The Value of Philosophy", a:"Bertrand Russell", y:1912, th:"Meaning", mins:15,
+   why:"The final chapter of The Problems of Philosophy: philosophy's value lies in its uncertainty, which frees us from the tyranny of custom.",
+   dp:"Close to your warning against the settled mind."},
+  {t:"An Answer to the Question: What Is Enlightenment?", a:"Immanuel Kant", y:1784, th:"Freedom", mins:20,
+   why:"“Sapere aude!”: have the courage to use your own understanding without another's guidance.",
+   dp:"An Enlightenment cousin of your critique of gurus and readymade answers."},
+  {t:"Truth Is a Pathless Land", a:"Jiddu Krishnamurti", y:1929, th:"Freedom", mins:20, kin:true,
+   why:"The speech in which Krishnamurti dissolved the order built around him, refusing to be anyone's authority.",
+   dp:"The single text nearest to your “Gautama Buddha is the only Buddhist.”"},
+  {t:"On the Shortness of Life", a:"Seneca", y:49, th:"Time", mins:30,
+   why:"Life is long enough if we know how to use it; we squander it in busyness and in living for others' opinions.",
+   dp:"Your anticipation essay and the Stoic case for the present belong together."},
+];
+let artFilter = "All";
+function renderArticles(){
+  const themes = ["All", "Closest to your essays", ...new Set(ARTICLES.map(a => a.th))];
+  $("#art-filters").innerHTML = themes.map(t => `<button type="button" aria-pressed="${t===artFilter}" data-artf="${esc(t)}">${esc(t)}</button>`).join("");
+  $("#art-list").innerHTML = ARTICLES.map((a,i)=>({a,i})).filter(({a}) => artFilter==="All" || (artFilter==="Closest to your essays" ? a.kin : a.th===artFilter)).map(({a,i}) => `
+    <article class="item art" id="art-${i}">
+      <div class="qmeta"><span class="chip">${esc(a.th)}</span>${a.kin ? `<span class="chip dawnchip">Kindred</span>` : ""}<span class="thinkers">${esc(a.a)} · ${a.y < 1000 ? "c. " + a.y + " CE" : a.y} · about ${a.mins} min</span></div>
+      <h3>${esc(a.t)}</h3>
+      <p class="body">${esc(a.why)}</p>
+      <p class="gloss"><strong>Why it speaks to you:</strong> ${esc(a.dp)}</p>
+      <div class="refs"><a href="${FIND(`"${a.t}" ${a.a}`)}" target="_blank" rel="noopener">Find and read it ↗</a><button class="linkish" data-art="${i}">Discuss it</button></div>
+    </article>`).join("");
+}
+$("#art-filters").addEventListener("click", e => { const t = e.target.closest("[data-artf]")?.dataset.artf; if (t) { artFilter = t; renderArticles(); } });
+$("#art-list").addEventListener("click", e => { const i = e.target.closest("[data-art]")?.dataset.art; if (i == null) return; const a = ARTICLES[i]; startTopic({cat:"Article", q:`${a.a}, “${a.t}”: does it hold up?`, f:a.why + " " + a.dp, r:[]}); });
+
+/* ================= TODAY: thinker and essay of the day ================= */
+function renderTodayExtras(){
+  const kin = THINKERS.filter(t => t.kin);
+  const t = kin[dayNum % kin.length], ti = THINKERS.indexOf(t);
+  const a = ARTICLES[(dayNum * 3) % ARTICLES.length], ai = ARTICLES.indexOf(a);
+  $("#today-extras").innerHTML = `
+    <article class="mini" data-goth-today="${ti}">
+      <span class="eyebrow">Kindred mind of the day</span>
+      <h3>${esc(t.n)}</h3>
+      <p>${esc(t.idea.split(". ").slice(0,2).join(". ").replace(/\.?$/,"."))}</p>
+      <span class="mini-go">Meet ${esc(t.n.split(" ").pop())} →</span>
+    </article>
+    <article class="mini" data-goart-today="${ai}">
+      <span class="eyebrow">Essay of the day · ${esc(a.a)}</span>
+      <h3>${esc(a.t)}</h3>
+      <p>${esc(a.why)}</p>
+      <span class="mini-go">Open the essay →</span>
+    </article>
+    <article class="mini" data-goview="epiphany">
+      <span class="eyebrow">Had a thought in the night?</span>
+      <h3>Catch an epiphany</h3>
+      <p>Write it down before it fades, and watch it light up among the thinkers.</p>
+      <span class="mini-go">Open Epiphany →</span>
+    </article>
+    <article class="mini" data-goview="opinion">
+      <span class="eyebrow">Something trending?</span>
+      <h3>Think it through</h3>
+      <p>Seven steps from first reaction to an opinion you can stand behind.</p>
+      <span class="mini-go">Open the Opinion Desk →</span>
+    </article>`;
+}
+$("#today-extras").addEventListener("click", e => {
+  const m = e.target.closest(".mini"); if (!m) return;
+  if (m.dataset.gothToday) goTo("thinkers", "th-" + m.dataset.gothToday, () => { thFilter = "All"; renderThinkers(); });
+  else if (m.dataset.goartToday) goTo("articles", "art-" + m.dataset.goartToday, () => { artFilter = "All"; renderArticles(); });
+  else if (m.dataset.goview) { show(m.dataset.goview); window.scrollTo({top:0}); }
+});
+
 /* ================= QUOTES ================= */
 $("#quote-list").innerHTML = QUOTES.map((x,i)=>`
   <article class="item" id="quote-${i}">
@@ -2747,6 +3009,8 @@ renderDP();
 renderMind();
 renderThinkers();
 renderDebates();
+renderArticles();
+renderTodayExtras();
 Store.init();
 </script>
 
