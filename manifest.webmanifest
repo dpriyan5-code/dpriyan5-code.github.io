@@ -1,13 +1,13 @@
 {
-  "name": "Reflections",
-  "short_name": "Reflections",
+  "name": "Unshielded",
+  "short_name": "Unshielded",
   "description": "Morning affirmations, a fundamental question, and a conversation about it.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#eef0ec",
-  "theme_color": "#2c4a9a",
+  "background_color": "#0f1424",
+  "theme_color": "#0f1424",
   "categories": [
     "education",
     "lifestyle"

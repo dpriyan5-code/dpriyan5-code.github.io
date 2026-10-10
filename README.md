@@ -1,4 +1,4 @@
-# Reflections
+# Unshielded
 
 A morning philosophy app: a daily affirmation, a fundamental question to talk through, and a notebook for your own philosophy.
 
