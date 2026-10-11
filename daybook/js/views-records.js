@@ -258,13 +258,20 @@
     var btn = UI.$('#pdf'), ready = null;
     var fname = SC.FORMS[type].title.replace(/[^A-Za-z0-9]+/g, '_') + '_' + String(env.f.name || id).replace(/[^A-Za-z0-9]+/g, '_') + '.pdf';
     btn.onclick = function () {
-      if (ready) { UI.shareFile(ready, fname, SC.FORMS[type].title + ' – ' + (env.f.name || '')); return; }
+      if (ready) {
+        var file = new File([ready], fname, { type: 'application/pdf' });
+        // only the file: extra text makes iPhone's "Save to Files" save a second note or fail
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          navigator.share({ files: [file] }).catch(function (e) { if (e && e.name !== 'AbortError') UI.toast('Could not share: ' + (e.message || e.name), true); });
+        } else UI.shareFile(ready, fname);
+        return;
+      }
       btn.disabled = true; btn.textContent = 'Making PDF…';
       PDFOUT.fromElement(UI.$('.paper'), SC.FORMS[type].title + ' – ' + (env.f.name || '')).then(function (blob) {
         ready = blob; btn.disabled = false;
         var file = new File([blob], fname, { type: 'application/pdf' });
         if (navigator.canShare && navigator.canShare({ files: [file] })) { btn.textContent = 'Share PDF ⬆'; UI.toast('PDF ready – tap Share PDF, then Save to Files or WhatsApp'); }
-        else { btn.textContent = 'Save PDF again'; UI.shareFile(blob, fname, SC.FORMS[type].title); }
+        else { btn.textContent = 'Save PDF again'; UI.shareFile(blob, fname); }
       }, function (e) { btn.disabled = false; btn.textContent = 'Save PDF / Share'; UI.toast(e.message || 'Could not make the PDF', true); });
     };
   });
