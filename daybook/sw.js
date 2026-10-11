@@ -1,11 +1,12 @@
 // Offline cache for the app shell. Data is never cached here – it lives in IndexedDB on the phone.
 // Bump VERSION whenever any file below changes so phones pick up the new version.
-const VERSION = 'ghd-v1.2.3';
+const VERSION = 'ghd-v1.2.4';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/app.css',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png',
   'js/schema.js', 'js/store.js', 'js/xlsx.js', 'js/xlsx-read.js', 'js/importers.js', 'js/ncd.js', 'js/docread.js', 'js/auth.js', 'js/native.js', 'js/reports.js', 'js/ui.js',
-  'js/views-entry.js', 'js/views-records.js', 'js/views-reports.js', 'js/app.js',
+  'js/views-entry.js', 'js/views-records.js', 'js/views-reports.js', 'js/app.js', 'js/pdfout.js',
+  'vendor/html2canvas/html2canvas.min.js',
 ];
 
 self.addEventListener('install', (e) => {

@@ -251,8 +251,22 @@
   }
   UI.route('fprint', function (type, id) {
     var env = DB.get('form/' + type + '/' + id); if (!env) { UI.go('forms/' + type); return; }
-    UI.render(UI.topbar('Print – ' + SC.FORMS[type].title, env.f.name, 'form/' + type + '/' + id) + '<div class="wrap"><div class="btns"><button class="btn gold" onclick="window.print()">Print / Save as PDF</button><a class="btn ghost" href="#form/' + type + '/' + id + '">Edit</a></div>' +
+    UI.render(UI.topbar('Print – ' + SC.FORMS[type].title, env.f.name, 'form/' + type + '/' + id) + '<div class="wrap"><div class="btns"><button class="btn gold" id="pdf">Save PDF / Share</button><button class="btn ghost" onclick="window.print()">Print</button><a class="btn ghost" href="#form/' + type + '/' + id + '">Edit</a></div>' +
       (type === 'ds' ? dsPaper(env.f, REP.settings()) : type === 'ref' ? refPaper(env.f, REP.settings()) : preauthPaper(env.f)) + '</div>', 'home');
+    // A real PDF file. iPhones open the share sheet only straight after a tap, so once the PDF is ready
+    // the button turns into "Share PDF" and a second tap shares it (Save to Files, WhatsApp, Mail …).
+    var btn = UI.$('#pdf'), ready = null;
+    var fname = SC.FORMS[type].title.replace(/[^A-Za-z0-9]+/g, '_') + '_' + String(env.f.name || id).replace(/[^A-Za-z0-9]+/g, '_') + '.pdf';
+    btn.onclick = function () {
+      if (ready) { UI.shareFile(ready, fname, SC.FORMS[type].title + ' – ' + (env.f.name || '')); return; }
+      btn.disabled = true; btn.textContent = 'Making PDF…';
+      PDFOUT.fromElement(UI.$('.paper'), SC.FORMS[type].title + ' – ' + (env.f.name || '')).then(function (blob) {
+        ready = blob; btn.disabled = false;
+        var file = new File([blob], fname, { type: 'application/pdf' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) { btn.textContent = 'Share PDF ⬆'; UI.toast('PDF ready – tap Share PDF, then Save to Files or WhatsApp'); }
+        else { btn.textContent = 'Save PDF again'; UI.shareFile(blob, fname, SC.FORMS[type].title); }
+      }, function (e) { btn.disabled = false; btn.textContent = 'Save PDF / Share'; UI.toast(e.message || 'Could not make the PDF', true); });
+    };
   });
 
   // ---------------- pharmacy: VED indent

@@ -1,7 +1,7 @@
 /* Boot: open the store, apply PIN lock, start the router, register the offline service worker. */
 (function (G) {
   'use strict';
-  G.APP_VERSION = '1.2.1';
+  G.APP_VERSION = '1.2.2';
   var UI = G.UI;
   function start() {
     var u = UI.user(); if (u) G.DB.setUser(G.AUTH && G.AUTH.isAdmin() ? G.DB.getUser() || u.name : u.name);
